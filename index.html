@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,45 +12,64 @@
       margin: 0;
       padding: 0;
     }
+
     header {
       background: #003366;
       color: white;
       padding: 1rem;
       text-align: center;
     }
+
     .container {
       padding: 2rem;
       max-width: 1000px;
       margin: 0 auto;
     }
+
     h2 {
       border-bottom: 2px solid #003366;
       padding-bottom: 0.5rem;
     }
+
     .screenshot {
       margin-bottom: 2rem;
     }
+
     .screenshot a {
       display: inline-block;
       margin-top: 0.5rem;
       color: #0066cc;
     }
+
     .description {
       background: #fff;
       padding: 1rem;
       border-radius: 4px;
       margin-bottom: 1rem;
     }
+
     .description p {
       margin: 0.2rem 0;
     }
   </style>
 </head>
+
 <body>
   <header>
     <h1>쉽배송 자동화 테스트 리포트</h1>
-    <p>실행 일시: 2025-12-08</p>
+    <p id="run-time"></p>
+    <script>
+      const now = new Date();
+      const formatted = now.getFullYear() + '-' +
+        String(now.getMonth() + 1).padStart(2, '0') + '-' +
+        String(now.getDate()).padStart(2, '0') + ' ' +
+        String(now.getHours()).padStart(2, '0') + ':' +
+        String(now.getMinutes()).padStart(2, '0') + ':' +
+        String(now.getSeconds()).padStart(2, '0');
+      document.getElementById('run-time').textContent = '실행 일시: ' + formatted;
+    </script>
   </header>
+
   <div class="container">
     <h2>테스트 시나리오 전체 영상</h2>
     <video width="100%" controls>
@@ -120,7 +140,8 @@
       <p>07. 마이페이지</p>
       <div class="description">
         <p><strong>단계:</strong> 로그인 상태 > 메인페이지 > 마이페이지 진입</p>
-        <p><strong>예상 결과:</strong> 로그인 한 유저의 이름과 보유 포인트, 최근 신청내역과 주소록 관리 버튼이 제공된다. 배송신청을 하지 않은 유저는 최근 신청한 내역이 없어요 문구가 노출되며 배송신청을 유도하는 버튼이 제공된다.</p>
+        <p><strong>예상 결과:</strong> 로그인 한 유저의 이름과 보유 포인트, 최근 신청내역과 주소록 관리 버튼이 제공된다. 배송신청을 하지 않은 유저는 최근 신청한 내역이 없어요 문구가
+          노출되며 배송신청을 유도하는 버튼이 제공된다.</p>
       </div>
       <a href="results/run_20251208_014257/07_my_page.png" target="_blank">[스크린샷 보기]</a>
     </div>
@@ -135,4 +156,5 @@
     </div>
   </div>
 </body>
+
 </html>
