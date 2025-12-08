@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>쉽배송 자동화 테스트 리포트</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>쉽배송 테스트 리포트</title>
   <style>
     body {
       font-family: sans-serif;
@@ -29,25 +29,23 @@
     .screenshot {
       margin-bottom: 2rem;
     }
-    .screenshot a {
-      display: inline-block;
-      margin-top: 0.5rem;
-      color: #003366;
+    .screenshot img {
+      width: 100%;
+      border: 1px solid #ccc;
+      border-radius: 4px;
     }
     .screenshot p {
       font-weight: bold;
       margin: 0.5rem 0;
     }
-    .desc {
-      font-size: 0.9rem;
-      margin-top: 0.3rem;
-      margin-left: 1rem;
-      color: #333;
+    .description {
+      background: #fff;
+      padding: 1rem;
+      border-radius: 4px;
+      margin-bottom: 1rem;
     }
-    video {
-      width: 100%;
-      margin-bottom: 2rem;
-      border-radius: 8px;
+    .description p {
+      margin: 0.2rem 0;
     }
   </style>
 </head>
@@ -57,88 +55,89 @@
     <p>실행 일시: 2025-12-08</p>
   </header>
   <div class="container">
-    <h2>전체 시나리오 영상</h2>
-    <video controls>
-      <source src="results/video/video.webm" type="video/webm" />
+    <h2>테스트 시나리오 전체 영상</h2>
+    <video width="100%" controls>
+      <source src="video.webm" type="video/webm">
       브라우저가 video 태그를 지원하지 않습니다.
     </video>
 
-    <h2>테스트 스크린샷 링크</h2>
+    <h2>테스트 스크린샷 및 설명</h2>
 
     <div class="screenshot">
       <p>01. 메인 페이지</p>
-      <div class="desc">
-        단계 : 웹사이트 진입 > 팝업 노출될 경우 [다시 보지 않기] 선택<br/>
-        예상 결과 : 메인페이지 이동 후 팝업이 있을 경우 닫기 동작 된다.
+      <div class="description">
+        <p><strong>단계:</strong> 웹사이트 진입 > 팝업 노출될 경우 [다시 보지 않기] 선택</p>
+        <p><strong>예상 결과:</strong> 메인페이지 이동 후 팝업이 있을 경우 닫기 동작 된다.</p>
       </div>
-      <a href="tests/results/run_20251208_014257/01_main_page.png" target="_blank">🔗 이미지 보기</a>
+      <img src="results/run_20251208_014257/01_main_page.png" alt="01_main_page">
     </div>
 
     <div class="screenshot">
       <p>02. 이용안내 페이지</p>
-      <div class="desc">
-        단계 : 메인화면 > 상단 [이용안내] 버튼<br/>
-        예상 결과 : 신청방법, 배송비 계산, 배송금지 물품 등이 존재하는 웹페이지로 이동 및 노출된다.<br/>
-        링크: staging.shipbaesong.com/info
+      <div class="description">
+        <p><strong>단계:</strong> 메인화면 > 상단 [이용안내] 버튼</p>
+        <p><strong>예상 결과:</strong> 신청방법, 배송비 계산, 배송금지 물품 등이 존재하는 웹페이지로 이동 및 노출된다.</p>
+        <p>링크: staging.shipbaesong.com/info</p>
       </div>
-      <a href="tests/results/run_20251208_014257/02_info_page.png" target="_blank">🔗 이미지 보기</a>
+      <img src="results/run_20251208_014257/02_info_page.png" alt="02_info_page">
     </div>
 
     <div class="screenshot">
       <p>03. 배송신청 페이지</p>
-      <div class="desc">
-        단계 : 메인페이지 > 배송신청<br/>
-        예상 결과 : 해외배송, 구매대행을 선택할 수 있는 배송신청 메인 페이지로 이동 및 노출된다.<br/>
-        링크: staging.shipbaesong.com/request/main
+      <div class="description">
+        <p><strong>단계:</strong> 메인페이지 > 배송신청</p>
+        <p><strong>예상 결과:</strong> 해외배송, 구매대행을 선택할 수 있는 배송신청 메인 페이지로 이동 및 노출된다.</p>
+        <p>링크: staging.shipbaesong.com/request/main</p>
       </div>
-      <a href="tests/results/run_20251208_014257/03_request_page.png" target="_blank">🔗 이미지 보기</a>
+      <img src="results/run_20251208_014257/03_request_page.png" alt="03_request_page">
     </div>
 
     <div class="screenshot">
-      <p>04. 배송현황</p>
-      <div class="desc">
-        단계 : 메인페이지 > 배송현황<br/>
-        예상 결과 : 로그인을 하지 않았으므로 로그인 유도 화면으로 이동 및 노출된다.
+      <p>04. 배송현황 (로그인 유도)</p>
+      <div class="description">
+        <p><strong>단계:</strong> 메인페이지 > 배송현황</p>
+        <p><strong>예상 결과:</strong> 로그인을 하지 않았으므로 배송현황 페이지가 아닌 로그인 유도 화면으로 이동 및 노출된다.</p>
       </div>
-      <a href="tests/results/run_20251208_014257/04_delivery_login_required.png" target="_blank">🔗 이미지 보기</a>
+      <img src="results/run_20251208_014257/04_delivery_login_required.png" alt="04_delivery_login_required">
     </div>
 
     <div class="screenshot">
       <p>05. 고객지원 페이지</p>
-      <div class="desc">
-        단계 : 메인페이지 > 고객지원<br/>
-        예상 결과 : 고객지원 메인페이지로 이동 및 노출된다.<br/>
-        링크: staging.shipbaesong.com/support
+      <div class="description">
+        <p><strong>단계:</strong> 메인페이지 > 고객지원</p>
+        <p><strong>예상 결과:</strong> 고객지원 메인페이지로 이동 및 노출된다.</p>
+        <p>링크: staging.shipbaesong.com/support</p>
       </div>
-      <a href="tests/results/run_20251208_014257/05_support_page.png" target="_blank">🔗 이미지 보기</a>
+      <img src="results/run_20251208_014257/05_support_page.png" alt="05_support_page">
     </div>
 
     <div class="screenshot">
       <p>06. 로그인 후 배송현황</p>
-      <div class="desc">
-        단계 : 메인페이지 > 배송현황 > 로그인 > 배송현황<br/>
-        예상 결과 : 배송신청이 없는 유저의 이력이므로 "최근 신청한 내역이 없어요" 문구가 노출되며 배송신청을 유도하는 버튼이 제공된다.
+      <div class="description">
+        <p><strong>단계:</strong> 메인페이지 > 배송현황 > 로그인 > 배송현황</p>
+        <p><strong>예상 결과:</strong> 배송신청이 없는 유저의 이력이므로 최근 신청한 내역이 없어요 문구가 노출되며 배송신청을 유도하는 버튼이 제공된다.</p>
       </div>
-      <a href="tests/results/run_20251208_014257/06_logged_in.png" target="_blank">🔗 이미지 보기</a>
+      <img src="results/run_20251208_014257/06_logged_in.png" alt="06_logged_in">
     </div>
 
     <div class="screenshot">
       <p>07. 마이페이지</p>
-      <div class="desc">
-        단계 : 로그인 상태 > 메인페이지 > 마이페이지 진입<br/>
-        예상 결과 : 로그인 한 유저의 이름과 보유 포인트, 최근 신청내역과 주소록 관리 버튼이 제공된다. 배송신청을 하지 않은 유저는 "최근 신청한 내역이 없어요" 문구가 노출되며 배송신청을 유도하는 버튼이 제공된다.
+      <div class="description">
+        <p><strong>단계:</strong> 로그인 상태 > 메인페이지 > 마이페이지 진입</p>
+        <p><strong>예상 결과:</strong> 로그인 한 유저의 이름과 보유 포인트, 최근 신청내역과 주소록 관리 버튼이 제공된다. 배송신청을 하지 않은 유저는 최근 신청한 내역이 없어요 문구가 노출되며 배송신청을 유도하는 버튼이 제공된다.</p>
       </div>
-      <a href="tests/results/run_20251208_014257/07_my_page.png" target="_blank">🔗 이미지 보기</a>
+      <img src="results/run_20251208_014257/07_my_page.png" alt="07_my_page">
     </div>
 
     <div class="screenshot">
       <p>08. 로그아웃 완료</p>
-      <div class="desc">
-        단계 : 로그인 상태 > 마이페이지 > 로그아웃 > 팝업 노출 시 로그아웃<br/>
-        예상 결과 : 로그아웃 처리가 완료된 상태로 메인페이지가 노출된다.
+      <div class="description">
+        <p><strong>단계:</strong> 로그인 상태 > 마이페이지 > 로그아웃 > 팝업 노출 시 로그아웃</p>
+        <p><strong>예상 결과:</strong> 로그아웃 처리가 완료된 상태로 메인페이지가 노출된다.</p>
       </div>
-      <a href="tests/results/run_20251208_014257/08_logged_out.png" target="_blank">🔗 이미지 보기</a>
+      <img src="results/run_20251208_014257/08_logged_out.png" alt="08_logged_out">
     </div>
+
   </div>
 </body>
 </html>
