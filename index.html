@@ -38,6 +38,12 @@
       font-weight: bold;
       margin: 0.5rem 0;
     }
+    .desc {
+      font-size: 0.9rem;
+      margin-top: 0.3rem;
+      margin-left: 1rem;
+      color: #333;
+    }
     video {
       width: 100%;
       margin-bottom: 2rem;
@@ -61,41 +67,76 @@
 
     <div class="screenshot">
       <p>01. 메인 페이지</p>
+      <div class="desc">
+        단계 : 웹사이트 진입 > 팝업 노출될 경우 [다시 보지 않기] 선택<br/>
+        예상 결과 : 메인페이지 이동 후 팝업이 있을 경우 닫기 동작 된다.
+      </div>
       <a href="tests/results/run_20251208_014257/01_main_page.png" target="_blank">🔗 이미지 보기</a>
     </div>
 
     <div class="screenshot">
       <p>02. 이용안내 페이지</p>
+      <div class="desc">
+        단계 : 메인화면 > 상단 [이용안내] 버튼<br/>
+        예상 결과 : 신청방법, 배송비 계산, 배송금지 물품 등이 존재하는 웹페이지로 이동 및 노출된다.<br/>
+        링크: staging.shipbaesong.com/info
+      </div>
       <a href="tests/results/run_20251208_014257/02_info_page.png" target="_blank">🔗 이미지 보기</a>
     </div>
 
     <div class="screenshot">
       <p>03. 배송신청 페이지</p>
+      <div class="desc">
+        단계 : 메인페이지 > 배송신청<br/>
+        예상 결과 : 해외배송, 구매대행을 선택할 수 있는 배송신청 메인 페이지로 이동 및 노출된다.<br/>
+        링크: staging.shipbaesong.com/request/main
+      </div>
       <a href="tests/results/run_20251208_014257/03_request_page.png" target="_blank">🔗 이미지 보기</a>
     </div>
 
     <div class="screenshot">
-      <p>04. 배송현황 (로그인 유도)</p>
+      <p>04. 배송현황</p>
+      <div class="desc">
+        단계 : 메인페이지 > 배송현황<br/>
+        예상 결과 : 로그인을 하지 않았으므로 로그인 유도 화면으로 이동 및 노출된다.
+      </div>
       <a href="tests/results/run_20251208_014257/04_delivery_login_required.png" target="_blank">🔗 이미지 보기</a>
     </div>
 
     <div class="screenshot">
       <p>05. 고객지원 페이지</p>
+      <div class="desc">
+        단계 : 메인페이지 > 고객지원<br/>
+        예상 결과 : 고객지원 메인페이지로 이동 및 노출된다.<br/>
+        링크: staging.shipbaesong.com/support
+      </div>
       <a href="tests/results/run_20251208_014257/05_support_page.png" target="_blank">🔗 이미지 보기</a>
     </div>
 
     <div class="screenshot">
       <p>06. 로그인 후 배송현황</p>
+      <div class="desc">
+        단계 : 메인페이지 > 배송현황 > 로그인 > 배송현황<br/>
+        예상 결과 : 배송신청이 없는 유저의 이력이므로 "최근 신청한 내역이 없어요" 문구가 노출되며 배송신청을 유도하는 버튼이 제공된다.
+      </div>
       <a href="tests/results/run_20251208_014257/06_logged_in.png" target="_blank">🔗 이미지 보기</a>
     </div>
 
     <div class="screenshot">
       <p>07. 마이페이지</p>
+      <div class="desc">
+        단계 : 로그인 상태 > 메인페이지 > 마이페이지 진입<br/>
+        예상 결과 : 로그인 한 유저의 이름과 보유 포인트, 최근 신청내역과 주소록 관리 버튼이 제공된다. 배송신청을 하지 않은 유저는 "최근 신청한 내역이 없어요" 문구가 노출되며 배송신청을 유도하는 버튼이 제공된다.
+      </div>
       <a href="tests/results/run_20251208_014257/07_my_page.png" target="_blank">🔗 이미지 보기</a>
     </div>
 
     <div class="screenshot">
       <p>08. 로그아웃 완료</p>
+      <div class="desc">
+        단계 : 로그인 상태 > 마이페이지 > 로그아웃 > 팝업 노출 시 로그아웃<br/>
+        예상 결과 : 로그아웃 처리가 완료된 상태로 메인페이지가 노출된다.
+      </div>
       <a href="tests/results/run_20251208_014257/08_logged_out.png" target="_blank">🔗 이미지 보기</a>
     </div>
   </div>
