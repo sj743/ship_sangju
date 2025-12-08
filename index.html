@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>쉽배송 테스트 리포트</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>쉽배송 자동화 테스트 리포트</title>
   <style>
     body {
       font-family: sans-serif;
-      background: #f4f4f4;
+      background: #f9f9f9;
       margin: 0;
       padding: 0;
     }
@@ -26,20 +26,28 @@
       border-bottom: 2px solid #003366;
       padding-bottom: 0.5rem;
     }
+    .screenshot {
+      background: #fff;
+      border-radius: 6px;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .screenshot h3 {
+      margin-top: 0;
+    }
+    .screenshot ul {
+      list-style: none;
+      padding: 0;
+    }
+    .screenshot li {
+      margin-bottom: 0.5rem;
+    }
     .screenshot a {
       display: inline-block;
-      margin-bottom: 1rem;
-      padding: 0.75rem 1.25rem;
-      background-color: #003366;
-      color: #fff;
-      border-radius: 4px;
-      text-decoration: none;
-    }
-    .screenshot a:hover {
-      background-color: #0055aa;
-    }
-    .screenshot p {
-      margin: 0.5rem 0;
+      margin-top: 0.5rem;
+      color: #003366;
+      text-decoration: underline;
     }
   </style>
 </head>
@@ -49,48 +57,87 @@
     <p>실행 일시: 2025-12-08</p>
   </header>
   <div class="container">
-    <h2>테스트 스크린샷 링크</h2>
+    <h2>테스트 스크린샷</h2>
 
     <div class="screenshot">
-      <p>01. 메인 페이지</p>
-      <a href="tests/results/run_20251208_014353/01_main_page.png" target="_blank">01. 메인 페이지 보기</a>
+      <h3>01. 메인 페이지</h3>
+      <ul>
+        <li><strong>단계:</strong> 웹사이트 진입 > 팝업 노출될 경우 [다시 보지 않기] 선택</li>
+        <li><strong>예상 결과:</strong> 메인페이지 이동 후 팝업이 있을 경우 닫기 동작 된다.</li>
+        <li><strong>실제 결과:</strong> PASS / FAIL</li>
+      </ul>
+      <a href="tests/results/run_20251208_014353/01_main_page.png" target="_blank">스크린샷 보기</a>
     </div>
 
     <div class="screenshot">
-      <p>02. 이용안내 페이지</p>
-      <a href="tests/results/run_20251208_014353/02_info_page.png" target="_blank">02. 이용안내 페이지 보기</a>
+      <h3>02. 이용안내 페이지</h3>
+      <ul>
+        <li><strong>단계:</strong> 메인화면 > 상단 [이용안내] 버튼</li>
+        <li><strong>예상 결과:</strong> 신청방법, 배송비 계산, 배송금지 물품 등이 존재하는 웹페이지로 이동 및 노출된다.</li>
+        <li><strong>실제 결과:</strong> PASS / FAIL</li>
+      </ul>
+      <a href="tests/results/run_20251208_014353/02_info_page.png" target="_blank">스크린샷 보기</a>
     </div>
 
     <div class="screenshot">
-      <p>03. 배송신청 페이지</p>
-      <a href="tests/results/run_20251208_014353/03_request_page.png" target="_blank">03. 배송신청 페이지 보기</a>
+      <h3>03. 배송신청 페이지</h3>
+      <ul>
+        <li><strong>단계:</strong> 메인페이지 > 배송신청</li>
+        <li><strong>예상 결과:</strong> 해외배송, 구매대행을 선택 할 수 있는 배송신청 메인 페이지로 이동 및 노출된다.</li>
+        <li><strong>실제 결과:</strong> PASS / FAIL</li>
+      </ul>
+      <a href="tests/results/run_20251208_014353/03_request_page.png" target="_blank">스크린샷 보기</a>
     </div>
 
     <div class="screenshot">
-      <p>04. 배송현황</p>
-      <a href="tests/results/run_20251208_014353/04_delivery_login_required.png" target="_blank">04. 배송현황 보기</a>
+      <h3>04. 배송현황</h3>
+      <ul>
+        <li><strong>단계:</strong> 메인페이지 > 배송현황</li>
+        <li><strong>예상 결과:</strong> 로그인을 하지 않았으므로 로그인 유도 화면으로 이동 및 노출된다.</li>
+        <li><strong>실제 결과:</strong> PASS / FAIL</li>
+      </ul>
+      <a href="tests/results/run_20251208_014353/04_delivery_login_required.png" target="_blank">스크린샷 보기</a>
     </div>
 
     <div class="screenshot">
-      <p>05. 고객지원 페이지</p>
-      <a href="tests/results/run_20251208_014353/05_support_page.png" target="_blank">05. 고객지원 페이지 보기</a>
+      <h3>05. 고객지원 페이지</h3>
+      <ul>
+        <li><strong>단계:</strong> 메인페이지 > 고객지원</li>
+        <li><strong>예상 결과:</strong> 고객지원 메인페이지로 이동 및 노출된다.</li>
+        <li><strong>실제 결과:</strong> PASS / FAIL</li>
+      </ul>
+      <a href="tests/results/run_20251208_014353/05_support_page.png" target="_blank">스크린샷 보기</a>
     </div>
 
     <div class="screenshot">
-      <p>06. 로그인 후 메인</p>
-      <a href="tests/results/run_20251208_014353/06_logged_in.png" target="_blank">06. 로그인 후 메인 보기</a>
+      <h3>06. 로그인 후 배송현황</h3>
+      <ul>
+        <li><strong>단계:</strong> 메인페이지 > 배송현황 > 로그인 > 배송현황</li>
+        <li><strong>예상 결과:</strong> 배송신청이 없는 유저의 이력이므로 관련 문구와 버튼이 제공된다.</li>
+        <li><strong>실제 결과:</strong> PASS / FAIL</li>
+      </ul>
+      <a href="tests/results/run_20251208_014353/06_logged_in.png" target="_blank">스크린샷 보기</a>
     </div>
 
     <div class="screenshot">
-      <p>07. 마이페이지</p>
-      <a href="tests/results/run_20251208_014353/07_my_page.png" target="_blank">07. 마이페이지 보기</a>
+      <h3>07. 마이페이지</h3>
+      <ul>
+        <li><strong>단계:</strong> 로그인 상태 > 메인페이지 > 마이페이지 진입</li>
+        <li><strong>예상 결과:</strong> 유저 정보 및 신청내역, 주소록 등이 표시된다.</li>
+        <li><strong>실제 결과:</strong> PASS / FAIL</li>
+      </ul>
+      <a href="tests/results/run_20251208_014353/07_my_page.png" target="_blank">스크린샷 보기</a>
     </div>
 
     <div class="screenshot">
-      <p>08. 로그아웃 완료</p>
-      <a href="tests/results/run_20251208_014353/08_logged_out.png" target="_blank">08. 로그아웃 완료 보기</a>
+      <h3>08. 로그아웃 완료</h3>
+      <ul>
+        <li><strong>단계:</strong> 로그인 상태 > 마이페이지 > 로그아웃 > 팝업에서 로그아웃 선택</li>
+        <li><strong>예상 결과:</strong> 로그아웃 처리 후 메인페이지로 이동</li>
+        <li><strong>실제 결과:</strong> PASS / FAIL</li>
+      </ul>
+      <a href="tests/results/run_20251208_014353/08_logged_out.png" target="_blank">스크린샷 보기</a>
     </div>
-
   </div>
 </body>
 </html>
