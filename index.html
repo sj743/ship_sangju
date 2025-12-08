@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>쉽배송 테스트 리포트</title>
   <style>
     body {
@@ -19,23 +19,27 @@
     }
     .container {
       padding: 2rem;
-      max-width: 800px;
+      max-width: 1000px;
       margin: 0 auto;
     }
     h2 {
       border-bottom: 2px solid #003366;
       padding-bottom: 0.5rem;
     }
-    .screenshot {
-      margin-bottom: 1.5rem;
+    .screenshot a {
+      display: inline-block;
+      margin-bottom: 1rem;
+      padding: 0.75rem 1.25rem;
+      background-color: #003366;
+      color: #fff;
+      border-radius: 4px;
+      text-decoration: none;
+    }
+    .screenshot a:hover {
+      background-color: #0055aa;
     }
     .screenshot p {
-      font-weight: bold;
-      margin: 0.2rem 0;
-    }
-    a {
-      color: #003366;
-      text-decoration: none;
+      margin: 0.5rem 0;
     }
   </style>
 </head>
@@ -45,47 +49,48 @@
     <p>실행 일시: 2025-12-08</p>
   </header>
   <div class="container">
-    <h2>테스트 스크린샷 (클릭 시 새 창에서 열림)</h2>
+    <h2>테스트 스크린샷 링크</h2>
 
     <div class="screenshot">
       <p>01. 메인 페이지</p>
-      <a href="results/latest/01_main_page.png" target="_blank">01_main_page.png 보기</a>
+      <a href="tests/results/run_20251208_014353/01_main_page.png" target="_blank">01. 메인 페이지 보기</a>
     </div>
 
     <div class="screenshot">
       <p>02. 이용안내 페이지</p>
-      <a href="results/latest/02_info_page.png" target="_blank">02_info_page.png 보기</a>
+      <a href="tests/results/run_20251208_014353/02_info_page.png" target="_blank">02. 이용안내 페이지 보기</a>
     </div>
 
     <div class="screenshot">
       <p>03. 배송신청 페이지</p>
-      <a href="results/latest/03_request_page.png" target="_blank">03_request_page.png 보기</a>
+      <a href="tests/results/run_20251208_014353/03_request_page.png" target="_blank">03. 배송신청 페이지 보기</a>
     </div>
 
     <div class="screenshot">
-      <p>04. 배송현황 (로그인 유도)</p>
-      <a href="results/latest/04_delivery_login_required.png" target="_blank">04_delivery_login_required.png 보기</a>
+      <p>04. 배송현황</p>
+      <a href="tests/results/run_20251208_014353/04_delivery_login_required.png" target="_blank">04. 배송현황 보기</a>
     </div>
 
     <div class="screenshot">
       <p>05. 고객지원 페이지</p>
-      <a href="results/latest/05_support_page.png" target="_blank">05_support_page.png 보기</a>
+      <a href="tests/results/run_20251208_014353/05_support_page.png" target="_blank">05. 고객지원 페이지 보기</a>
     </div>
 
     <div class="screenshot">
       <p>06. 로그인 후 메인</p>
-      <a href="results/latest/06_logged_in.png" target="_blank">06_logged_in.png 보기</a>
+      <a href="tests/results/run_20251208_014353/06_logged_in.png" target="_blank">06. 로그인 후 메인 보기</a>
     </div>
 
     <div class="screenshot">
       <p>07. 마이페이지</p>
-      <a href="results/latest/07_my_page.png" target="_blank">07_my_page.png 보기</a>
+      <a href="tests/results/run_20251208_014353/07_my_page.png" target="_blank">07. 마이페이지 보기</a>
     </div>
 
     <div class="screenshot">
       <p>08. 로그아웃 완료</p>
-      <a href="results/latest/08_logged_out.png" target="_blank">08_logged_out.png 보기</a>
+      <a href="tests/results/run_20251208_014353/08_logged_out.png" target="_blank">08. 로그아웃 완료 보기</a>
     </div>
+
   </div>
 </body>
 </html>
