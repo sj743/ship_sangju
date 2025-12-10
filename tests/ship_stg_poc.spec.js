@@ -1,4 +1,3 @@
-// ship_stg_poc.spec.js
 const { test, expect } = require('@playwright/test');
 const path = require('path');
 
@@ -32,7 +31,7 @@ async function login(page, { email, password }) {
 test.describe.serial('쉽배송 PoC 자동화 시나리오', () => {
 
   // --------------------------
-  // Session A : 기본 플로우 (복원 완료)
+  // Session A : 기본 플로우
   // --------------------------
   test('Session A – 비로그인/페이지 이동/로그인/마이페이지 플로우', async ({ page }) => {
     await page.goto(BASE_URL);
@@ -41,22 +40,22 @@ test.describe.serial('쉽배송 PoC 자동화 시나리오', () => {
     // ① 이용안내
     await page.click('text=이용안내');
     await expect(page).toHaveURL(`${BASE_URL}/info`);
-    await page.getByRole('img', { name: '쉽배송 로고' }).click();
+    await page.locator("xpath=/html/body/header/section/div/div/a/img").click();
 
     // ② 배송신청 페이지 접근
     await page.click('text=배송신청');
     await expect(page).toHaveURL(`${BASE_URL}/request/main`);
-    await page.getByRole('img', { name: '쉽배송 로고' }).click();
+    await page.locator("xpath=/html/body/header/section/div/div/a/img").click();
 
     // ③ 배송현황 (비로그인 시 로그인 유도 확인)
     await page.click('text=배송현황');
-    await expect(page).toHaveURL(`${BASE_URL}/login`);
-    await page.getByRole('img', { name: '쉽배송 로고' }).click();
+    await expect(page).toHaveURL(/\/login/);
+    await page.locator("xpath=/html/body/header/section/div/div/a/img").click();
 
     // ④ 고객지원 페이지 접근
     await page.click('text=고객지원');
     await expect(page).toHaveURL(`${BASE_URL}/support`);
-    await page.getByRole('img', { name: '쉽배송 로고' }).click();
+    await page.locator("xpath=/html/body/header/section/div/div/a/img").click();
 
     // ⑤ 로그인
     await login(page, ACCOUNTS.A);
@@ -72,7 +71,12 @@ test.describe.serial('쉽배송 PoC 자동화 시나리오', () => {
 
     // ⑧ 로그아웃
     await page.click("//p[contains(text(),'로그아웃')]");
+    await page.waitForSelector("//button[@id='commonConfirmModalConfirmButton']", {
+      state: 'visible',
+      timeout: 10000
+    });
     await page.click("//button[@id='commonConfirmModalConfirmButton']");
+    await page.waitForLoadState('networkidle');
     await expect(page).toHaveURL(BASE_URL);
   });
 
@@ -113,7 +117,7 @@ test.describe.serial('쉽배송 PoC 자동화 시나리오', () => {
 
     // 배송현황
     await expect(page.locator("(//button[contains(text(),'배송현황 보러가기')])[1]")).toBeVisible();
-    await page.getByRole('img', { name: '쉽배송 로고' }).click();
+    await page.locator("xpath=/html/body/header/section/div/div/a/img").click();
     await page.click('text=배송현황');
     await expect(page).toHaveURL(`${BASE_URL}/delivery`);
 
