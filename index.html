@@ -73,7 +73,7 @@
   <div class="container">
     <!-- Session A -->
     <h2>Session A – 기본 플로우</h2>
-    <h3>비로그인 → 로그인 → 마이페이지 → 로그아웃</h3>
+    <h3>비로그인 → 주요 메뉴 탐색 → 로그인 → 마이페이지 → 로그아웃</h3>
 
     <div class="screenshot">
       <p>01. 메인 페이지</p>
@@ -81,25 +81,70 @@
         <p><strong>단계:</strong> 팝업 노출 시 [오늘 그만 보기] 클릭</p>
         <p><strong>예상 결과:</strong> 메인 페이지 정상 노출 및 팝업 닫힘</p>
       </div>
-      <a href="results/sessionA_YYYYMMDD_HHmmss/01_main.png" target="_blank">[스크린샷 보기]</a>
+      <a href="tests/results/sessionA_YYYYMMDD_HHmmss/01_main_page.png" target="_blank">[스크린샷 보기]</a>
     </div>
 
     <div class="screenshot">
-      <p>02. 마이페이지</p>
+      <p>02. 이용안내 페이지</p>
       <div class="description">
-        <p><strong>단계:</strong> 로그인 후 마이페이지 진입</p>
-        <p><strong>예상 결과:</strong> 사용자 정보 및 주소록 관리 버튼 확인</p>
+        <p><strong>단계:</strong> 메인화면 > 상단 [이용안내]</p>
+        <p><strong>예상 결과:</strong> 신청방법, 배송비 계산, 금지물품 정보 확인</p>
       </div>
-      <a href="results/sessionA_YYYYMMDD_HHmmss/04_my_page.png" target="_blank">[스크린샷 보기]</a>
+      <a href="tests/results/sessionA_YYYYMMDD_HHmmss/02_info_page.png" target="_blank">[스크린샷 보기]</a>
     </div>
 
     <div class="screenshot">
-      <p>03. 로그아웃 완료</p>
+      <p>03. 배송신청 페이지</p>
+      <div class="description">
+        <p><strong>단계:</strong> 메인화면 > [배송신청]</p>
+        <p><strong>예상 결과:</strong> 배송신청 메인 페이지 이동</p>
+      </div>
+      <a href="tests/results/sessionA_YYYYMMDD_HHmmss/03_request_page.png" target="_blank">[스크린샷 보기]</a>
+    </div>
+
+    <div class="screenshot">
+      <p>04. 배송현황 페이지 (로그인 유도)</p>
+      <div class="description">
+        <p><strong>단계:</strong> 메인화면 > [배송현황]</p>
+        <p><strong>예상 결과:</strong> 로그인 유도 페이지로 이동</p>
+      </div>
+      <a href="tests/results/sessionA_YYYYMMDD_HHmmss/04_delivery_login_required.png" target="_blank">[스크린샷 보기]</a>
+    </div>
+
+    <div class="screenshot">
+      <p>05. 고객지원 페이지</p>
+      <div class="description">
+        <p><strong>단계:</strong> 메인화면 > [고객지원]</p>
+        <p><strong>예상 결과:</strong> 고객지원 안내 화면 이동</p>
+      </div>
+      <a href="tests/results/sessionA_YYYYMMDD_HHmmss/05_support_page.png" target="_blank">[스크린샷 보기]</a>
+    </div>
+
+    <div class="screenshot">
+      <p>06. 로그인 후 배송현황</p>
+      <div class="description">
+        <p><strong>단계:</strong> 로그인 후 배송현황 재진입</p>
+        <p><strong>예상 결과:</strong> 최근 내역 없음 문구 및 배송신청 유도 버튼 확인</p>
+      </div>
+      <a href="tests/results/sessionA_YYYYMMDD_HHmmss/06_logged_in.png" target="_blank">[스크린샷 보기]</a>
+    </div>
+
+    <div class="screenshot">
+      <p>07. 마이페이지</p>
+      <div class="description">
+        <p><strong>단계:</strong> 로그인 상태에서 마이페이지 진입</p>
+        <p><strong>예상 결과:</strong> 회원정보, 포인트, 주소록 관리 노출</p>
+      </div>
+      <a href="tests/results/sessionA_YYYYMMDD_HHmmss/07_my_page.png" target="_blank">[스크린샷 보기]</a>
+    </div>
+
+    <div class="screenshot">
+      <p>08. 로그아웃 완료</p>
       <div class="description">
         <p><strong>단계:</strong> 마이페이지 → 로그아웃</p>
-        <p><strong>예상 결과:</strong> 로그아웃 후 메인 화면으로 복귀</p>
+        <p><strong>예상 결과:</strong> 로그아웃 후 메인 페이지 복귀</p>
       </div>
-      <a href="results/sessionA_YYYYMMDD_HHmmss/05_logged_out.png" target="_blank">[스크린샷 보기]</a>
+      <a href="tests/results/sessionA_YYYYMMDD_HHmmss/08_logged_out.png" target="_blank">[스크린샷 보기]</a>
     </div>
 
     <!-- Session B -->
@@ -112,7 +157,7 @@
         <p><strong>단계:</strong> 배송신청 입력 완료 후 ‘배송신청 완료’ 버튼 클릭</p>
         <p><strong>예상 결과:</strong> 완료 페이지 노출 및 완료 문구 표시</p>
       </div>
-      <a href="results/sessionB_YYYYMMDD_HHmmss/04_request_completed.png" target="_blank">[스크린샷 보기]</a>
+      <a href="tests/results/sessionB_YYYYMMDD_HHmmss/04_request_completed.png" target="_blank">[스크린샷 보기]</a>
     </div>
 
     <div class="screenshot">
@@ -121,7 +166,7 @@
         <p><strong>단계:</strong> ‘배송현황 보러가기’ → 상세보기 아이콘 클릭</p>
         <p><strong>예상 결과:</strong> 배송현황 상세 페이지 이동</p>
       </div>
-      <a href="results/sessionB_YYYYMMDD_HHmmss/06_delivery_detail.png" target="_blank">[스크린샷 보기]</a>
+      <a href="tests/results/sessionB_YYYYMMDD_HHmmss/06_delivery_detail.png" target="_blank">[스크린샷 보기]</a>
     </div>
 
     <div class="screenshot">
@@ -130,7 +175,7 @@
         <p><strong>단계:</strong> 상세 페이지 전체 스크롤</p>
         <p><strong>예상 결과:</strong> 화면 하단까지 정상 스크롤 및 렌더링 확인</p>
       </div>
-      <a href="results/sessionB_YYYYMMDD_HHmmss/07_delivery_detail_scrolled.png" target="_blank">[스크린샷 보기]</a>
+      <a href="tests/results/sessionB_YYYYMMDD_HHmmss/07_delivery_detail_scrolled.png" target="_blank">[스크린샷 보기]</a>
     </div>
   </div>
 </body>
