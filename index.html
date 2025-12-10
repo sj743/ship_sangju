@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>쉽배송 테스트 리포트</title>
+  <title>쉽배송 자동화 테스트 리포트</title>
   <style>
     body {
       font-family: sans-serif;
@@ -12,42 +12,42 @@
       margin: 0;
       padding: 0;
     }
-
     header {
       background: #003366;
       color: white;
       padding: 1rem;
       text-align: center;
     }
-
     .container {
       padding: 2rem;
       max-width: 1000px;
       margin: 0 auto;
     }
-
     h2 {
-      border-bottom: 2px solid #003366;
+      border-bottom: 3px solid #003366;
       padding-bottom: 0.5rem;
+      font-weight: 800;
+      color: #001f4d;
     }
-
+    h3 {
+      font-weight: 700;
+      color: #333;
+      margin-top: 1.5rem;
+    }
     .screenshot {
       margin-bottom: 2rem;
     }
-
     .screenshot a {
       display: inline-block;
       margin-top: 0.5rem;
       color: #0066cc;
     }
-
     .description {
       background: #fff;
       padding: 1rem;
       border-radius: 4px;
       margin-bottom: 1rem;
     }
-
     .description p {
       margin: 0.2rem 0;
     }
@@ -71,90 +71,67 @@
   </header>
 
   <div class="container">
-    <h2>테스트 시나리오 전체 영상</h2>
-    <video width="100%" controls>
-      <source src="results/video/video.webm" type="video/webm">
-      브라우저가 video 태그를 지원하지 않습니다.
-    </video>
-
-    <h2>테스트 스크린샷 및 설명</h2>
+    <!-- Session A -->
+    <h2>Session A – 기본 플로우</h2>
+    <h3>비로그인 → 로그인 → 마이페이지 → 로그아웃</h3>
 
     <div class="screenshot">
       <p>01. 메인 페이지</p>
       <div class="description">
-        <p><strong>단계:</strong> 웹사이트 진입 > 팝업 노출될 경우 [다시 보지 않기] 선택</p>
-        <p><strong>예상 결과:</strong> 메인페이지 이동 후 팝업이 있을 경우 닫기 동작 된다.</p>
+        <p><strong>단계:</strong> 팝업 노출 시 [오늘 그만 보기] 클릭</p>
+        <p><strong>예상 결과:</strong> 메인 페이지 정상 노출 및 팝업 닫힘</p>
       </div>
-      <a href="results/run_20251208_014257/01_main_page.png" target="_blank">[스크린샷 보기]</a>
+      <a href="results/sessionA_YYYYMMDD_HHmmss/01_main.png" target="_blank">[스크린샷 보기]</a>
     </div>
 
     <div class="screenshot">
-      <p>02. 이용안내 페이지</p>
+      <p>02. 마이페이지</p>
       <div class="description">
-        <p><strong>단계:</strong> 메인화면 > 상단 [이용안내] 버튼</p>
-        <p><strong>예상 결과:</strong> 신청방법, 배송비 계산, 배송금지 물품 등이 존재하는 웹페이지로 이동 및 노출된다.</p>
-        <p>링크: staging.shipbaesong.com/info</p>
+        <p><strong>단계:</strong> 로그인 후 마이페이지 진입</p>
+        <p><strong>예상 결과:</strong> 사용자 정보 및 주소록 관리 버튼 확인</p>
       </div>
-      <a href="results/run_20251208_014257/02_info_page.png" target="_blank">[스크린샷 보기]</a>
+      <a href="results/sessionA_YYYYMMDD_HHmmss/04_my_page.png" target="_blank">[스크린샷 보기]</a>
     </div>
 
     <div class="screenshot">
-      <p>03. 배송신청 페이지</p>
+      <p>03. 로그아웃 완료</p>
       <div class="description">
-        <p><strong>단계:</strong> 메인페이지 > 배송신청</p>
-        <p><strong>예상 결과:</strong> 해외배송, 구매대행을 선택할 수 있는 배송신청 메인 페이지로 이동 및 노출된다.</p>
-        <p>링크: staging.shipbaesong.com/request/main</p>
+        <p><strong>단계:</strong> 마이페이지 → 로그아웃</p>
+        <p><strong>예상 결과:</strong> 로그아웃 후 메인 화면으로 복귀</p>
       </div>
-      <a href="results/run_20251208_014257/03_request_page.png" target="_blank">[스크린샷 보기]</a>
+      <a href="results/sessionA_YYYYMMDD_HHmmss/05_logged_out.png" target="_blank">[스크린샷 보기]</a>
+    </div>
+
+    <!-- Session B -->
+    <h2>Session B – 배송신청 및 배송현황</h2>
+    <h3>배송신청 → 완료 → 배송현황 → 상세보기 → 스크롤 → 캡처</h3>
+
+    <div class="screenshot">
+      <p>01. 배송신청 완료</p>
+      <div class="description">
+        <p><strong>단계:</strong> 배송신청 입력 완료 후 ‘배송신청 완료’ 버튼 클릭</p>
+        <p><strong>예상 결과:</strong> 완료 페이지 노출 및 완료 문구 표시</p>
+      </div>
+      <a href="results/sessionB_YYYYMMDD_HHmmss/04_request_completed.png" target="_blank">[스크린샷 보기]</a>
     </div>
 
     <div class="screenshot">
-      <p>04. 배송현황 (로그인 유도)</p>
+      <p>02. 배송현황 상세보기</p>
       <div class="description">
-        <p><strong>단계:</strong> 메인페이지 > 배송현황</p>
-        <p><strong>예상 결과:</strong> 로그인을 하지 않았으므로 배송현황 페이지가 아닌 로그인 유도 화면으로 이동 및 노출된다.</p>
+        <p><strong>단계:</strong> ‘배송현황 보러가기’ → 상세보기 아이콘 클릭</p>
+        <p><strong>예상 결과:</strong> 배송현황 상세 페이지 이동</p>
       </div>
-      <a href="results/run_20251208_014257/04_delivery_login_required.png" target="_blank">[스크린샷 보기]</a>
+      <a href="results/sessionB_YYYYMMDD_HHmmss/06_delivery_detail.png" target="_blank">[스크린샷 보기]</a>
     </div>
 
     <div class="screenshot">
-      <p>05. 고객지원 페이지</p>
+      <p>03. 상세 스크롤 캡처</p>
       <div class="description">
-        <p><strong>단계:</strong> 메인페이지 > 고객지원</p>
-        <p><strong>예상 결과:</strong> 고객지원 메인페이지로 이동 및 노출된다.</p>
-        <p>링크: staging.shipbaesong.com/support</p>
+        <p><strong>단계:</strong> 상세 페이지 전체 스크롤</p>
+        <p><strong>예상 결과:</strong> 화면 하단까지 정상 스크롤 및 렌더링 확인</p>
       </div>
-      <a href="results/run_20251208_014257/05_support_page.png" target="_blank">[스크린샷 보기]</a>
-    </div>
-
-    <div class="screenshot">
-      <p>06. 로그인 후 배송현황</p>
-      <div class="description">
-        <p><strong>단계:</strong> 메인페이지 > 배송현황 > 로그인 > 배송현황</p>
-        <p><strong>예상 결과:</strong> 배송신청이 없는 유저의 이력이므로 최근 신청한 내역이 없어요 문구가 노출되며 배송신청을 유도하는 버튼이 제공된다.</p>
-      </div>
-      <a href="results/run_20251208_014257/06_logged_in.png" target="_blank">[스크린샷 보기]</a>
-    </div>
-
-    <div class="screenshot">
-      <p>07. 마이페이지</p>
-      <div class="description">
-        <p><strong>단계:</strong> 로그인 상태 > 메인페이지 > 마이페이지 진입</p>
-        <p><strong>예상 결과:</strong> 로그인 한 유저의 이름과 보유 포인트, 최근 신청내역과 주소록 관리 버튼이 제공된다. 배송신청을 하지 않은 유저는 최근 신청한 내역이 없어요 문구가
-          노출되며 배송신청을 유도하는 버튼이 제공된다.</p>
-      </div>
-      <a href="results/run_20251208_014257/07_my_page.png" target="_blank">[스크린샷 보기]</a>
-    </div>
-
-    <div class="screenshot">
-      <p>08. 로그아웃 완료</p>
-      <div class="description">
-        <p><strong>단계:</strong> 로그인 상태 > 마이페이지 > 로그아웃 > 팝업 노출 시 로그아웃</p>
-        <p><strong>예상 결과:</strong> 로그아웃 처리가 완료된 상태로 메인페이지가 노출된다.</p>
-      </div>
-      <a href="results/run_20251208_014257/08_logged_out.png" target="_blank">[스크린샷 보기]</a>
+      <a href="results/sessionB_YYYYMMDD_HHmmss/07_delivery_detail_scrolled.png" target="_blank">[스크린샷 보기]</a>
     </div>
   </div>
 </body>
-
 </html>
