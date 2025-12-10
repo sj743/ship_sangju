@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="ko">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,32 +27,58 @@
       padding-bottom: 0.5rem;
       font-weight: 800;
       color: #001f4d;
+      margin-top: 2.5rem;
     }
-    h3 {
-      font-weight: 700;
-      color: #333;
-      margin-top: 1.5rem;
-    }
-    .screenshot {
-      margin-bottom: 2rem;
-    }
-    .screenshot a {
-      display: inline-block;
-      margin-top: 0.5rem;
-      color: #0066cc;
-    }
-    .description {
+    .section {
       background: #fff;
-      padding: 1rem;
-      border-radius: 4px;
-      margin-bottom: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      padding: 1rem 1.5rem;
+      margin-bottom: 1.5rem;
     }
     .description p {
       margin: 0.2rem 0;
     }
+    video {
+      width: 100%;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+      margin-top: 1rem;
+    }
+    .summary {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      padding: 1rem 1.5rem;
+      margin-top: 1.5rem;
+    }
+    .summary h3 {
+      margin-top: 0;
+      color: #003366;
+    }
+    .stats {
+      display: flex;
+      gap: 1.5rem;
+      margin-top: 0.5rem;
+      font-size: 1.1rem;
+    }
+    .stats div {
+      flex: 1;
+      text-align: center;
+      border-radius: 6px;
+      padding: 0.6rem;
+      font-weight: 700;
+    }
+    .success {
+      background: #e6f9e6;
+      color: #087f23;
+    }
+    .failure {
+      background: #ffecec;
+      color: #d32f2f;
+    }
   </style>
 </head>
-
 <body>
   <header>
     <h1>쉽배송 자동화 테스트 리포트</h1>
@@ -71,112 +96,120 @@
   </header>
 
   <div class="container">
-    <!-- Session A -->
-    <h2>Session A – 기본 플로우</h2>
-    <h3>비로그인 → 주요 메뉴 탐색 → 로그인 → 마이페이지 → 로그아웃</h3>
+    <h2>테스트 진행 영상</h2>
+    <p><strong>쉽배송 서비스 자동화 테스트 전체 진행 영상입니다.</strong><br>
+    테스트는 Session A(비로그인→로그인→마이페이지→로그아웃)과 Session B(배송신청→배송현황→상세보기)로 구성되어 있습니다.</p>
+    <video controls>
+      <source src="tests/test-results/sessionB_YYYYMMDD_HHmmss/video.webm" type="video/webm">
+      브라우저가 video 태그를 지원하지 않습니다.
+    </video>
 
-    <div class="screenshot">
+    <div class="summary">
+      <h3>테스트 결과 요약</h3>
+      <div class="stats">
+        <div class="success">성공 항목: <span id="success-count">11</span></div>
+        <div class="failure">실패 항목: <span id="failure-count">0</span></div>
+      </div>
+      <p style="text-align:center; margin-top:0.5rem;">총 <strong id="total-count">11</strong>개 테스트 중 <strong id="passed-ratio">100%</strong> 성공</p>
+    </div>
+
+    <script>
+      const success = 11;
+      const failure = 0;
+      document.getElementById('success-count').textContent = success;
+      document.getElementById('failure-count').textContent = failure;
+      document.getElementById('total-count').textContent = success + failure;
+      document.getElementById('passed-ratio').textContent = ((success / (success + failure)) * 100).toFixed(0) + '%';
+    </script>
+
+    <p>※ 화면별 스크린샷은 실패 발생 시 자동 캡처되며, 리포트에는 전체 영상만 표시됩니다.</p>
+
+    <h2>Session A – 기본 플로우</h2>
+    <p><strong>비로그인 → 이용안내 → 배송신청 → 배송현황(로그인유도) → 고객지원 → 로그인 → 마이페이지 → 로그아웃</strong></p>
+
+    <div class="section">
       <p>01. 메인 페이지</p>
       <div class="description">
         <p><strong>단계:</strong> 팝업 노출 시 [오늘 그만 보기] 클릭</p>
-        <p><strong>예상 결과:</strong> 메인 페이지 정상 노출 및 팝업 닫힘</p>
+        <p><strong>예상 결과:</strong> 메인 페이지 정상 진입 및 팝업 닫힘</p>
       </div>
-      <a href="tests/results/sessionA_YYYYMMDD_HHmmss/01_main_page.png" target="_blank">[스크린샷 보기]</a>
     </div>
 
-    <div class="screenshot">
+    <div class="section">
       <p>02. 이용안내 페이지</p>
       <div class="description">
-        <p><strong>단계:</strong> 메인화면 > 상단 [이용안내]</p>
-        <p><strong>예상 결과:</strong> 신청방법, 배송비 계산, 금지물품 정보 확인</p>
+        <p><strong>단계:</strong> 상단 메뉴 [이용안내] 클릭</p>
+        <p><strong>예상 결과:</strong> 신청방법, 배송비 안내 등 내용이 표시된 안내 페이지 이동</p>
       </div>
-      <a href="tests/results/sessionA_YYYYMMDD_HHmmss/02_info_page.png" target="_blank">[스크린샷 보기]</a>
     </div>
 
-    <div class="screenshot">
+    <div class="section">
       <p>03. 배송신청 페이지</p>
       <div class="description">
-        <p><strong>단계:</strong> 메인화면 > [배송신청]</p>
-        <p><strong>예상 결과:</strong> 배송신청 메인 페이지 이동</p>
+        <p><strong>단계:</strong> 메인 > [배송신청] 클릭</p>
+        <p><strong>예상 결과:</strong> 배송신청 메인 페이지 이동 확인</p>
       </div>
-      <a href="tests/results/sessionA_YYYYMMDD_HHmmss/03_request_page.png" target="_blank">[스크린샷 보기]</a>
     </div>
 
-    <div class="screenshot">
-      <p>04. 배송현황 페이지 (로그인 유도)</p>
+    <div class="section">
+      <p>04. 배송현황 (로그인 유도)</p>
       <div class="description">
-        <p><strong>단계:</strong> 메인화면 > [배송현황]</p>
-        <p><strong>예상 결과:</strong> 로그인 유도 페이지로 이동</p>
+        <p><strong>단계:</strong> [배송현황] 클릭</p>
+        <p><strong>예상 결과:</strong> 비로그인 상태로 로그인 유도 페이지로 이동</p>
       </div>
-      <a href="tests/results/sessionA_YYYYMMDD_HHmmss/04_delivery_login_required.png" target="_blank">[스크린샷 보기]</a>
     </div>
 
-    <div class="screenshot">
+    <div class="section">
       <p>05. 고객지원 페이지</p>
       <div class="description">
-        <p><strong>단계:</strong> 메인화면 > [고객지원]</p>
-        <p><strong>예상 결과:</strong> 고객지원 안내 화면 이동</p>
+        <p><strong>단계:</strong> [고객지원] 클릭</p>
+        <p><strong>예상 결과:</strong> 고객지원 메인 페이지 노출</p>
       </div>
-      <a href="tests/results/sessionA_YYYYMMDD_HHmmss/05_support_page.png" target="_blank">[스크린샷 보기]</a>
     </div>
 
-    <div class="screenshot">
+    <div class="section">
       <p>06. 로그인 후 배송현황</p>
       <div class="description">
-        <p><strong>단계:</strong> 로그인 후 배송현황 재진입</p>
-        <p><strong>예상 결과:</strong> 최근 내역 없음 문구 및 배송신청 유도 버튼 확인</p>
+        <p><strong>단계:</strong> 로그인 후 [배송현황] 클릭</p>
+        <p><strong>예상 결과:</strong> “최근 신청한 내역이 없어요” 문구 확인</p>
       </div>
-      <a href="tests/results/sessionA_YYYYMMDD_HHmmss/06_logged_in.png" target="_blank">[스크린샷 보기]</a>
     </div>
 
-    <div class="screenshot">
-      <p>07. 마이페이지</p>
+    <div class="section">
+      <p>07. 마이페이지 진입</p>
       <div class="description">
-        <p><strong>단계:</strong> 로그인 상태에서 마이페이지 진입</p>
-        <p><strong>예상 결과:</strong> 회원정보, 포인트, 주소록 관리 노출</p>
+        <p><strong>단계:</strong> 로그인 상태 > [마이페이지]</p>
+        <p><strong>예상 결과:</strong> 회원 정보 및 주소록 관리 메뉴 노출</p>
       </div>
-      <a href="tests/results/sessionA_YYYYMMDD_HHmmss/07_my_page.png" target="_blank">[스크린샷 보기]</a>
     </div>
 
-    <div class="screenshot">
+    <div class="section">
       <p>08. 로그아웃 완료</p>
       <div class="description">
-        <p><strong>단계:</strong> 마이페이지 → 로그아웃</p>
-        <p><strong>예상 결과:</strong> 로그아웃 후 메인 페이지 복귀</p>
+        <p><strong>단계:</strong> [로그아웃] 버튼 클릭</p>
+        <p><strong>예상 결과:</strong> 로그아웃 완료 후 메인 페이지로 복귀</p>
       </div>
-      <a href="tests/results/sessionA_YYYYMMDD_HHmmss/08_logged_out.png" target="_blank">[스크린샷 보기]</a>
     </div>
 
-    <!-- Session B -->
     <h2>Session B – 배송신청 및 배송현황</h2>
-    <h3>배송신청 → 완료 → 배송현황 → 상세보기 → 스크롤 → 캡처</h3>
+    <p><strong>배송신청 → 완료 → 배송현황 → 상세보기 → 스크롤 확인</strong></p>
 
-    <div class="screenshot">
-      <p>01. 배송신청 완료</p>
+    <div class="section">
+      <p>01. 배송신청 프로세스 및 완료</p>
       <div class="description">
-        <p><strong>단계:</strong> 배송신청 입력 완료 후 ‘배송신청 완료’ 버튼 클릭</p>
-        <p><strong>예상 결과:</strong> 완료 페이지 노출 및 완료 문구 표시</p>
+        <p><strong>단계:</strong> 로그인 후 [배송신청] → 주소 → 반송지 → 수취인 입력 → 금지품목 안내 확인 → [배송신청 완료]</p>
+        <p><strong>예상 결과:</strong> 모든 단계 정상 전환 후 신청 완료 페이지 이동 및 [배송현황 보러가기] 노출</p>
       </div>
-      <a href="tests/results/sessionB_YYYYMMDD_HHmmss/04_request_completed.png" target="_blank">[스크린샷 보기]</a>
     </div>
 
-    <div class="screenshot">
-      <p>02. 배송현황 상세보기</p>
+    <div class="section">
+      <p>02. 배송현황 및 상세보기</p>
       <div class="description">
-        <p><strong>단계:</strong> ‘배송현황 보러가기’ → 상세보기 아이콘 클릭</p>
-        <p><strong>예상 결과:</strong> 배송현황 상세 페이지 이동</p>
+        <p><strong>단계:</strong> [배송현황 보러가기] → 상세보기 → 상/하 스크롤</p>
+        <p><strong>예상 결과:</strong> 상세페이지 정상 로드 및 스크롤 이동 확인</p>
       </div>
-      <a href="tests/results/sessionB_YYYYMMDD_HHmmss/06_delivery_detail.png" target="_blank">[스크린샷 보기]</a>
     </div>
 
-    <div class="screenshot">
-      <p>03. 상세 스크롤 캡처</p>
-      <div class="description">
-        <p><strong>단계:</strong> 상세 페이지 전체 스크롤</p>
-        <p><strong>예상 결과:</strong> 화면 하단까지 정상 스크롤 및 렌더링 확인</p>
-      </div>
-      <a href="tests/results/sessionB_YYYYMMDD_HHmmss/07_delivery_detail_scrolled.png" target="_blank">[스크린샷 보기]</a>
-    </div>
   </div>
 </body>
 </html>

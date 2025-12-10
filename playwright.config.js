@@ -2,11 +2,10 @@
 import { defineConfig } from '@playwright/test';
 
 export default defineConfig({
+  testDir: './tests',
   use: {
-    recordVideo: {
-      dir: 'test-results/videos',
-      size: { width: 1728, height: 1117 },
-    },
+    screenshot: 'only-on-failure',  // 실패 시에만 스크린샷 저장
+    video: 'on',                    // 전체 시나리오 영상 자동 녹화
   },
-  reporter: [['html', { outputFolder: 'test-results/html-report', open: 'never' }]],
+  reporter: [['html', { outputFolder: 'playwright-report', open: 'never' }]],
 });
