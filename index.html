@@ -42,10 +42,17 @@
     }
 
     video {
+      display: block;
       width: 100%;
+      height: auto;
       border-radius: 6px;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      margin-bottom: 1.5rem;
+      object-fit: contain;
+      /* 영상이 잘리지 않게 */
+      background: #000;
+      /* 여백은 검은색으로 */
+      max-height: 90vh;
+      /* 세로 꽉 차는 느낌 */
     }
 
     .result-box {
