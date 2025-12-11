@@ -12,11 +12,30 @@ const ACCOUNTS = {
 // ────────────────────────────────
 async function handlePopup(page) {
   console.log('팝업 처리 실행');
-  const popup = page.locator('#popup');
-  if (await popup.isVisible({ timeout: 2000 }).catch(() => false)) {
-    await page.click('text=다시 보지 않기');
+
+  // 닫기/오늘 그만 보기 버튼 모두 탐색
+  const closeButtons = page.locator("//button[contains(text(),'닫기') or contains(text(),'오늘 그만 보기')]");
+  const count = await closeButtons.count();
+
+  if (count > 0) {
+    console.log(`팝업 ${count}개 감지됨 — 순차 닫기 시작`);
+
+    for (let i = 0; i < count; i++) {
+      const btn = closeButtons.nth(i);
+      if (await btn.isVisible().catch(() => false)) {
+        await btn.click({ delay: 100 });
+        await page.waitForTimeout(300);
+      }
+    }
+
+    // 팝업 전체 사라질 때까지 대기
+    await page.waitForSelector("//div[contains(@class,'popup') or contains(@class,'modal')]", { state: 'hidden', timeout: 5000 }).catch(() => { });
+    console.log('모든 팝업 닫힘 완료');
+  } else {
+    console.log('팝업 미노출 — 다음 단계 진행');
   }
 }
+
 
 async function login(page, account) {
   console.log('로그인 시도');
