@@ -27,6 +27,7 @@
       padding: 2rem;
       background: white;
       box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+      overflow: visible;
     }
 
     h2 {
@@ -42,46 +43,19 @@
       margin-bottom: 2rem;
     }
 
-    /* ★ 추가: 로컬 full-page 스타일 재현용 wrapper */
-    .video-wrapper {
-      position: relative;
-      width: 100%;
-      height: 100vh;
-      /* 화면 전체 높이 */
-      background: #000;
-      overflow: hidden;
-      margin-bottom: 2rem;
-    }
-
-    .video-wrapper video {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-    }
-
-    /* 기존 video 스타일 유지 */
+    /* 기존 video 스타일만 유지 */
     video {
       display: block;
       width: 100%;
       height: auto;
       aspect-ratio: 16 / 9;
-
       border-radius: 6px;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
       object-fit: contain;
-
       background: #000;
       max-height: none;
-
+      margin-bottom: 2rem; /* 영상 아래 간격 유지 */
     }
-
-    .container {
-      overflow: visible;
-    }
-
 
     .result-box {
       margin: 1rem 0;
@@ -146,6 +120,7 @@
 
     <!-- Session A -->
     <h2>Session A – 비로그인 / 페이지 이동 / 로그인 / 마이페이지 플로우</h2>
+
     <video controls>
       <source src="tests/video/SessionA.webm" type="video/webm">
       브라우저가 video 태그를 지원하지 않습니다.
@@ -199,6 +174,7 @@
 
     <!-- Session B -->
     <h2>Session B – 배송신청 및 배송현황 시나리오</h2>
+
     <video controls>
       <source src="tests/video/SessionB.webm" type="video/webm">
       브라우저가 video 태그를 지원하지 않습니다.
