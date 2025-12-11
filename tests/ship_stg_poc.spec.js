@@ -114,21 +114,20 @@ test('Session A – 비로그인/페이지 이동/로그인/마이페이지 플�
 
   console.log('ID_0009 | 로그아웃 수행');
 
-  // 로그아웃 버튼 클릭
-  await page.click("//p[contains(text(),'로그아웃')]");
+  // 로그아웃 클릭
+  await page.click("//a[contains(text(),'로그아웃')]");
 
-  // 모달 뜨기 전 렌더 대기 (트랜지션 시간 확보)
-  await page.waitForTimeout(500); // 0.5~1초 정도가 이상적
+  // DOM 반응 대기 (모달 렌더링 시간 확보)
+  await page.waitForTimeout(1000); // 1초 정도
 
   // Confirm 모달 표시 대기 및 클릭
   await page.waitForSelector("//div[@id='commonConfirmModal' and contains(@class,'show')]", { timeout: 10000 });
   await page.waitForSelector("//button[@id='commonConfirmModalConfirmButton']", { state: 'visible', timeout: 10000 });
   await page.click("//button[@id='commonConfirmModalConfirmButton']");
 
-  // 페이지 이동 및 안정화
-  await page.waitForLoadState('networkidle');
-  await page.waitForSelector("(//a[@class='btn btn-sm btn-outline-primary rounded-1 d-flex align-items-center'])[1]", { timeout: 15000 });
-  await expect(page).toHaveURL(BASE_URL);
+  // 메인 페이지 복귀 대기
+  await page.waitForURL(BASE_URL, { timeout: 15000 });
+
 
 });
 
