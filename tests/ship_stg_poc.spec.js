@@ -113,11 +113,16 @@ test('Session A – 비로그인/페이지 이동/로그인/마이페이지 플�
   await expect(page.locator('text=주소록 관리')).toBeVisible();
 
   console.log('ID_0009 | 로그아웃 수행');
+
+  // 화면 하단으로 스크롤 (로그아웃 위치까지 이동)
+  await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+  await page.waitForTimeout(800);
+
   // 로그아웃 버튼 표시 대기
-  await page.waitForSelector("//a[contains(text(),'로그아웃')]", { state: 'visible', timeout: 10000 });
+  await page.waitForSelector("(//p[contains(text(),'로그아웃')])[1]", { state: 'visible', timeout: 10000 });
 
   // 클릭
-  await page.click("//a[contains(text(),'로그아웃')]");
+  await page.click("(//p[contains(text(),'로그아웃')])[1]");
 
   // DOM 반응 대기
   await page.waitForTimeout(1000);
@@ -135,6 +140,7 @@ test('Session A – 비로그인/페이지 이동/로그인/마이페이지 플�
 
   // 최종 URL 검증
   await expect(page).toHaveURL(BASE_URL);
+
 
 });
 
