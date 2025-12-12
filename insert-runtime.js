@@ -1,5 +1,5 @@
-import fs from 'fs';
-import path from 'path';
+const fs = require('fs');
+const path = require('path');
 
 // 현재 시간 포맷
 const now = new Date();
@@ -11,9 +11,10 @@ const formatted =
   String(now.getMinutes()).padStart(2, '0') + ':' +
   String(now.getSeconds()).padStart(2, '0');
 
-// index.html 경로 (너 프로젝트 구조 맞춰서 그대로 둬도 됨)
+// index.html 경로
 const filePath = path.join(process.cwd(), 'index.html');
 
+// HTML 읽기
 let html = fs.readFileSync(filePath, 'utf8');
 
 // {{RUN_TIME}} 토큰 치환
