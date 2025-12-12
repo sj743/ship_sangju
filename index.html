@@ -43,7 +43,7 @@
       margin-bottom: 2rem;
     }
 
-    /* 기존 video 스타일만 유지 */
+
     video {
       display: block;
       width: 100%;
@@ -54,7 +54,7 @@
       object-fit: contain;
       background: #000;
       max-height: none;
-      margin-bottom: 2rem; /* 영상 아래 간격 유지 */
+      margin-bottom: 2rem;
     }
 
     .result-box {
@@ -99,17 +99,10 @@
 <body>
   <header>
     <h1>쉽배송 자동화 테스트 리포트</h1>
-    <p id="run-time"></p>
-    <script>
-      const now = new Date();
-      const formatted = now.getFullYear() + '-' +
-        String(now.getMonth() + 1).padStart(2, '0') + '-' +
-        String(now.getDate()).padStart(2, '0') + ' ' +
-        String(now.getHours()).padStart(2, '0') + ':' +
-        String(now.getMinutes()).padStart(2, '0') + ':' +
-        String(now.getSeconds()).padStart(2, '0');
-      document.getElementById('run-time').textContent = '실행 일시: ' + formatted;
-    </script>
+
+    <!-- 실행일시 → insert-runtime.js가 여기를 실제 날짜로 치환함 -->
+    <p id="run-time">실행 일시: {{RUN_TIME}}</p>
+
   </header>
 
   <div class="container">
