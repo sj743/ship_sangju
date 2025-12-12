@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "playwright test && node insert-runtime.js"
+  "test": "npx playwright test && node insert-runtime.js"
   },
   "keywords": [],
   "author": "",
