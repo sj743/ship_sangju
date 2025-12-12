@@ -23,14 +23,11 @@
 
     .container {
       width: 100%;
-      
       max-width: none;
-      
       margin: 0 auto;
       padding: 2rem;
       background: white;
       box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
-    
     }
 
     h2 {
@@ -46,21 +43,17 @@
       margin-bottom: 2rem;
     }
 
-
     video {
       display: block;
       width: 800px;
       height: 450px;
-
       object-fit: cover;
-
       border-radius: 6px;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
       margin-bottom: 2rem;
       background: #000;
     }
 
-    
     .result-box {
       margin: 1rem 0;
       padding: 1rem;
@@ -103,7 +96,7 @@
 <body>
   <header>
     <h1>쉽배송 자동화 테스트 리포트</h1>
-    <p id="run-time">실행 일시: </p>
+    <p id="run-time">실행 일시:</p>
   </header>
 
   <div class="container">
@@ -224,6 +217,23 @@
   </div>
 
   <footer>© 2025 쉽배송 자동화 PoC 결과 리포트</footer>
+
+  <!-- 실행일시 자동 갱신 스크립트 -->
+  <script>
+    const now = new Date();
+    const formatted =
+      now.getFullYear() + '-' +
+      String(now.getMonth() + 1).padStart(2, '0') + '-' +
+      String(now.getDate()).padStart(2, '0') + ' ' +
+      String(now.getHours()).padStart(2, '0') + ':' +
+      String(now.getMinutes()).padStart(2, '0') + ':' +
+      String(now.getSeconds()).padStart(2, '0');
+
+    const el = document.getElementById('run-time');
+    if (el) {
+      el.textContent = '실행 일시: ' + formatted;
+    }
+  </script>
 </body>
 
 </html>
