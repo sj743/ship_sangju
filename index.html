@@ -1,315 +1,338 @@
 <!DOCTYPE html>
 <html lang="ko">
-
+  
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-  <title>쉽배송 자동화 테스트 리포트</title>
-  <style>
-    body {
-      font-family: 'Noto Sans KR', sans-serif;
-      background: #f7f9fc;
-      margin: 0;
-      padding: 0;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <title>ShipBaesong QA Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    
+    <style>
+        :root {
+            --sidebar-width: 260px;
+            --primary-color: #4F46E5; /* Indigo */
+            --bg-color: #F3F4F6;
+            --card-bg: #FFFFFF;
+            --text-main: #1F2937;
+            --text-sub: #6B7280;
+            --success: #10B981;
+            --border: #E5E7EB;
+        }
 
-    header {
-      background: #003366;
-      color: white;
-      padding: 1.5rem;
-      text-align: center;
-    }
+        * { box-sizing: border-box; }
 
-    .container {
-      width: 100%;
-      max-width: none;
-      margin: 0 auto;
-      padding: 2rem;
-      background: white;
-      box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
-    }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
 
-    /* ===== 핵심 래퍼 ===== */
-    .report-section {
-      width: 800px;          /* 영상 기준 폭 */
-      margin: 0 auto 3rem;   /* 가운데 정렬 */
-      text-align: left;      /* 글씨 좌측 정렬 유지 */
-    }
+        /* === Sidebar === */
+        aside {
+            width: var(--sidebar-width);
+            background-color: #111827; /* Dark sidebar */
+            color: white;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            flex-shrink: 0;
+        }
 
-    h2 {
-      border-left: 6px solid #003366;
-      padding-left: 10px;
-      color: #003366;
-      margin-bottom: 1rem;
-    }
+        .brand {
+            font-size: 1.2rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 40px;
+            color: #fff;
+        }
+        
+        .brand span { color: var(--primary-color); }
 
-    .summary {
-      background: #eef3fa;
-      padding: 1rem;
-      border-radius: 8px;
-      margin: 0 auto 2rem;
-      width: 800px;          /* 요약도 영상 폭에 맞춤 */
-    }
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-radius: 8px;
+            color: #9CA3AF;
+            text-decoration: none;
+            margin-bottom: 5px;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
 
-    video {
-      display: block;
-      width: 800px;
-      height: 450px;
-      object-fit: cover;
-      border-radius: 6px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      margin-bottom: 2rem;
-      background: #000;
-    }
+        .menu-item:hover, .menu-item.active {
+            background-color: #374151;
+            color: white;
+        }
 
-    .result-box {
-      margin: 1rem 0;
-      padding: 1rem;
-      background: #f2f7ff;
-      border-left: 4px solid #003366;
-    }
+        .menu-category {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: #6B7280;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            padding-left: 10px;
+            font-weight: 600;
+        }
 
-    .id-label {
-      background: #003366;
-      color: white;
-      padding: 4px 8px;
-      border-radius: 4px;
-      font-size: 0.9rem;
-      margin-right: 6px;
-    }
+        /* === Main Content === */
+        main {
+            flex: 1;
+            overflow-y: auto;
+            padding: 30px;
+        }
 
-    .desc {
-      margin: 0.3rem 0;
-    }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
 
-    .success {
-      color: #1b5e20;
-      font-weight: bold;
-    }
+        h1 { margin: 0; font-size: 1.5rem; }
+        .last-updated { color: var(--text-sub); font-size: 0.9rem; }
 
-    .fail {
-      color: #b71c1c;
-      font-weight: bold;
-    }
+        /* === Dashboard Stats Cards === */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
 
-    footer {
-      text-align: center;
-      color: #666;
-      padding: 1rem;
-      font-size: 0.85rem;
-    }
-  </style>
+        .stat-card {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat-label { color: var(--text-sub); font-size: 0.85rem; font-weight: 500; }
+        .stat-value { font-size: 1.8rem; font-weight: 700; margin-top: 10px; }
+        .stat-value.pass { color: var(--success); }
+
+        /* === Session Containers === */
+        .session-container {
+            background: var(--card-bg);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .session-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #F9FAFB;
+        }
+
+        .session-title { font-weight: 600; font-size: 1.1rem; }
+        .badge {
+            background: #D1FAE5;
+            color: #065F46;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .session-body {
+            display: flex;
+            padding: 20px;
+            gap: 30px;
+        }
+
+        .video-box {
+            flex: 1;
+        }
+
+        video {
+            width: 100%;
+            border-radius: 8px;
+            border: 1px solid #E5E7EB;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .log-list {
+            flex: 1;
+            max-height: 450px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        .log-item {
+            display: flex;
+            gap: 15px;
+            padding: 12px 0;
+            border-bottom: 1px solid #F3F4F6;
+        }
+
+        .log-id {
+            font-family: monospace;
+            color: var(--primary-color);
+            font-weight: 600;
+            min-width: 60px;
+        }
+
+        .log-desc {
+            color: var(--text-main);
+            font-size: 0.95rem;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--success);
+            border-radius: 50%;
+            margin-top: 6px;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-thumb { background: #D1D5DB; border-radius: 4px; }
+    </style>
 </head>
-
 <body>
-  <header>
-    <h1>쉽배송 자동화 테스트 리포트</h1>
-    <p id="run-time">실행 일시:</p>
-  </header>
 
-  <div class="container">
+    <aside>
+        <div class="brand">
+            <span class="material-icons-round">token</span>
+            ShipBaesong QA
+        </div>
 
-    <div class="summary">
-      <p><strong>결과 요약:</strong> 총 27개 테스트 중 <span class="success">27개 성공</span>, 실패 <span class="fail">0개</span></p>
-      <p>테스트 세션: Session A (퓨어계정 UI/UX 검증) / Session B (배송신청 및 현황 프로세스)</p>
-    </div>
+        <div class="menu-category">Dashboards</div>
+        <a href="#" class="menu-item active">
+            <span class="material-icons-round">dashboard</span>
+            Overview
+        </a>
+        <a href="#session-a" class="menu-item">
+            <span class="material-icons-round">play_circle</span>
+            Session A
+        </a>
+        <a href="#session-b" class="menu-item">
+            <span class="material-icons-round">play_circle</span>
+            Session B
+        </a>
 
-    <div class="report-section">
-      <h2>Session A – 퓨어계정 / 데이터 없음 상태 검증 (ID_0001 ~ ID_0020)</h2>
+        <div class="menu-category">Settings</div>
+        <div class="menu-item">
+            <span class="material-icons-round">settings</span>
+            Configuration
+        </div>
+    </aside>
 
-      <video controls>
-        <source src="videos/SessionA.webm" type="video/webm">
-      </video>
+    <main>
+        <header>
+            <div>
+                <h1>Test Execution Report</h1>
+                <div class="last-updated" id="run-time">Loading date...</div>
+            </div>
+            <div>
+                <button style="background:var(--primary-color); color:white; border:none; padding:10px 20px; border-radius:6px; font-weight:500; cursor:pointer;">
+                    Download Report
+                </button>
+            </div>
+        </header>
 
-      <div class="result-box">
-        <p><span class="id-label">ID_0001</span><strong>메인 진입 및 팝업 처리</strong></p>
-        <p class="desc"><strong>요약:</strong> 메인화면 팝업 닫기 동작</p>
-        <p class="desc"><strong>기대결과:</strong> 메인화면 진입 시 팝업 닫기 기능 동작 확인</p>
-      </div>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <span class="stat-label">Total Tests</span>
+                <span class="stat-value">27</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-label">Passed</span>
+                <span class="stat-value pass">27</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-label">Failed</span>
+                <span class="stat-value" style="color:#EF4444">0</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-label">Duration</span>
+                <span class="stat-value">2m 14s</span>
+            </div>
+        </div>
 
-      <div class="result-box">
-        <p><span class="id-label">ID_0002</span><strong>이용안내 페이지 이동</strong></p>
-        <p class="desc"><strong>요약:</strong> 메인 > 이용안내 진입 (비로그인)</p>
-        <p class="desc"><strong>기대결과:</strong> 이용안내 페이지 URL 및 화면 노출 확인</p>
-      </div>
+        <div id="session-a" class="session-container">
+            <div class="session-header">
+                <div class="session-title">Session A – 퓨어계정 / 데이터 없음 검증</div>
+                <span class="badge">Passed</span>
+            </div>
+            <div class="session-body">
+                <div class="video-box">
+                    <video controls poster="https://placehold.co/600x340/png?text=Session+A+Recording">
+                        <source src="videos/SessionA.webm" type="video/webm">
+                    </video>
+                </div>
+                <div class="log-list">
+                    <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0001</div><div class="log-desc">메인 진입 및 팝업 처리</div></div>
+                    <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0002</div><div class="log-desc">이용안내 페이지 이동(비로그인)</div></div>
+                    <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0003</div><div class="log-desc">배송신청 페이지 이동(비로그인)</div></div>
+                    <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0004</div><div class="log-desc">배송현황 페이지 이동(비로그인)</div></div>
+                    <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0005</div><div class="log-desc">고객지원 페이지 이동(비로그인)</div></div>
+                    <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0006</div><div class="log-desc">로그인(퓨어계정)</div></div>
+                    <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0007</div><div class="log-desc">배송현황 페이지 확인</div></div>
+                    <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0008</div><div class="log-desc">최근신청 내역 미제공 체크</div></div>
+                    <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0009</div><div class="log-desc">최근신청 내역 > 해외배송 신청하기</div></div>
+                    <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0010</div><div class="log-desc">주소록 관리 > 팝업 내 주소 내역 미제공</div></div>
+                    <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0011</div><div class="log-desc">주소록 > 새로운 주소 추가 시 화면 변경</div></div>
+                    <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0012</div><div class="log-desc">로그아웃 수행</div></div>
+                    <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0013</div><div class="log-desc">메인페이지 > 해외배송 신청하기 랜딩 확인</div></div>
+                    <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0014</div><div class="log-desc">배송조회 Tracking 신규 새 창 랜딩 확인</div></div>
+                    <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0015</div><div class="log-desc">메인 배너 UI 노출 확인</div></div>
+                    <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0016</div><div class="log-desc">챗봇 펼치기 > 닫기 확인</div></div>
+                    <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0017</div><div class="log-desc">화면 최하단까지 스크롤(UI체크)</div></div>
+                    <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0018</div><div class="log-desc">비즈니스 고객 [서비스 이용하기] 랜딩</div></div>
+                    <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0019</div><div class="log-desc">푸터영역 SNS 랜딩 확인</div></div>
+                    <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0020</div><div class="log-desc">푸터영역 약관 팝업 노출 확인</div></div>
+                </div>
+            </div>
+        </div>
 
-      <div class="result-box">
-        <p><span class="id-label">ID_0003</span><strong>배송신청 페이지 이동</strong></p>
-        <p class="desc"><strong>요약:</strong> 메인 > 배송신청 메뉴 클릭 (비로그인)</p>
-        <p class="desc"><strong>기대결과:</strong> 배송신청 메인 페이지로 이동 확인</p>
-      </div>
+        <div id="session-b" class="session-container">
+            <div class="session-header">
+                <div class="session-title">Session B – 배송신청 및 현황 프로세스</div>
+                <span class="badge">Passed</span>
+            </div>
+            <div class="session-body">
+                <div class="video-box">
+                    <video controls poster="https://placehold.co/600x340/png?text=Session+B+Recording">
+                        <source src="videos/SessionB.webm" type="video/webm">
+                    </video>
+                </div>
+                <div class="log-list">
+                    <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0021</div><div class="log-desc">메인 진입 및 팝업 처리</div></div>
+                    <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0022</div><div class="log-desc">배송신청 페이지 진입 및 해외배송 선택</div></div>
+                    <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0023</div><div class="log-desc">주소입력 후 단계 진행</div></div>
+                    <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0024</div><div class="log-desc">배송신청 완료</div></div>
+                    <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0025</div><div class="log-desc">배송현황 상세보기 진입</div></div>
+                    <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0026</div><div class="log-desc">상세페이지 스크롤</div></div>
+                    <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0027</div><div class="log-desc">배송신청 : 구매대행</div></div>
+                </div>
+            </div>
+        </div>
 
-      <div class="result-box">
-        <p><span class="id-label">ID_0004</span><strong>배송현황 페이지 이동</strong></p>
-        <p class="desc"><strong>요약:</strong> 비로그인 상태에서 배송현황 접근 시도</p>
-        <p class="desc"><strong>기대결과:</strong> 로그인 페이지로 리다이렉트 확인</p>
-      </div>
+    </main>
 
-      <div class="result-box">
-        <p><span class="id-label">ID_0005</span><strong>고객지원 페이지 이동</strong></p>
-        <p class="desc"><strong>요약:</strong> 메인 > 고객지원 이동</p>
-        <p class="desc"><strong>기대결과:</strong> 고객지원 페이지 정상 노출 확인</p>
-      </div>
-
-      <div class="result-box">
-        <p><span class="id-label">ID_0006</span><strong>로그인 (퓨어계정)</strong></p>
-        <p class="desc"><strong>요약:</strong> 이력 없는 계정으로 로그인</p>
-        <p class="desc"><strong>기대결과:</strong> 로그인 성공 및 메인 페이지 이동</p>
-      </div>
-
-      <div class="result-box">
-        <p><span class="id-label">ID_0007</span><strong>배송현황 페이지 확인</strong></p>
-        <p class="desc"><strong>요약:</strong> 이력 없는 계정으로 배송현황 진입</p>
-        <p class="desc"><strong>기대결과:</strong> '해외배송 신청하기' 버튼 등 빈 상태 UI 노출 확인</p>
-      </div>
-
-      <div class="result-box">
-        <p><span class="id-label">ID_0008</span><strong>최근신청 내역 미제공 체크</strong></p>
-        <p class="desc"><strong>요약:</strong> 마이페이지 > 최근신청 내역 확인</p>
-        <p class="desc"><strong>기대결과:</strong> 데이터 없음 상태 UI 노출 확인</p>
-      </div>
-
-      <div class="result-box">
-        <p><span class="id-label">ID_0009</span><strong>최근신청 내역 > 해외배송 신청하기</strong></p>
-        <p class="desc"><strong>요약:</strong> 빈 화면에서 신청하기 버튼 동작 확인</p>
-        <p class="desc"><strong>기대결과:</strong> 배송신청 메인으로 이동 확인</p>
-      </div>
-
-      <div class="result-box">
-        <p><span class="id-label">ID_0010</span><strong>주소록 관리 > 팝업 내역 미제공</strong></p>
-        <p class="desc"><strong>요약:</strong> 주소록 팝업 호출 시 빈 상태 확인</p>
-        <p class="desc"><strong>기대결과:</strong> '저장된 주소 내역이 없습니다' 문구 확인</p>
-      </div>
-
-      <div class="result-box">
-        <p><span class="id-label">ID_0011</span><strong>주소록 > 새로운 주소 추가 화면</strong></p>
-        <p class="desc"><strong>요약:</strong> 주소 추가 버튼 클릭 및 모달 확인</p>
-        <p class="desc"><strong>기대결과:</strong> 보내는/받는 사람 주소 추가 모달 노출 및 닫기 확인</p>
-      </div>
-
-      <div class="result-box">
-        <p><span class="id-label">ID_0012</span><strong>로그아웃 수행</strong></p>
-        <p class="desc"><strong>요약:</strong> 마이페이지 > 로그아웃 버튼 클릭</p>
-        <p class="desc"><strong>기대결과:</strong> 로그아웃 후 메인 페이지로 이동</p>
-      </div>
-
-      <div class="result-box">
-        <p><span class="id-label">ID_0013</span><strong>해외배송 신청하기 랜딩 확인</strong></p>
-        <p class="desc"><strong>요약:</strong> 메인 배너/버튼을 통한 신청 페이지 랜딩</p>
-        <p class="desc"><strong>기대결과:</strong> 배송신청 페이지 정상 진입 확인</p>
-      </div>
-
-      <div class="result-box">
-        <p><span class="id-label">ID_0014</span><strong>배송조회 Tracking 신규 새 창</strong></p>
-        <p class="desc"><strong>요약:</strong> 메인 배송조회 입력 후 검색</p>
-        <p class="desc"><strong>기대결과:</strong> 트래킹 페이지가 새 탭으로 열리는지 확인</p>
-      </div>
-
-      <div class="result-box">
-        <p><span class="id-label">ID_0015</span><strong>메인 배너 UI 노출 확인</strong></p>
-        <p class="desc"><strong>요약:</strong> 메인 프로모션 배너 가시성 체크</p>
-        <p class="desc"><strong>기대결과:</strong> 배너 영역 정상 렌더링 확인</p>
-      </div>
-
-      <div class="result-box">
-        <p><span class="id-label">ID_0016</span><strong>챗봇 펼치기/닫기</strong></p>
-        <p class="desc"><strong>요약:</strong> 챗봇 아이콘 클릭 및 닫기 동작</p>
-        <p class="desc"><strong>기대결과:</strong> 아이프레임 내 닫기/확인 버튼 동작 확인</p>
-      </div>
-
-      <div class="result-box">
-        <p><span class="id-label">ID_0017</span><strong>화면 최하단 스크롤 (Footer)</strong></p>
-        <p class="desc"><strong>요약:</strong> 푸터 영역까지 스크롤 이동</p>
-        <p class="desc"><strong>기대결과:</strong> Footer 영역 정상 노출 확인</p>
-      </div>
-
-      <div class="result-box">
-        <p><span class="id-label">ID_0018</span><strong>비즈니스 [서비스 이용하기] 랜딩</strong></p>
-        <p class="desc"><strong>요약:</strong> 원배송(One-Express) 사이트 랜딩 체크</p>
-        <p class="desc"><strong>기대결과:</strong> 새 탭에서 원배송 사이트 열림 확인</p>
-      </div>
-
-      <div class="result-box">
-        <p><span class="id-label">ID_0019</span><strong>푸터영역 SNS 랜딩 확인</strong></p>
-        <p class="desc"><strong>요약:</strong> 인스타그램/블로그 아이콘 클릭</p>
-        <p class="desc"><strong>기대결과:</strong> 각 SNS 페이지 새 탭 랜딩 확인</p>
-      </div>
-
-      <div class="result-box">
-        <p><span class="id-label">ID_0020</span><strong>푸터영역 약관 팝업 노출</strong></p>
-        <p class="desc"><strong>요약:</strong> 이용약관, 개인정보처리방침 등 팝업 호출</p>
-        <p class="desc"><strong>기대결과:</strong> 각 약관 팝업 노출 및 닫기 정상 동작 확인</p>
-      </div>
-    </div>
-
-    <div class="report-section">
-      <h2>Session B – 배송신청 및 현황 프로세스 (ID_0021 ~ ID_0027)</h2>
-
-      <video controls>
-        <source src="videos/SessionB.webm" type="video/webm">
-      </video>
-
-      <div class="result-box">
-        <p><span class="id-label">ID_0021</span><strong>메인 진입 및 로그인 (테스트 계정)</strong></p>
-        <p class="desc"><strong>요약:</strong> 팝업 처리 및 B계정 로그인 수행</p>
-        <p class="desc"><strong>기대결과:</strong> 로그인 성공 및 메인 진입</p>
-      </div>
-
-      <div class="result-box">
-        <p><span class="id-label">ID_0022</span><strong>배송신청 페이지 진입 및 해외배송 선택</strong></p>
-        <p class="desc"><strong>요약:</strong> 배송신청 > 해외배송 선택 및 임시저장 팝업 처리</p>
-        <p class="desc"><strong>기대결과:</strong> 신청서 작성 화면으로 정상 진입</p>
-      </div>
-
-      <div class="result-box">
-        <p><span class="id-label">ID_0023</span><strong>주소입력 후 단계 진행</strong></p>
-        <p class="desc"><strong>요약:</strong> 주소록 선택 및 다음 단계(물품, 옵션) 진행</p>
-        <p class="desc"><strong>기대결과:</strong> 금지물품 팝업 처리 및 각 단계 이동 확인</p>
-      </div>
-
-      <div class="result-box">
-        <p><span class="id-label">ID_0024</span><strong>배송신청 완료</strong></p>
-        <p class="desc"><strong>요약:</strong> 약관 동의 및 신청 완료 처리</p>
-        <p class="desc"><strong>기대결과:</strong> 완료 페이지 URL 및 '신청완료' 메시지 확인</p>
-      </div>
-
-      <div class="result-box">
-        <p><span class="id-label">ID_0025</span><strong>배송현황 상세보기 진입</strong></p>
-        <p class="desc"><strong>요약:</strong> 현황 리스트에서 첫 번째 항목 상세 진입</p>
-        <p class="desc"><strong>기대결과:</strong> 배송현황 상세 페이지 정보 노출 확인</p>
-      </div>
-
-      <div class="result-box">
-        <p><span class="id-label">ID_0026</span><strong>상세페이지 스크롤</strong></p>
-        <p class="desc"><strong>요약:</strong> 상세 내역 전체 스크롤 확인</p>
-        <p class="desc"><strong>기대결과:</strong> 화면 깨짐 없이 최하단 스크롤 동작 확인</p>
-      </div>
-
-      <div class="result-box">
-        <p><span class="id-label">ID_0027</span><strong>배송신청 : 구매대행</strong></p>
-        <p class="desc"><strong>요약:</strong> 구매대행 메뉴 선택 및 랜딩 확인</p>
-        <p class="desc"><strong>기대결과:</strong> forms.app 외부 신청 페이지가 새 탭으로 열림 확인</p>
-      </div>
-    </div>
-
-  </div>
-
-  <footer>© 2025 쉽배송 자동화 PoC 결과 리포트</footer>
-
-  <script>
-    const now = new Date();
-    const formatted =
-      now.getFullYear() + '-' +
-      String(now.getMonth() + 1).padStart(2, '0') + '-' +
-      String(now.getDate()).padStart(2, '0') + ' ' +
-      String(now.getHours()).padStart(2, '0') + ':' +
-      String(now.getMinutes()).padStart(2, '0') + ':' +
-      String(now.getSeconds()).padStart(2, '0');
-
-    const el = document.getElementById('run-time');
-    if (el) el.textContent = '실행 일시: ' + formatted;
-  </script>
+    <script>
+        const now = new Date();
+        const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+        document.getElementById('run-time').textContent = "Last Run: " + now.toLocaleDateString('ko-KR', options);
+    </script>
 </body>
 
 </html>
