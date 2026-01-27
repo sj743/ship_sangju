@@ -19,6 +19,7 @@
             --success: #10B981;
             --danger: #EF4444;
             --border: #E5E7EB;
+            --hover-bg: #F9FAFB;
         }
 
         * { box-sizing: border-box; }
@@ -75,13 +76,11 @@
             color: white;
         }
         
-        /* 실패 내역 메뉴 강조 */
         .menu-item.fail-menu:hover, .menu-item.fail-menu.active {
             background-color: rgba(239, 68, 68, 0.2);
             color: #FCA5A5;
         }
 
-        /* 메뉴 뱃지 */
         .menu-badge {
             background: #EF4444;
             color: white;
@@ -107,7 +106,6 @@
             padding: 30px;
         }
 
-        /* 화면 전환용 스타일 */
         .view-section { display: none; }
         .view-section.active { display: block; animation: fadeIn 0.3s; }
 
@@ -126,7 +124,6 @@
         h1 { margin: 0; font-size: 1.5rem; font-weight: 700; }
         .last-updated { color: var(--text-sub); font-size: 0.9rem; margin-top: 5px; }
         
-        /* 다운로드 버튼 스타일 */
         .btn-primary {
             background: var(--primary-color);
             color: white;
@@ -137,11 +134,9 @@
             cursor: pointer;
             font-family: inherit;
         }
-        .btn-primary:hover {
-            opacity: 0.9;
-        }
+        .btn-primary:hover { opacity: 0.9; }
 
-        /* === Stats Cards (통계 카드) === */
+        /* === Stats Cards === */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -163,29 +158,85 @@
         .stat-value.pass { color: var(--success); }
         .stat-value.fail { color: var(--danger); }
 
-        /* === List Table Style (개요 리스트) === */
-        .table-title {
-            margin-bottom: 15px;
-            color: #374151;
-            font-size: 1.1rem;
-            font-weight: 700;
+        /* === Accordion List Style (날짜별 리스트) === */
+        .accordion-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
         }
 
-        .table-container {
+        .accordion-item {
             background: var(--card-bg);
             border-radius: 12px;
             border: 1px solid var(--border);
             overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .accordion-header {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            background: #F9FAFB;
+            cursor: pointer;
+            user-select: none;
+            border-bottom: 1px solid transparent;
         }
         
+        .accordion-item.active .accordion-header {
+            border-bottom: 1px solid var(--border);
+        }
+
+        .checkbox-wrapper {
+            display: flex;
+            align-items: center;
+            margin-right: 15px;
+            cursor: default; /* 체크박스 클릭 시 아코디언 토글 방지용 */
+        }
+
+        .date-title {
+            font-weight: 600;
+            color: #374151;
+            font-size: 1rem;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .toggle-icon {
+            color: var(--text-sub);
+            transition: transform 0.3s;
+        }
+
+        .accordion-item.active .toggle-icon {
+            transform: rotate(180deg);
+        }
+
+        .accordion-content {
+            display: none; /* 기본 숨김 */
+            padding: 0;
+        }
+
+        .accordion-item.active .accordion-content {
+            display: block; /* 활성화 시 보임 */
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 테이블 스타일 */
         table { width: 100%; border-collapse: collapse; text-align: left; }
-        th { background: #F9FAFB; padding: 15px 20px; font-weight: 600; color: #4B5563; border-bottom: 1px solid var(--border); }
-        td { padding: 15px 20px; border-bottom: 1px solid #F3F4F6; color: #374151; font-size: 0.95rem; }
+        th { background: #F9FAFB; padding: 12px 20px; font-weight: 600; color: #4B5563; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+        td { padding: 12px 20px; border-bottom: 1px solid #F3F4F6; color: #374151; font-size: 0.9rem; }
         tr:last-child td { border-bottom: none; }
         
         .status-badge {
             display: inline-block;
-            padding: 4px 10px;
+            padding: 3px 8px;
             border-radius: 20px;
             font-size: 0.75rem;
             font-weight: 600;
@@ -193,82 +244,29 @@
         .status-badge.pass { background: #D1FAE5; color: #065F46; }
         .status-badge.fail { background: #FEE2E2; color: #991B1B; }
 
-        /* === Session Containers (영상+로그) === */
+        /* === Session & Failures Styles === */
         .session-container {
-            background: var(--card-bg);
-            border-radius: 12px;
-            border: 1px solid var(--border);
-            margin-bottom: 30px;
-            overflow: hidden;
+            background: var(--card-bg); border-radius: 12px; border: 1px solid var(--border); margin-bottom: 30px; overflow: hidden;
         }
-
-        .session-header {
-            padding: 20px;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: #F9FAFB;
-        }
-
+        .session-header { padding: 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; background: #F9FAFB; }
         .session-title { font-weight: 600; font-size: 1.1rem; }
         .session-status-text { font-size: 0.9rem; }
-
         .session-body { display: flex; padding: 20px; gap: 30px; }
-
         .video-box { flex: 1; }
-        video {
-            width: 100%;
-            border-radius: 8px;
-            border: 1px solid #E5E7EB;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        }
-
-        .log-list {
-            flex: 1;
-            max-height: 450px;
-            overflow-y: auto;
-            padding-right: 10px;
-        }
-
+        video { width: 100%; border-radius: 8px; border: 1px solid #E5E7EB; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+        .log-list { flex: 1; max-height: 450px; overflow-y: auto; padding-right: 10px; }
         .log-item { display: flex; gap: 15px; padding: 12px 0; border-bottom: 1px solid #F3F4F6; }
         .log-id { font-family: monospace; color: var(--primary-color); font-weight: 600; min-width: 60px; }
         .log-desc { color: var(--text-main); font-size: 0.95rem; }
         .status-dot { width: 8px; height: 8px; background-color: var(--success); border-radius: 50%; margin-top: 6px; }
 
-        /* === Failures View Styles === */
-        .demo-alert {
-            background: #FEF2F2;
-            color: #991B1B;
-            padding: 10px 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            font-size: 0.9rem;
-            border: 1px solid #FECACA;
-        }
-
-        .fail-card {
-            background: white; border: 1px solid #FECACA; border-radius: 12px; margin-bottom: 20px; overflow: hidden;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-        }
+        .demo-alert { background: #FEF2F2; color: #991B1B; padding: 10px 15px; border-radius: 8px; margin-bottom: 20px; font-size: 0.9rem; border: 1px solid #FECACA; }
+        .fail-card { background: white; border: 1px solid #FECACA; border-radius: 12px; margin-bottom: 20px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); }
         .fail-header { background: #FEF2F2; padding: 15px 20px; border-bottom: 1px solid #FECACA; display: flex; align-items: center; gap: 15px; }
         .fail-tag { background: #EF4444; color: white; padding: 4px 12px; border-radius: 6px; font-weight: bold; font-size: 0.85rem; }
         .fail-title { font-weight: 600; color: #991B1B; font-size: 1.1rem; }
         .fail-body { padding: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        
-        .error-log-box { 
-            background: #1F2937; 
-            color: #F87171; 
-            padding: 15px; 
-            border-radius: 8px; 
-            font-family: monospace; 
-            font-size: 0.9rem; 
-            line-height: 1.5; 
-            height: 300px; 
-            overflow-y: auto;
-            white-space: pre-wrap; /* 줄바꿈 유지 */
-        }
-        
+        .error-log-box { background: #1F2937; color: #F87171; padding: 15px; border-radius: 8px; font-family: monospace; font-size: 0.9rem; line-height: 1.5; height: 300px; overflow-y: auto; white-space: pre-wrap; }
         .screenshot-box { border: 1px solid #E5E7EB; border-radius: 8px; overflow: hidden; height: 300px; background: #000; display: flex; align-items: center; justify-content: center; }
         .screenshot-box img { width: 100%; height: 100%; object-fit: contain; }
 
@@ -276,17 +274,19 @@
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-thumb { background: #D1D5DB; border-radius: 4px; }
 
-        /* Print Style (PDF 저장용) */
+        /* Print Style */
         @media print {
             aside, button, #btn-config { display: none !important; }
             body { height: auto; overflow: visible; background-color: white; display: block; }
             main { padding: 0; overflow: visible; }
             .view-section { display: block !important; margin-bottom: 30px; }
             
-            /* 인쇄 시 탭 내용 순차 표시 */
-            #view-overview, #view-session-a, #view-session-b { display: block !important; page-break-after: always; }
+            /* 인쇄 시 Accordion 모두 펼쳐서 출력 */
+            .accordion-content { display: block !important; }
+            .accordion-header { border-bottom: 1px solid #ccc !important; }
             
-            .video-box { display: none; } /* 영상 숨김 */
+            #view-overview, #view-session-a, #view-session-b { display: block !important; page-break-after: always; }
+            .video-box { display: none; }
             .log-list { max-height: none !important; }
         }
     </style>
@@ -300,22 +300,18 @@
         </div>
 
         <div class="menu-category">대시보드</div>
-        
         <div class="menu-item active" id="nav-overview">
-            <span class="material-icons-round">dashboard</span>
-            통합 개요
+            <span class="material-icons-round">list_alt</span>
+            테스트 수행 목록
         </div>
-        
         <div class="menu-item" id="nav-session-a">
             <span class="material-icons-round">play_circle</span>
             세션 A (퓨어계정)
         </div>
-
         <div class="menu-item" id="nav-session-b">
             <span class="material-icons-round">play_circle</span>
             세션 B (배송신청)
         </div>
-        
         <div class="menu-item fail-menu" id="nav-failures">
             <span class="material-icons-round">bug_report</span>
             실패 내역
@@ -332,28 +328,29 @@
     <main>
         <header>
             <div>
-                <h1 id="page-title">통합 개요</h1>
+                <h1 id="page-title">테스트 수행 목록</h1>
                 <div class="last-updated" id="run-time">최종 실행: 업데이트 대기중...</div>
             </div>
             <div>
                 <button id="btn-download" class="btn-primary">
-                    리포트 다운로드
+                    선택 리포트 다운로드
                 </button>
             </div>
         </header>
 
         <div id="view-overview" class="view-section active">
+            
             <div class="stats-grid">
                 <div class="stat-card">
-                    <span class="stat-label">총 테스트</span>
+                    <span class="stat-label">총 테스트 (Today)</span>
                     <span class="stat-value">27</span>
                 </div>
                 <div class="stat-card">
-                    <span class="stat-label">성공 (Passed)</span>
+                    <span class="stat-label">성공</span>
                     <span class="stat-value pass">27</span>
                 </div>
                 <div class="stat-card">
-                    <span class="stat-label">실패 (Failed)</span>
+                    <span class="stat-label">실패</span>
                     <span class="stat-value fail">0</span>
                 </div>
                 <div class="stat-card">
@@ -362,48 +359,103 @@
                 </div>
             </div>
 
-            <h3 class="table-title">금일 수행된 테스트 목록</h3>
-            <div class="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th width="15%">테스트 ID</th>
-                            <th width="40%">테스트 항목명</th>
-                            <th width="20%">세션 구분</th>
-                            <th width="15%">상태</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>ID_0001</td><td>메인 진입 및 팝업 처리</td><td>Session A</td><td><span class="status-badge pass">성공</span></td></tr>
-                        <tr><td>ID_0002</td><td>이용안내 페이지 이동</td><td>Session A</td><td><span class="status-badge pass">성공</span></td></tr>
-                        <tr><td>ID_0003</td><td>배송신청 페이지 이동</td><td>Session A</td><td><span class="status-badge pass">성공</span></td></tr>
-                        <tr><td>ID_0004</td><td>배송현황 페이지 이동 (비로그인)</td><td>Session A</td><td><span class="status-badge pass">성공</span></td></tr>
-                        <tr><td>ID_0005</td><td>고객지원 페이지 이동</td><td>Session A</td><td><span class="status-badge pass">성공</span></td></tr>
-                        <tr><td>ID_0006</td><td>로그인 (퓨어계정)</td><td>Session A</td><td><span class="status-badge pass">성공</span></td></tr>
-                        <tr><td>ID_0007</td><td>배송현황 페이지 확인</td><td>Session A</td><td><span class="status-badge pass">성공</span></td></tr>
-                        <tr><td>ID_0008</td><td>최근신청 내역 미제공 체크</td><td>Session A</td><td><span class="status-badge pass">성공</span></td></tr>
-                        <tr><td>ID_0009</td><td>최근신청 내역 > 해외배송 신청하기</td><td>Session A</td><td><span class="status-badge pass">성공</span></td></tr>
-                        <tr><td>ID_0010</td><td>주소록 관리 > 팝업 내역 미제공</td><td>Session A</td><td><span class="status-badge pass">성공</span></td></tr>
-                        <tr><td>ID_0011</td><td>주소록 > 새로운 주소 추가 화면</td><td>Session A</td><td><span class="status-badge pass">성공</span></td></tr>
-                        <tr><td>ID_0012</td><td>로그아웃 수행</td><td>Session A</td><td><span class="status-badge pass">성공</span></td></tr>
-                        <tr><td>ID_0013</td><td>해외배송 신청하기 랜딩 확인</td><td>Session A</td><td><span class="status-badge pass">성공</span></td></tr>
-                        <tr><td>ID_0014</td><td>배송조회 Tracking 신규 새 창</td><td>Session A</td><td><span class="status-badge pass">성공</span></td></tr>
-                        <tr><td>ID_0015</td><td>메인 배너 UI 노출 확인</td><td>Session A</td><td><span class="status-badge pass">성공</span></td></tr>
-                        <tr><td>ID_0016</td><td>챗봇 펼치기/닫기 확인</td><td>Session A</td><td><span class="status-badge pass">성공</span></td></tr>
-                        <tr><td>ID_0017</td><td>화면 최하단 스크롤 (Footer)</td><td>Session A</td><td><span class="status-badge pass">성공</span></td></tr>
-                        <tr><td>ID_0018</td><td>비즈니스 [서비스 이용하기] 랜딩</td><td>Session A</td><td><span class="status-badge pass">성공</span></td></tr>
-                        <tr><td>ID_0019</td><td>푸터영역 SNS 랜딩 확인</td><td>Session A</td><td><span class="status-badge pass">성공</span></td></tr>
-                        <tr><td>ID_0020</td><td>푸터영역 약관 팝업 노출</td><td>Session A</td><td><span class="status-badge pass">성공</span></td></tr>
-                        
-                        <tr><td>ID_0021</td><td>메인 진입 및 로그인 (테스트 계정)</td><td>Session B</td><td><span class="status-badge pass">성공</span></td></tr>
-                        <tr><td>ID_0022</td><td>배송신청 페이지 진입 및 해외배송</td><td>Session B</td><td><span class="status-badge pass">성공</span></td></tr>
-                        <tr><td>ID_0023</td><td>주소입력 후 단계 진행</td><td>Session B</td><td><span class="status-badge pass">성공</span></td></tr>
-                        <tr><td>ID_0024</td><td>배송신청 완료</td><td>Session B</td><td><span class="status-badge pass">성공</span></td></tr>
-                        <tr><td>ID_0025</td><td>배송현황 상세보기 진입</td><td>Session B</td><td><span class="status-badge pass">성공</span></td></tr>
-                        <tr><td>ID_0026</td><td>상세페이지 스크롤</td><td>Session B</td><td><span class="status-badge pass">성공</span></td></tr>
-                        <tr><td>ID_0027</td><td>배송신청 : 구매대행</td><td>Session B</td><td><span class="status-badge pass">성공</span></td></tr>
-                    </tbody>
-                </table>
+            <div class="accordion-container">
+                
+                <div class="accordion-item active" id="group-today">
+                    <div class="accordion-header" onclick="toggleAccordion('group-today')">
+                        <div class="checkbox-wrapper" onclick="event.stopPropagation()">
+                            <input type="checkbox" id="chk-today" checked>
+                        </div>
+                        <div class="date-title">
+                            2026.01.27 (Latest)
+                            <span class="status-badge pass" style="font-size:0.75rem; margin-left:10px;">Pass</span>
+                        </div>
+                        <span class="material-icons-round toggle-icon">expand_more</span>
+                    </div>
+                    <div class="accordion-content">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th width="15%">ID</th>
+                                    <th width="40%">테스트 항목명</th>
+                                    <th width="20%">세션</th>
+                                    <th width="15%">상태</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>ID_0001</td><td>메인 진입 및 팝업 처리</td><td>Session A</td><td><span class="status-badge pass">성공</span></td></tr>
+                                <tr><td>ID_0006</td><td>로그인 (퓨어계정)</td><td>Session A</td><td><span class="status-badge pass">성공</span></td></tr>
+                                <tr><td>ID_0009</td><td>최근신청 내역 > 해외배송 신청하기</td><td>Session A</td><td><span class="status-badge pass">성공</span></td></tr>
+                                <tr><td>ID_0012</td><td>로그아웃 수행</td><td>Session A</td><td><span class="status-badge pass">성공</span></td></tr>
+                                <tr><td>ID_0020</td><td>푸터영역 약관 팝업 노출</td><td>Session A</td><td><span class="status-badge pass">성공</span></td></tr>
+                                <tr><td>ID_0021</td><td>메인 진입 및 로그인 (테스트 계정)</td><td>Session B</td><td><span class="status-badge pass">성공</span></td></tr>
+                                <tr><td>ID_0022</td><td>배송신청 페이지 진입 및 해외배송</td><td>Session B</td><td><span class="status-badge pass">성공</span></td></tr>
+                                <tr><td>ID_0024</td><td>배송신청 완료</td><td>Session B</td><td><span class="status-badge pass">성공</span></td></tr>
+                                <tr><td>ID_0027</td><td>배송신청 : 구매대행</td><td>Session B</td><td><span class="status-badge pass">성공</span></td></tr>
+                                <tr><td colspan="4" style="text-align:center; color:#999; font-size:0.8rem;">... 전체 27개 항목 표시됨 ...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="accordion-item" id="group-prev1">
+                    <div class="accordion-header" onclick="toggleAccordion('group-prev1')">
+                        <div class="checkbox-wrapper" onclick="event.stopPropagation()">
+                            <input type="checkbox" id="chk-prev1">
+                        </div>
+                        <div class="date-title">
+                            2026.01.26
+                            <span class="status-badge fail" style="font-size:0.75rem; margin-left:10px;">Fail (1)</span>
+                        </div>
+                        <span class="material-icons-round toggle-icon">expand_more</span>
+                    </div>
+                    <div class="accordion-content">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th width="15%">ID</th>
+                                    <th width="40%">테스트 항목명</th>
+                                    <th width="20%">세션</th>
+                                    <th width="15%">상태</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>ID_0001</td><td>메인 진입 및 팝업 처리</td><td>Session A</td><td><span class="status-badge pass">성공</span></td></tr>
+                                <tr><td>ID_0024</td><td>배송신청 완료</td><td>Session B</td><td><span class="status-badge fail">실패</span></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="accordion-item" id="group-prev2">
+                    <div class="accordion-header" onclick="toggleAccordion('group-prev2')">
+                        <div class="checkbox-wrapper" onclick="event.stopPropagation()">
+                            <input type="checkbox" id="chk-prev2">
+                        </div>
+                        <div class="date-title">
+                            2026.01.25
+                            <span class="status-badge pass" style="font-size:0.75rem; margin-left:10px;">Pass</span>
+                        </div>
+                        <span class="material-icons-round toggle-icon">expand_more</span>
+                    </div>
+                    <div class="accordion-content">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th width="15%">ID</th>
+                                    <th width="40%">테스트 항목명</th>
+                                    <th width="20%">세션</th>
+                                    <th width="15%">상태</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>ID_0001</td><td>메인 진입 및 팝업 처리</td><td>Session A</td><td><span class="status-badge pass">성공</span></td></tr>
+                                <tr><td>ID_0002</td><td>이용안내 페이지 이동</td><td>Session A</td><td><span class="status-badge pass">성공</span></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
             </div>
         </div>
 
@@ -503,23 +555,48 @@ Call log:
                     </div>
                 </div>
             </div>
-
         </div>
 
     </main>
 
     <script>
-        // 1. 리포트 다운로드 (PDF 저장)
+        // 1. 아코디언 토글 기능
+        function toggleAccordion(id) {
+            const item = document.getElementById(id);
+            if (item.classList.contains('active')) {
+                item.classList.remove('active');
+            } else {
+                item.classList.add('active');
+            }
+        }
+
+        // 2. 리포트 선택 다운로드 (체크박스 확인 로직)
         document.getElementById('btn-download').addEventListener('click', function() {
-            window.print();
+            const chkToday = document.getElementById('chk-today').checked;
+            const chkPrev1 = document.getElementById('chk-prev1').checked;
+            const chkPrev2 = document.getElementById('chk-prev2').checked;
+
+            if (!chkToday && !chkPrev1 && !chkPrev2) {
+                alert("⚠️ 다운로드할 리포트를 하나 이상 선택해주세요.");
+                return;
+            }
+
+            if (chkPrev1 || chkPrev2) {
+                alert("ℹ️ [Demo 알림]\n과거 날짜의 리포트 파일은 현재 데모 서버에 존재하지 않습니다.\n오늘 날짜(Latest)의 리포트만 다운로드(인쇄)를 진행합니다.");
+            }
+
+            // 실제로는 오늘 날짜 화면을 인쇄
+            if (chkToday) {
+                window.print();
+            }
         });
 
-        // 2. 환경 설정 버튼 (Mockup)
+        // 3. 환경 설정 버튼 (Mockup)
         document.getElementById('btn-config').addEventListener('click', function() {
             alert("🛠️ 환경 설정 정보\n\n- 대상 환경: Staging (shipbaesong.com)\n- 브라우저: Chromium (Headless)\n- 실행 도구: Playwright v1.40\n- 작성자: QA 자동화 팀");
         });
 
-        // 3. 탭 전환 로직 (SPA 방식)
+        // 4. 탭 전환 로직 (SPA 방식)
         const menus = {
             overview: document.getElementById('nav-overview'),
             sessionA: document.getElementById('nav-session-a'),
@@ -537,16 +614,13 @@ Call log:
         const pageTitle = document.getElementById('page-title');
 
         function switchTab(tabName) {
-            // 모든 active 클래스 제거
             Object.values(menus).forEach(el => el.classList.remove('active'));
             Object.values(views).forEach(el => el.classList.remove('active'));
 
-            // 선택된 탭 활성화
             menus[tabName].classList.add('active');
             views[tabName].classList.add('active');
 
-            // 타이틀 변경
-            if(tabName === 'overview') pageTitle.textContent = '통합 개요';
+            if(tabName === 'overview') pageTitle.textContent = '테스트 수행 목록';
             else if(tabName === 'sessionA') pageTitle.textContent = '세션 A 리포트';
             else if(tabName === 'sessionB') pageTitle.textContent = '세션 B 리포트';
             else if(tabName === 'failures') pageTitle.textContent = '실패 분석 리포트';
