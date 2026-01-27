@@ -81,6 +81,16 @@
             color: #FCA5A5;
         }
 
+        /* 메뉴 뱃지 */
+        .menu-badge {
+            background: #EF4444;
+            color: white;
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 10px;
+            margin-left: auto;
+        }
+
         .menu-category {
             font-size: 0.75rem;
             color: #6B7280;
@@ -115,6 +125,21 @@
 
         h1 { margin: 0; font-size: 1.5rem; font-weight: 700; }
         .last-updated { color: var(--text-sub); font-size: 0.9rem; margin-top: 5px; }
+        
+        /* 다운로드 버튼 스타일 */
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            font-family: inherit;
+        }
+        .btn-primary:hover {
+            opacity: 0.9;
+        }
 
         /* === Stats Cards (통계 카드) === */
         .stats-grid {
@@ -139,6 +164,13 @@
         .stat-value.fail { color: var(--danger); }
 
         /* === List Table Style (개요 리스트) === */
+        .table-title {
+            margin-bottom: 15px;
+            color: #374151;
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
         .table-container {
             background: var(--card-bg);
             border-radius: 12px;
@@ -180,6 +212,8 @@
         }
 
         .session-title { font-weight: 600; font-size: 1.1rem; }
+        .session-status-text { font-size: 0.9rem; }
+
         .session-body { display: flex; padding: 20px; gap: 30px; }
 
         .video-box { flex: 1; }
@@ -203,6 +237,16 @@
         .status-dot { width: 8px; height: 8px; background-color: var(--success); border-radius: 50%; margin-top: 6px; }
 
         /* === Failures View Styles === */
+        .demo-alert {
+            background: #FEF2F2;
+            color: #991B1B;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            border: 1px solid #FECACA;
+        }
+
         .fail-card {
             background: white; border: 1px solid #FECACA; border-radius: 12px; margin-bottom: 20px; overflow: hidden;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
@@ -211,7 +255,20 @@
         .fail-tag { background: #EF4444; color: white; padding: 4px 12px; border-radius: 6px; font-weight: bold; font-size: 0.85rem; }
         .fail-title { font-weight: 600; color: #991B1B; font-size: 1.1rem; }
         .fail-body { padding: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .error-log-box { background: #1F2937; color: #F87171; padding: 15px; border-radius: 8px; font-family: monospace; font-size: 0.9rem; line-height: 1.5; height: 300px; overflow-y: auto; }
+        
+        .error-log-box { 
+            background: #1F2937; 
+            color: #F87171; 
+            padding: 15px; 
+            border-radius: 8px; 
+            font-family: monospace; 
+            font-size: 0.9rem; 
+            line-height: 1.5; 
+            height: 300px; 
+            overflow-y: auto;
+            white-space: pre-wrap; /* 줄바꿈 유지 */
+        }
+        
         .screenshot-box { border: 1px solid #E5E7EB; border-radius: 8px; overflow: hidden; height: 300px; background: #000; display: flex; align-items: center; justify-content: center; }
         .screenshot-box img { width: 100%; height: 100%; object-fit: contain; }
 
@@ -262,7 +319,7 @@
         <div class="menu-item fail-menu" id="nav-failures">
             <span class="material-icons-round">bug_report</span>
             실패 내역
-            <span style="background:#EF4444; color:white; font-size:0.7rem; padding:2px 6px; border-radius:10px; margin-left:auto;">0</span>
+            <span class="menu-badge">0</span>
         </div>
 
         <div class="menu-category">설정</div>
@@ -279,7 +336,7 @@
                 <div class="last-updated" id="run-time">최종 실행: 업데이트 대기중...</div>
             </div>
             <div>
-                <button id="btn-download" style="background:var(--primary-color); color:white; border:none; padding:10px 20px; border-radius:6px; font-weight:500; cursor:pointer;">
+                <button id="btn-download" class="btn-primary">
                     리포트 다운로드
                 </button>
             </div>
@@ -305,7 +362,7 @@
                 </div>
             </div>
 
-            <h3 style="margin-bottom:15px; color:#374151;">금일 수행된 테스트 목록</h3>
+            <h3 class="table-title">금일 수행된 테스트 목록</h3>
             <div class="table-container">
                 <table>
                     <thead>
@@ -354,7 +411,7 @@
             <div class="session-container">
                 <div class="session-header">
                     <div class="session-title">세션 A - 퓨어계정 / 데이터 없음 검증</div>
-                    <span class="status-badge pass" style="font-size:0.9rem;">20개 항목 성공</span>
+                    <span class="status-badge pass session-status-text">20개 항목 성공</span>
                 </div>
                 <div class="session-body">
                     <div class="video-box">
@@ -392,7 +449,7 @@
             <div class="session-container">
                 <div class="session-header">
                     <div class="session-title">세션 B - 배송신청 및 현황 프로세스</div>
-                    <span class="status-badge pass" style="font-size:0.9rem;">7개 항목 성공</span>
+                    <span class="status-badge pass session-status-text">7개 항목 성공</span>
                 </div>
                 <div class="session-body">
                     <div class="video-box">
@@ -415,7 +472,7 @@
 
         <div id="view-failures" class="view-section">
             
-            <div style="background:#FEF2F2; color:#991B1B; padding:10px 15px; border-radius:8px; margin-bottom:20px; font-size:0.9rem; border:1px solid #FECACA;">
+            <div class="demo-alert">
                 💡 <strong>DEMO MODE:</strong> 현재 실패 건이 없으나, UI 확인을 위해 샘플 데이터를 표시합니다.
             </div>
 
@@ -434,7 +491,7 @@ Received: hidden
 
 Call log:
   - waiting for locator('button#btnPayment') to be visible
-  -   locator resolved to <button id="btnPayment" style="display:none;">...</button>
+  -   locator resolved to &lt;button id="btnPayment" style="display:none;"&gt;...&lt;/button&gt;
   -   unexpected value "hidden"
   -   ...
 
@@ -500,7 +557,7 @@ Call log:
         menus.sessionB.addEventListener('click', () => switchTab('sessionB'));
         menus.failures.addEventListener('click', () => switchTab('failures'));
 
-        // 참고: 시간 업데이트 로직은 insert-runtime.js에서 처리됨
+
     </script>
 </body>
 
