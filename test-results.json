@@ -83,7 +83,7 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 34488,
+                  "duration": 34175,
                   "errors": [],
                   "stdout": [
                     {
@@ -170,7 +170,7 @@
                   ],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-01-27T02:36:09.574Z",
+                  "startTime": "2026-01-27T05:22:25.778Z",
                   "annotations": [],
                   "attachments": [
                     {
@@ -186,12 +186,12 @@
                     {
                       "name": "video",
                       "contentType": "video/webm",
-                      "path": "/Users/leesangju/ship-test/test-results/ship_stg_poc-Session-A-–-퓨어계정-데이터-없음-상태-검증/video-1.webm"
+                      "path": "/Users/leesangju/ship-test/test-results/ship_stg_poc-Session-A-–-퓨어계정-데이터-없음-상태-검증/video-2.webm"
                     },
                     {
                       "name": "video",
                       "contentType": "video/webm",
-                      "path": "/Users/leesangju/ship-test/test-results/ship_stg_poc-Session-A-–-퓨어계정-데이터-없음-상태-검증/video-2.webm"
+                      "path": "/Users/leesangju/ship-test/test-results/ship_stg_poc-Session-A-–-퓨어계정-데이터-없음-상태-검증/video-1.webm"
                     },
                     {
                       "name": "video",
@@ -225,7 +225,7 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 36411,
+                  "duration": 36150,
                   "errors": [],
                   "stdout": [
                     {
@@ -247,10 +247,10 @@
                       "text": "ID_0021 | 메인 진입 및 팝업 처리\n"
                     },
                     {
-                      "text": "ID_0022 | 배송신청 페이지 진입 및 해외배송 선택\n"
+                      "text": "ID_0022 | 배송신청 : 해외배송\n"
                     },
                     {
-                      "text": "ID_0023 | 주소입력 후 단계 진행\n"
+                      "text": "ID_0023 | 기본주소록 선택 후 단계 진행\n"
                     },
                     {
                       "text": "ID_0024 | 배송신청 완료\n"
@@ -276,7 +276,17 @@
                   ],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-01-27T02:36:44.983Z",
+                  "steps": [
+                    {
+                      "title": "ID_0022 | 배송신청 : 해외배송",
+                      "duration": 4261
+                    },
+                    {
+                      "title": "ID_0023 | 기본주소록 선택 후 단계 진행",
+                      "duration": 12338
+                    }
+                  ],
+                  "startTime": "2026-01-27T05:23:00.792Z",
                   "annotations": [],
                   "attachments": [
                     {
@@ -305,8 +315,8 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-01-27T02:36:09.207Z",
-    "duration": 72273.255,
+    "startTime": "2026-01-27T05:22:25.350Z",
+    "duration": 71704.598,
     "expected": 2,
     "skipped": 0,
     "unexpected": 0,
