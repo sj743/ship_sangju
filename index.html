@@ -39,7 +39,6 @@
             z-index: 50; 
         }
         
-        /* [수정] 브랜드 로고: 아이콘 제거하고 텍스트만 배치 */
         .brand { 
             font-size: 1.4rem; 
             font-weight: 800; 
@@ -47,8 +46,8 @@
             align-items: center; 
             margin-bottom: 40px; 
             color: #fff; 
-            padding-left: 10px; /* 왼쪽 여백 살짝 추가 */
-            letter-spacing: -0.5px; /* 자간 조정 */
+            padding-left: 10px; 
+            letter-spacing: -0.5px; 
         }
 
         .menu-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 8px; color: #9CA3AF; font-weight: 500; text-decoration: none; margin-bottom: 5px; transition: all 0.2s; cursor: pointer; font-size: 0.95rem; }
@@ -125,6 +124,7 @@
         .status-badge { display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; }
         .status-badge.pass { background: #D1FAE5; color: #065F46; }
         .status-badge.fail { background: #FEE2E2; color: #991B1B; }
+        .status-badge.na { background: #E5E7EB; color: #6B7280; } /* 회색 */
 
         /* Overview Table */
         table { width: 100%; border-collapse: collapse; text-align: left; table-layout: fixed; }
@@ -135,7 +135,7 @@
 
         /* Layouts */
         .session-body { display: flex; padding: 0; gap: 0; }
-        .video-box { flex: 0 0 45%; padding: 20px; border-right: 1px solid #E5E7EB; }
+        .video-box { flex: 0 0 45%; padding: 20px; border-right: 1px solid #E5E7EB; background:#f9fafb; display:flex; align-items:center; justify-content:center;}
         video { width: 100%; border-radius: 8px; border: 1px solid #E5E7EB; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
         .log-table-wrapper { flex: 1; max-height: 600px; overflow-y: auto; }
 
@@ -147,10 +147,8 @@
         .fail-header { background: #FEF2F2; padding: 15px 20px; border-bottom: 1px solid #FECACA; display: flex; align-items: center; gap: 15px; }
         .fail-tag { background: #EF4444; color: white; padding: 4px 12px; border-radius: 6px; font-weight: bold; font-size: 0.85rem; }
         .fail-title { font-weight: 600; color: #991B1B; font-size: 1.1rem; }
-        .fail-body { padding: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .error-log-box { background: #1F2937; color: #F87171; padding: 15px; border-radius: 8px; font-family: monospace; font-size: 0.9rem; line-height: 1.5; height: 300px; overflow-y: auto; white-space: pre-wrap; }
-        .screenshot-box { border: 1px solid #E5E7EB; border-radius: 8px; overflow: hidden; height: 300px; background: #000; display: flex; align-items: center; justify-content: center; }
-        .screenshot-box img { width: 100%; height: 100%; object-fit: contain; }
+        .fail-body { padding: 20px; display: grid; grid-template-columns: 1fr; gap: 20px; }
+        .error-log-box { background: #1F2937; color: #F87171; padding: 15px; border-radius: 8px; font-family: monospace; font-size: 0.9rem; line-height: 1.5; height: auto; white-space: pre-wrap; }
 
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; }
         .modal-overlay.open { display: flex; }
@@ -179,32 +177,8 @@
             .session-body { flex-direction: column; padding: 0; }
             .video-box { width: 100%; border-right: none; border-bottom: 1px solid #E5E7EB; }
             .log-table-wrapper { max-height: none; overflow: visible; border: none; }
-            
             .item-info { flex-wrap: wrap; gap: 5px; }
-            .item-id { font-size: 0.9rem; }
-            .item-title { font-size: 0.95rem; }
-            
-            table, thead, tbody, th, td, tr { display: block; }
-            thead { display: none; }
-            tr { margin-bottom: 15px; background: #fff; border: 1px solid #E5E7EB; border-radius: 8px; padding: 12px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
-            td { padding: 5px 0; border: none; position: relative; }
-            td:nth-child(1) { font-weight: bold; color: var(--primary-color); border-bottom: 1px solid #f3f3f3; margin-bottom: 5px; padding-bottom: 5px; display:inline-block; }
-            td:last-child { float: right; }
-            .fail-body { grid-template-columns: 1fr; }
             .modal-box { width: 90%; }
-        }
-
-        @media print {
-            aside, button, #btn-config, #btn-menu-toggle { display: none !important; }
-            body { height: auto; overflow: visible; background-color: white; display: block; }
-            main { padding: 0; overflow: visible; }
-            .view-section { display: block !important; margin-bottom: 30px; }
-            .accordion-content { display: block !important; }
-            .accordion-header { border-bottom: 1px solid #ccc !important; }
-            .print-hidden { display: none !important; }
-            .video-box { display: none; }
-            .log-table-wrapper { max-height: none !important; border: none; }
-            .session-item { border-bottom: 1px solid #ccc !important; page-break-inside: avoid; }
         }
     </style>
 </head>
@@ -213,7 +187,6 @@
 
     <aside id="sidebar">
         <div class="brand">
-
             쉽배송 자동화 QA
         </div>
         
@@ -235,7 +208,7 @@
                     <div class="last-updated" id="run-time">기록을 불러오는 중...</div>
                 </div>
             </div>
-            <div><button id="btn-download" class="btn-primary">리포트 다운로드</button></div>
+            <div><button id="btn-download" class="btn-primary" onclick="location.reload()">새로고침</button></div>
         </header>
 
         <div id="view-overview" class="view-section active">
@@ -243,7 +216,7 @@
                 <div class="stat-card"><span class="stat-label">테스트 항목 (Latest)</span><span class="stat-value" id="stat-total">-</span></div>
                 <div class="stat-card"><span class="stat-label">성공</span><span class="stat-value pass" id="stat-pass">-</span></div>
                 <div class="stat-card"><span class="stat-label">실패</span><span class="stat-value fail" id="stat-fail">-</span></div>
-                <div class="stat-card"><span class="stat-label">소요 시간</span><span class="stat-value" id="stat-duration">-</span></div>
+                <div class="stat-card"><span class="stat-label">종합 결과</span><span class="stat-value" id="stat-duration">-</span></div>
             </div>
             <div class="accordion-container" id="overview-list"></div>
         </div>
@@ -268,49 +241,94 @@
             <div class="modal-content">
                 <p><strong>대상 환경:</strong> Staging (shipbaesong.com)</p>
                 <p><strong>브라우저:</strong> Chromium (Headless)</p>
-                <p><strong>실행 도구:</strong> Playwright v1.40</p>
-                <p><strong>작성자:</strong> QA_이상주</p>
+                <p><strong>실행 도구:</strong> Playwright</p>
             </div>
             <div class="modal-footer"><button class="btn-primary" onclick="closeModal()">닫기</button></div>
         </div>
     </div>
 
     <script>
+        // [중요] 여기 있는 SHORT_TITLES는 화면에 보여줄 굵은 제목입니다.
+        const SHORT_TITLES = {
+            "ID_0001": "메인 진입 및 팝업 처리",
+            "ID_0002": "이용안내 페이지 이동(비로그인)",
+            "ID_0003": "배송신청 페이지 이동(비로그인)",
+            "ID_0004": "배송현황 페이지 이동(비로그인)",
+            "ID_0005": "고객지원 페이지 이동(비로그인)",
+            "ID_0006": "로그인(퓨어계정)",
+            "ID_0007": "배송현황 페이지 확인",
+            "ID_0008": "최근신청 내역 미제공 체크",
+            "ID_0009": "최근신청 내역 > 해외배송 신청하기",
+            "ID_0010": "주소록 관리 > 팝업 내 주소 내역 미제공",
+            "ID_0011": "주소록 > 새로운 주소 추가 시 화면 변경",
+            "ID_0012": "로그아웃 수행",
+            "ID_0013": "메인페이지 > 해외배송 신청하기 랜딩 확인",
+            "ID_0014": "배송조회_tracking 페이지 랜딩 확인",
+            "ID_0015": "메인 배너 UI 노출 확인",
+            "ID_0016": "챗봇 펼치기 > 닫기 확인",
+            "ID_0017": "화면 최하단까지 스크롤(UI체크)",
+            "ID_0018": "비즈니스 고객 [서비스 이용하기] 선택",
+            "ID_0019": "푸터영역 SNS 랜딩 확인",
+            "ID_0020": "푸터영역 약관 팝업 노출 확인",
+            "ID_0021": "메인 진입 및 팝업 처리",
+            "ID_0022": "배송신청 : 해외배송",
+            "ID_0023": "기본주소록 선택 후 단계 진행",
+            "ID_0024": "배송신청 완료",
+            "ID_0025": "배송현황 상세보기 진입",
+            "ID_0026": "상세페이지 스크롤",
+            "ID_0027": "배송신청 : 구매대행",
+            "ID_0028": "배송현황 진입 > 기간 필터 검증"
+        };
+
+        const SESSION_A_IDS = Object.keys(SHORT_TITLES).filter(id => parseInt(id.split('_')[1]) <= 20);
+        const SESSION_B_IDS = Object.keys(SHORT_TITLES).filter(id => parseInt(id.split('_')[1]) > 20);
+
         let allHistoryData = [];
 
         document.addEventListener('DOMContentLoaded', async () => {
             try {
-                const res = await fetch('history.json');
+                const res = await fetch('history.json?t=' + new Date().getTime());
                 if (!res.ok) throw new Error("History file not found");
                 allHistoryData = await res.json();
-                
+                allHistoryData.reverse();
+
                 if (allHistoryData.length > 0) {
                     renderDashboard(allHistoryData);
                 } else {
-                    document.getElementById('overview-list').innerHTML = '<div class="empty-row">데이터가 없습니다. 테스트를 실행해주세요.</div>';
+                    document.getElementById('overview-list').innerHTML = '<div class="empty-row">데이터가 없습니다. npm test를 실행해주세요.</div>';
                 }
             } catch (e) {
                 console.warn("데이터 로드 실패:", e);
-                document.getElementById('overview-list').innerHTML = '<div class="empty-row">⚠️ 기록 파일을 찾을 수 없습니다.</div>';
+                document.getElementById('overview-list').innerHTML = '<div class="empty-row">⚠️ history.json을 불러오지 못했습니다.</div>';
             }
         });
 
         function renderDashboard(data) {
             const latest = data[0];
-            document.getElementById('run-time').textContent = `${latest.date} (Latest)`;
-            document.getElementById('stat-total').textContent = latest.stats.total;
-            document.getElementById('stat-pass').textContent = latest.stats.passed;
-            document.getElementById('stat-fail').textContent = latest.stats.failed;
-            document.getElementById('stat-duration').textContent = latest.stats.duration;
-            document.getElementById('sidebar-fail-count').textContent = latest.stats.failed;
+            const latestDate = new Date(latest.timestamp).toLocaleString('ko-KR');
+            
+            const total = latest.stats.total;
+            const passed = latest.stats.passed;
+            const failed = latest.stats.failed;
+
+            document.getElementById('run-time').textContent = `${latestDate} (Latest)`;
+            document.getElementById('stat-total').textContent = total;
+            document.getElementById('stat-pass').textContent = passed;
+            document.getElementById('stat-fail').textContent = failed;
+            
+            const isAllPass = failed === 0;
+            const statusText = isAllPass ? "PASS" : "FAIL";
+            const statusClass = isAllPass ? "pass" : "fail";
+            document.getElementById('stat-duration').innerHTML = `<span class="stat-value ${statusClass}" style="font-size:1.5rem">${statusText}</span>`;
+            
+            document.getElementById('sidebar-fail-count').textContent = failed;
 
             renderOverviewList(data);
-            renderSessionList('session-a-list', data, 'sessionA');
-            renderSessionList('session-b-list', data, 'sessionB');
+            renderSessionList('session-a-list', data, 'sessionA'); 
+            renderSessionList('session-b-list', data, 'sessionB'); 
             renderFailuresList(data);
         }
 
-        // Overview Table
         function renderOverviewList(data) {
             const container = document.getElementById('overview-list');
             container.innerHTML = '';
@@ -318,21 +336,36 @@
             data.forEach((item, index) => {
                 const isLatest = index === 0;
                 const activeClass = isLatest ? 'active' : '';
-                const checkAttr = isLatest ? 'checked' : '';
-                const failBadge = item.stats.failed > 0 
-                    ? `<span class="status-badge fail header-status">Fail (${item.stats.failed})</span>` 
+                const dateStr = new Date(item.timestamp).toLocaleString('ko-KR');
+                
+                const failedCount = item.stats.failed;
+                const failBadge = failedCount > 0 
+                    ? `<span class="status-badge fail header-status">Fail (${failedCount})</span>` 
                     : `<span class="status-badge pass header-status">Pass</span>`;
 
+                const logMap = {};
+                if (item.sessionA) item.sessionA.forEach(log => logMap[log.id] = log);
+                if (item.sessionB) item.sessionB.forEach(log => logMap[log.id] = log);
+
                 let rowsHTML = '';
-                [...item.sessionA, ...item.sessionB].forEach(log => {
-                    const badge = log.status === 'pass' 
-                        ? '<span class="status-badge pass">성공</span>' 
-                        : '<span class="status-badge fail">실패</span>';
-                    const sessionName = item.sessionA.includes(log) ? 'Session A' : 'Session B';
+                Object.keys(SHORT_TITLES).forEach(id => {
+                    const log = logMap[id];
+                    let badge;
+
+                    if (!log) {
+                        badge = '<span class="status-badge na">-</span>';
+                    } else if (log.status === 'pass') {
+                        badge = '<span class="status-badge pass">성공</span>';
+                    } else {
+                        badge = '<span class="status-badge fail">실패</span>';
+                    }
+
+                    const title = SHORT_TITLES[id];
+                    const sessionName = parseInt(id.split('_')[1]) <= 20 ? 'Session A' : 'Session B';
                     
                     rowsHTML += `<tr>
-                        <td style="font-weight:bold; color:var(--primary-color)">${log.id}</td>
-                        <td style="font-weight:600">${log.title}</td>
+                        <td style="font-weight:bold; color:var(--primary-color)">${id}</td>
+                        <td style="font-weight:600">${title}</td>
                         <td style="color:#666">${sessionName}</td>
                         <td style="text-align:right">${badge}</td>
                     </tr>`;
@@ -341,16 +374,13 @@
                 const html = `
                 <div class="accordion-item ${activeClass}" id="group-${index}">
                     <div class="accordion-header" onclick="toggleAccordion('group-${index}')">
-                        <div class="checkbox-wrapper" onclick="event.stopPropagation()">
-                            <input type="checkbox" id="chk-${index}" ${checkAttr}>
-                        </div>
-                        <div class="date-title">${item.date} ${isLatest ? '(Latest)' : ''} ${failBadge}</div>
+                        <div class="date-title">${dateStr} ${isLatest ? '(Latest)' : ''} ${failBadge}</div>
                         <span class="material-icons-round toggle-icon">expand_more</span>
                     </div>
                     <div class="accordion-content">
                         <table>
                             <thead><tr><th width="12%">ID</th><th width="45%">항목명</th><th width="25%">세션</th><th width="18%" style="text-align:right">상태</th></tr></thead>
-                            <tbody>${rowsHTML || '<tr class="empty-row"><td colspan="4">데이터 없음</td></tr>'}</tbody>
+                            <tbody>${rowsHTML}</tbody>
                         </table>
                     </div>
                 </div>`;
@@ -358,7 +388,6 @@
             });
         }
 
-        // Session List (2-Row Layout)
         function renderSessionList(containerId, data, sessionKey) {
             const container = document.getElementById(containerId);
             container.innerHTML = '';
@@ -366,46 +395,58 @@
             data.forEach((item, index) => {
                 const isLatest = index === 0;
                 const activeClass = isLatest ? 'active' : '';
-                const logs = item[sessionKey];
+                const dateStr = new Date(item.timestamp).toLocaleString('ko-KR');
+                const logs = item[sessionKey] || [];
+
                 const hasFail = logs.some(l => l.status === 'fail');
                 const badge = hasFail 
-                    ? `<span class="status-badge fail header-status">Failures</span>` 
+                    ? `<span class="status-badge fail header-status">Issues Found</span>` 
                     : `<span class="status-badge pass header-status">Pass</span>`;
 
                 let listHTML = '<div class="session-list-container">';
                 
                 logs.forEach(log => {
                     const statusBadge = log.status === 'pass' 
-                        ? '<span class="status-badge pass">성공</span>' 
-                        : '<span class="status-badge fail">실패</span>';
+                        ? `<span class="status-badge pass">성공</span>` 
+                        : `<span class="status-badge fail">실패</span>`;
                     
+                    // ★ 로그에서 Title과 Desc를 올바르게 가져옵니다.
+                    // update-history.js에서 이미 분리해서 저장해두었습니다.
+                    const title = log.title || SHORT_TITLES[log.id];
+                    const desc = log.desc || "상세 설명 없음";
+
                     listHTML += `
                     <div class="session-item">
                         <div class="item-top-row">
                             <div class="item-info">
                                 <span class="item-id">${log.id}</span>
-                                <span class="item-title">${log.title}</span>
+                                <span class="item-title">${title}</span>
                             </div>
                             <div>${statusBadge}</div>
                         </div>
                         <div class="item-desc">
-                            ${log.desc}
+                            ${desc}
                         </div>
                     </div>`;
                 });
                 listHTML += '</div>';
 
+                // ★ 비디오 포스터 텍스트 (SessionA Recording...)
+                const videoFileName = sessionKey === 'sessionA' ? 'SessionA.webm' : 'SessionB.webm';
+                const posterText = sessionKey === 'sessionA' ? 'sessionA Recording' : 'sessionB Recording';
+                const posterUrl = `https://placehold.co/600x400/e0e0e0/555?text=${encodeURIComponent(posterText)}`;
+
                 const videoHtml = `
                     <div class="video-box">
-                        <video controls poster="https://placehold.co/600x340/png?text=${sessionKey}+Recording">
-                            <source src="videos/${sessionKey === 'sessionA' ? 'SessionA' : 'SessionB'}.webm" type="video/webm">
+                        <video controls poster="${posterUrl}">
+                            <source src="videos/${videoFileName}" type="video/webm">
                         </video>
                     </div>`;
 
                 const html = `
                 <div class="accordion-item ${activeClass}" id="${sessionKey}-${index}">
                     <div class="accordion-header" onclick="toggleAccordion('${sessionKey}-${index}')">
-                        <div class="date-title">${item.date} ${isLatest ? '(Latest)' : ''} ${badge}</div>
+                        <div class="date-title">${dateStr} ${isLatest ? '(Latest)' : ''} ${badge}</div>
                         <span class="material-icons-round toggle-icon">expand_more</span>
                     </div>
                     <div class="accordion-content">
@@ -424,10 +465,15 @@
         function renderFailuresList(data) {
             const container = document.getElementById('failures-list');
             container.innerHTML = '';
+            
             data.forEach((item, index) => {
                 const isLatest = index === 0;
                 const activeClass = isLatest ? 'active' : '';
-                const failures = [...item.sessionA, ...item.sessionB].filter(l => l.status === 'fail');
+                const dateStr = new Date(item.timestamp).toLocaleString('ko-KR');
+
+                const allLogs = [...(item.sessionA || []), ...(item.sessionB || [])];
+                const failures = allLogs.filter(l => l.status === 'fail');
+                
                 let contentHTML = '';
                 if (failures.length === 0) {
                     contentHTML = '<div class="success-state"><span class="material-icons-round success-icon">check_circle</span><h3>성공!</h3><p>실패 내역이 없습니다.</p></div>';
@@ -436,11 +482,13 @@
                         contentHTML += `
                         <div class="fail-card" style="margin:20px;">
                             <div class="fail-header"><span class="fail-tag">FAILED</span><span class="fail-title">${fail.id} | ${fail.title}</span></div>
-                            <div class="fail-body"><div class="error-log-box">${fail.desc}</div><div class="screenshot-box"><img src="placeholder.png" alt="Failure"></div></div>
+                            <div class="fail-body">
+                                <div class="error-log-box">${fail.desc}</div>
+                            </div>
                         </div>`;
                     });
                 }
-                const html = `<div class="accordion-item ${activeClass}" id="fail-${index}"><div class="accordion-header" onclick="toggleAccordion('fail-${index}')"><div class="date-title">${item.date}</div><span class="material-icons-round toggle-icon">expand_more</span></div><div class="accordion-content">${contentHTML}</div></div>`;
+                const html = `<div class="accordion-item ${activeClass}" id="fail-${index}"><div class="accordion-header" onclick="toggleAccordion('fail-${index}')"><div class="date-title">${dateStr}</div><span class="material-icons-round toggle-icon">expand_more</span></div><div class="accordion-content">${contentHTML}</div></div>`;
                 container.insertAdjacentHTML('beforeend', html);
             });
         }
@@ -457,9 +505,7 @@
         const menus = { overview: document.getElementById('nav-overview'), sessionA: document.getElementById('nav-session-a'), sessionB: document.getElementById('nav-session-b'), failures: document.getElementById('nav-failures') };
         const views = { overview: document.getElementById('view-overview'), sessionA: document.getElementById('view-session-a'), sessionB: document.getElementById('view-session-b'), failures: document.getElementById('view-failures') };
         const pageTitle = document.getElementById('page-title');
-        const downloadBtn = document.getElementById('btn-download');
-        const runTimeLabel = document.getElementById('run-time');
-
+        
         function switchTab(tabName) {
             Object.values(menus).forEach(el => el.classList.remove('active'));
             Object.values(views).forEach(el => el.classList.remove('active'));
@@ -468,27 +514,16 @@
             views[tabName].classList.add('active');
             if(window.innerWidth <= 768) toggleSidebar();
 
-
-            if(tabName === 'overview') {
-                pageTitle.textContent = '테스트 수행 목록';
-                downloadBtn.style.display = 'block';
-                runTimeLabel.classList.remove('hidden');
-            } else {
-                downloadBtn.style.display = 'none';
-                runTimeLabel.classList.add('hidden');
-                if(tabName === 'sessionA') pageTitle.textContent = '세션 A 리포트';
-                else if(tabName === 'sessionB') pageTitle.textContent = '세션 B 리포트';
-                else if(tabName === 'failures') pageTitle.textContent = '실패 분석 리포트';
-            }
+            if(tabName === 'overview') pageTitle.textContent = '테스트 수행 목록';
+            else if(tabName === 'sessionA') pageTitle.textContent = '세션 A 리포트';
+            else if(tabName === 'sessionB') pageTitle.textContent = '세션 B 리포트';
+            else if(tabName === 'failures') pageTitle.textContent = '실패 분석 리포트';
         }
 
         menus.overview.addEventListener('click', () => switchTab('overview'));
         menus.sessionA.addEventListener('click', () => switchTab('sessionA'));
         menus.sessionB.addEventListener('click', () => switchTab('sessionB'));
         menus.failures.addEventListener('click', () => switchTab('failures'));
-
-
     </script>
 </body>
-
 </html>

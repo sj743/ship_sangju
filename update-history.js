@@ -1,13 +1,46 @@
 const fs = require('fs');
 const path = require('path');
 
-// 파일 경로 설정
 const resultsPath = path.join(__dirname, 'test-results.json');
 const historyPath = path.join(__dirname, 'history.json');
+const videoDir = path.join(__dirname, 'videos');
 
-// ★ ID별 상세 진행 내용 매핑 (유지)
-const DESCRIPTION_MAP = {
-    // Session A
+if (!fs.existsSync(videoDir)) fs.mkdirSync(videoDir, { recursive: true });
+
+// ★ 1. 짧은 제목 (화면에 굵게 나올 텍스트)
+const SHORT_TITLES = {
+    "ID_0001": "메인 진입 및 팝업 처리",
+    "ID_0002": "이용안내 페이지 이동(비로그인)",
+    "ID_0003": "배송신청 페이지 이동(비로그인)",
+    "ID_0004": "배송현황 페이지 이동(비로그인)",
+    "ID_0005": "고객지원 페이지 이동(비로그인)",
+    "ID_0006": "로그인(퓨어계정)",
+    "ID_0007": "배송현황 페이지 확인",
+    "ID_0008": "최근신청 내역 미제공 체크",
+    "ID_0009": "최근신청 내역 > 해외배송 신청하기",
+    "ID_0010": "주소록 관리 > 팝업 내 주소 내역 미제공",
+    "ID_0011": "주소록 > 새로운 주소 추가 시 화면 변경",
+    "ID_0012": "로그아웃 수행",
+    "ID_0013": "메인페이지 > 해외배송 신청하기 랜딩 확인",
+    "ID_0014": "배송조회_tracking 페이지 랜딩 확인",
+    "ID_0015": "메인 배너 UI 노출 확인",
+    "ID_0016": "챗봇 펼치기 > 닫기 확인",
+    "ID_0017": "화면 최하단까지 스크롤(UI체크)",
+    "ID_0018": "비즈니스 고객 [서비스 이용하기] 선택",
+    "ID_0019": "푸터영역 SNS 랜딩 확인",
+    "ID_0020": "푸터영역 약관 팝업 노출 확인",
+    "ID_0021": "메인 진입 및 팝업 처리",
+    "ID_0022": "배송신청 : 해외배송",
+    "ID_0023": "기본주소록 선택 후 단계 진행",
+    "ID_0024": "배송신청 완료",
+    "ID_0025": "배송현황 상세보기 진입",
+    "ID_0026": "상세페이지 스크롤",
+    "ID_0027": "배송신청 : 구매대행",
+    "ID_0028": "배송현황 기간 필터 검증"
+};
+
+// ★ 2. 상세 진행 내용 (화면에 회색으로 나올 긴 텍스트)
+const DESCRIPTIONS = {
     "ID_0001": "메인 페이지 진입 후 프로모션 팝업 닫기 버튼 클릭, 팝업 제거 확인",
     "ID_0002": "헤더의 [이용안내] 메뉴 클릭, /guide 페이지 URL 이동 및 타이틀 노출 확인",
     "ID_0003": "비로그인 상태로 [배송신청] 클릭, 로그인 유도 페이지 대신 안내 페이지 노출 확인",
@@ -28,10 +61,8 @@ const DESCRIPTION_MAP = {
     "ID_0018": "비즈니스 배너 클릭, 사업자 전용 소개 페이지 이동 확인",
     "ID_0019": "푸터 영역 인스타그램/블로그 아이콘 클릭, 외부 링크 연결 확인",
     "ID_0020": "이용약관/개인정보처리방침 링크 클릭, 약관 내용 모달 팝업 노출 확인",
-
-    // Session B
     "ID_0021": "테스트 계정(user_test) 로그인 수행, 메인 대시보드 정상 진입 확인",
-    "ID_0022": "배송신청 > 해외배송 메뉴 클릭, 작성 중 팝업 발생 시 [새로 입력하기] 처리 확인",
+    "ID_0022": "배송신청 : 해외배송 메뉴 클릭, 작성 중 팝업 발생 시 [새로 입력하기] 처리 확인",
     "ID_0023": "보내는분/받는분 주소록에서 [기본주소] 호출 및 적용, 금지물품 팝업 닫기 후 단계 완료",
     "ID_0024": "약관 전체 동의 체크 후 [신청하기] 버튼 클릭, 완료 페이지 노출 확인",
     "ID_0025": "배송현황 리스트에서 최상단 항목 클릭, 상세 페이지 데이터 로딩 확인",
@@ -41,102 +72,98 @@ const DESCRIPTION_MAP = {
 };
 
 try {
-    if (!fs.existsSync(resultsPath)) {
-        console.log("⚠️ test-results.json 파일이 없습니다.");
-        process.exit(0);
-    }
+    if (!fs.existsSync(resultsPath)) { console.log("⚠️ 파일 없음"); process.exit(0); }
     const rawData = fs.readFileSync(resultsPath, 'utf8');
     const testResults = JSON.parse(rawData);
 
-    // ★ [수정] 날짜 포맷 변경 (YYYY.MM.DD HH:mm:ss)
     const now = new Date();
-    const year = now.getFullYear();
-    const month = String(now.getMonth() + 1).padStart(2, '0');
-    const day = String(now.getDate()).padStart(2, '0');
-    const hours = String(now.getHours()).padStart(2, '0');
-    const minutes = String(now.getMinutes()).padStart(2, '0');
-    const seconds = String(now.getSeconds()).padStart(2, '0');
+    const dateStr = now.toLocaleString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false }).replace(/\./g, '.').replace(/(\d)\.(\s)/g, '$1.');
 
-    // 예: "2026.01.27 14:30:05"
-    const dateStr = `${year}.${month}.${day} ${hours}:${minutes}:${seconds}`;
-
-    let passed = 0;
-    let failed = 0;
+    let passCount = 0;
+    let failCount = 0;
+    
     const sessionALogs = [];
     const sessionBLogs = [];
     const processedIDs = new Set();
+    
+    let videoA = null;
+    let videoB = null;
 
     testResults.suites.forEach(suite => {
+        const suiteTitle = suite.title || "";
+
         suite.specs.forEach(spec => {
             spec.tests.forEach(test => {
-                const result = test.results[0];
+                const result = test.results[test.results.length - 1];
                 if (!result) return;
-                const parentStatus = result.status === 'passed' ? 'pass' : 'fail';
 
-                if (result.stdout && result.stdout.length > 0) {
-                    result.stdout.forEach(logItem => {
-                        const text = (logItem.text || "").trim();
-                        const match = text.match(/(ID_\d+)\s*[|: ]\s*(.+)/);
+                // 1. 비디오 복사
+                if (result.attachments) {
+                    const vid = result.attachments.find(a => a.name === 'video' && a.contentType === 'video/webm');
+                    if (vid && fs.existsSync(vid.path)) {
+                        if (suiteTitle.includes("Session A")) {
+                            fs.copyFileSync(vid.path, path.join(videoDir, "SessionA.webm"));
+                            videoA = "SessionA.webm";
+                        } else if (suiteTitle.includes("Session B")) {
+                            fs.copyFileSync(vid.path, path.join(videoDir, "SessionB.webm"));
+                            videoB = "SessionB.webm";
+                        }
+                    }
+                }
 
-                        if (match) {
-                            const id = match[1];
-                            const title = match[2];
-
-                            if (processedIDs.has(id)) return;
+                // 2. 로그 추출
+                const processLog = (text, duration) => {
+                    const match = text.match(/(ID_\d{4})/);
+                    if (match) {
+                        const id = match[1];
+                        if (!processedIDs.has(id)) {
                             processedIDs.add(id);
+                            
+                            const status = result.status === 'passed' ? 'pass' : 'fail';
+                            if (status === 'pass') passCount++; else failCount++;
 
-                            if (parentStatus === 'pass') passed++; else failed++;
-
-                            const descText = DESCRIPTION_MAP[id] || title;
-
-                            const logEntry = {
+                            const logItem = {
                                 id: id,
-                                title: title,
-                                desc: descText,
-                                status: parentStatus
+                                title: SHORT_TITLES[id] || text, // ★ 짧은 제목 적용
+                                desc: DESCRIPTIONS[id] || "설명 없음", // ★ 긴 설명 적용
+                                status: status,
+                                duration: duration
                             };
 
-                            const idNum = parseInt(id.replace('ID_', ''), 10);
-                            if (idNum <= 20) sessionALogs.push(logEntry);
-                            else sessionBLogs.push(logEntry);
+                            if (parseInt(id.split('_')[1]) <= 20) sessionALogs.push(logItem);
+                            else sessionBLogs.push(logItem);
                         }
-                    });
-                }
+                    }
+                };
+
+                if (result.steps) result.steps.forEach(s => processLog(s.title, s.duration));
+                if (result.stdout) result.stdout.forEach(l => processLog(l.text || "", result.duration));
             });
         });
     });
 
-    const total = sessionALogs.length + sessionBLogs.length;
-    
-    if (total === 0) {
-        console.log("⚠️ 경고: 로그에서 ID를 찾지 못했습니다.");
-    }
-
-    const newEntry = {
-        date: dateStr, // 시:분:초가 포함된 고유값
-        timestamp: now.getTime(),
-        stats: {
-            total,
-            passed,
-            failed,
-            duration: `${Math.floor(testResults.stats.duration / 60000)}m ${Math.floor((testResults.stats.duration % 60000) / 1000)}s`
-        },
-        sessionA: sessionALogs.sort((a, b) => a.id.localeCompare(b.id)),
-        sessionB: sessionBLogs.sort((a, b) => a.id.localeCompare(b.id))
-    };
+    sessionALogs.sort((a, b) => a.id.localeCompare(b.id));
+    sessionBLogs.sort((a, b) => a.id.localeCompare(b.id));
 
     let history = [];
-    if (fs.existsSync(historyPath)) {
-        try { history = JSON.parse(fs.readFileSync(historyPath, 'utf8')); } 
-        catch (e) { history = []; }
-    }
+    if (fs.existsSync(historyPath)) { try { history = JSON.parse(fs.readFileSync(historyPath)); } catch(e) { history = []; } }
 
-    // ★ [수정] 무조건 맨 앞에 추가 (unshift) - 시간까지 다르므로 중복될 일 없음
+    const newEntry = {
+        timestamp: now.getTime(),
+        date: dateStr,
+        stats: {
+            total: sessionALogs.length + sessionBLogs.length,
+            passed: passCount,
+            failed: failCount,
+            duration: (testResults.stats.duration / 1000).toFixed(1) + 's'
+        },
+        videos: { sessionA: videoA, sessionB: videoB },
+        sessionA: sessionALogs,
+        sessionB: sessionBLogs
+    };
+
     history.unshift(newEntry);
-    
-    fs.writeFileSync(historyPath, JSON.stringify(history, null, 2), 'utf8');
-    console.log(`✅ [${dateStr}] 신규 이력 추가 완료 (Total: ${total}건)`);
+    fs.writeFileSync(historyPath, JSON.stringify(history, null, 2));
+    console.log(`✅ 업데이트 완료 (Total: ${newEntry.stats.total})`);
 
-} catch (e) {
-    console.error("❌ 오류 발생:", e);
-}
+} catch (e) { console.error(e); }

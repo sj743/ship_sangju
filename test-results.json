@@ -83,11 +83,11 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 34314,
+                  "duration": 34109,
                   "errors": [],
                   "stdout": [
                     {
-                      "text": "=================================\n"
+                      "text": "=======================================\n"
                     },
                     {
                       "text": " Session A START\n"
@@ -96,7 +96,7 @@
                       "text": " 퓨어 계정 / 데이터 없음 상태 검증\n"
                     },
                     {
-                      "text": "=================================\n"
+                      "text": "=======================================\n"
                     },
                     {
                       "text": "ID_0001 | 메인 진입 및 팝업 처리\n"
@@ -159,25 +159,20 @@
                       "text": "ID_0020 | 푸터영역 약관 팝업 노출 확인\n"
                     },
                     {
-                      "text": "=================================\n"
+                      "text": "=======================================\n"
                     },
                     {
                       "text": " Session A 종료\n"
                     },
                     {
-                      "text": "=================================\n"
+                      "text": "=======================================\n"
                     }
                   ],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-01-27T06:47:00.786Z",
+                  "startTime": "2026-01-27T07:18:06.492Z",
                   "annotations": [],
                   "attachments": [
-                    {
-                      "name": "video",
-                      "contentType": "video/webm",
-                      "path": "/Users/leesangju/ship-test/test-results/ship_stg_poc-Session-A-–-퓨어계정-데이터-없음-상태-검증/video-4.webm"
-                    },
                     {
                       "name": "video",
                       "contentType": "video/webm",
@@ -192,6 +187,11 @@
                       "name": "video",
                       "contentType": "video/webm",
                       "path": "/Users/leesangju/ship-test/test-results/ship_stg_poc-Session-A-–-퓨어계정-데이터-없음-상태-검증/video-2.webm"
+                    },
+                    {
+                      "name": "video",
+                      "contentType": "video/webm",
+                      "path": "/Users/leesangju/ship-test/test-results/ship_stg_poc-Session-A-–-퓨어계정-데이터-없음-상태-검증/video-4.webm"
                     },
                     {
                       "name": "video",
@@ -225,14 +225,14 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 51631,
+                  "duration": 47150,
                   "errors": [],
                   "stdout": [
                     {
                       "text": "\n\n\n"
                     },
                     {
-                      "text": "=================================\n"
+                      "text": "=======================================\n"
                     },
                     {
                       "text": " Session B START\n"
@@ -241,7 +241,7 @@
                       "text": " 테스트 계정 1 / 배송신청, 배송현황\n"
                     },
                     {
-                      "text": "=================================\n"
+                      "text": "=======================================\n"
                     },
                     {
                       "text": "ID_0021 | 메인 진입 및 팝업 처리\n"
@@ -268,13 +268,13 @@
                       "text": "ID_0028 | 배송현황 기간별 조회 기능 동작\n"
                     },
                     {
-                      "text": "=================================\n"
+                      "text": "=======================================\n"
                     },
                     {
                       "text": " Session B 종료\n"
                     },
                     {
-                      "text": "=================================\n"
+                      "text": "=======================================\n"
                     }
                   ],
                   "stderr": [],
@@ -282,18 +282,18 @@
                   "steps": [
                     {
                       "title": "ID_0022 | 배송신청 : 해외배송",
-                      "duration": 5158
+                      "duration": 4154
                     },
                     {
                       "title": "ID_0023 | 기본주소록 선택 후 단계 진행",
-                      "duration": 12363
+                      "duration": 12178
                     },
                     {
                       "title": "ID_0028 | 배송현황 기간별 조회 기능 동작",
-                      "duration": 11017
+                      "duration": 10429
                     }
                   ],
-                  "startTime": "2026-01-27T06:47:36.067Z",
+                  "startTime": "2026-01-27T07:18:41.570Z",
                   "annotations": [],
                   "attachments": [
                     {
@@ -333,9 +333,21 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 367,
+                  "duration": 889,
                   "errors": [],
                   "stdout": [
+                    {
+                      "text": "=======================================\n"
+                    },
+                    {
+                      "text": " Session C START\n"
+                    },
+                    {
+                      "text": " 테스트 계정 2 / 상단메뉴 상세기능 검증\n"
+                    },
+                    {
+                      "text": "=======================================\n"
+                    },
                     {
                       "text": "=================================\n"
                     },
@@ -348,7 +360,7 @@
                   ],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-01-27T06:48:27.707Z",
+                  "startTime": "2026-01-27T07:19:28.726Z",
                   "annotations": [],
                   "attachments": [
                     {
@@ -364,7 +376,7 @@
           ],
           "id": "ad95f0b466fb835c3519-664d27ed0acd82898f65",
           "file": "ship_stg_poc.spec.js",
-          "line": 611,
+          "line": 610,
           "column": 5
         }
       ]
@@ -372,8 +384,8 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-01-27T06:47:00.405Z",
-    "duration": 87769.379,
+    "startTime": "2026-01-27T07:18:06.079Z",
+    "duration": 83710.113,
     "expected": 3,
     "skipped": 0,
     "unexpected": 0,
