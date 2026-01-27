@@ -4,26 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-    <title>ShipBaesong QA Dashboard</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>쉽배송 QA 대시보드</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
     
     <style>
         :root {
             --sidebar-width: 260px;
-            --primary-color: #4F46E5; /* Indigo */
+            --primary-color: #4F46E5;
             --bg-color: #F3F4F6;
             --card-bg: #FFFFFF;
             --text-main: #1F2937;
             --text-sub: #6B7280;
             --success: #10B981;
+            --danger: #EF4444;
             --border: #E5E7EB;
         }
 
         * { box-sizing: border-box; }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Inter', 'Noto Sans KR', sans-serif;
             background-color: var(--bg-color);
             color: var(--text-main);
             margin: 0;
@@ -32,10 +33,10 @@
             overflow: hidden;
         }
 
-        /* === Sidebar === */
+        /* === Sidebar (좌측 메뉴) === */
         aside {
             width: var(--sidebar-width);
-            background-color: #111827; /* Dark sidebar */
+            background-color: #111827;
             color: white;
             display: flex;
             flex-direction: column;
@@ -66,16 +67,22 @@
             margin-bottom: 5px;
             transition: all 0.2s;
             cursor: pointer;
+            font-size: 0.95rem;
         }
 
         .menu-item:hover, .menu-item.active {
             background-color: #374151;
             color: white;
         }
+        
+        /* 실패 내역 메뉴 강조 */
+        .menu-item.fail-menu:hover, .menu-item.fail-menu.active {
+            background-color: rgba(239, 68, 68, 0.2);
+            color: #FCA5A5;
+        }
 
         .menu-category {
             font-size: 0.75rem;
-            text-transform: uppercase;
             color: #6B7280;
             margin-top: 20px;
             margin-bottom: 10px;
@@ -83,11 +90,20 @@
             font-weight: 600;
         }
 
-        /* === Main Content === */
+        /* === Main Content (본문) === */
         main {
             flex: 1;
             overflow-y: auto;
             padding: 30px;
+        }
+
+        /* 화면 전환용 스타일 */
+        .view-section { display: none; }
+        .view-section.active { display: block; animation: fadeIn 0.3s; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         header {
@@ -97,10 +113,10 @@
             margin-bottom: 30px;
         }
 
-        h1 { margin: 0; font-size: 1.5rem; }
-        .last-updated { color: var(--text-sub); font-size: 0.9rem; }
+        h1 { margin: 0; font-size: 1.5rem; font-weight: 700; }
+        .last-updated { color: var(--text-sub); font-size: 0.9rem; margin-top: 5px; }
 
-        /* === Dashboard Stats Cards === */
+        /* === Stats Cards (통계 카드) === */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -120,8 +136,32 @@
         .stat-label { color: var(--text-sub); font-size: 0.85rem; font-weight: 500; }
         .stat-value { font-size: 1.8rem; font-weight: 700; margin-top: 10px; }
         .stat-value.pass { color: var(--success); }
+        .stat-value.fail { color: var(--danger); }
 
-        /* === Session Containers === */
+        /* === List Table Style (개요 리스트) === */
+        .table-container {
+            background: var(--card-bg);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+        
+        table { width: 100%; border-collapse: collapse; text-align: left; }
+        th { background: #F9FAFB; padding: 15px 20px; font-weight: 600; color: #4B5563; border-bottom: 1px solid var(--border); }
+        td { padding: 15px 20px; border-bottom: 1px solid #F3F4F6; color: #374151; font-size: 0.95rem; }
+        tr:last-child td { border-bottom: none; }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .status-badge.pass { background: #D1FAE5; color: #065F46; }
+        .status-badge.fail { background: #FEE2E2; color: #991B1B; }
+
+        /* === Session Containers (영상+로그) === */
         .session-container {
             background: var(--card-bg);
             border-radius: 12px;
@@ -140,25 +180,9 @@
         }
 
         .session-title { font-weight: 600; font-size: 1.1rem; }
-        .badge {
-            background: #D1FAE5;
-            color: #065F46;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
+        .session-body { display: flex; padding: 20px; gap: 30px; }
 
-        .session-body {
-            display: flex;
-            padding: 20px;
-            gap: 30px;
-        }
-
-        .video-box {
-            flex: 1;
-        }
-
+        .video-box { flex: 1; }
         video {
             width: 100%;
             border-radius: 8px;
@@ -173,36 +197,41 @@
             padding-right: 10px;
         }
 
-        .log-item {
-            display: flex;
-            gap: 15px;
-            padding: 12px 0;
-            border-bottom: 1px solid #F3F4F6;
-        }
+        .log-item { display: flex; gap: 15px; padding: 12px 0; border-bottom: 1px solid #F3F4F6; }
+        .log-id { font-family: monospace; color: var(--primary-color); font-weight: 600; min-width: 60px; }
+        .log-desc { color: var(--text-main); font-size: 0.95rem; }
+        .status-dot { width: 8px; height: 8px; background-color: var(--success); border-radius: 50%; margin-top: 6px; }
 
-        .log-id {
-            font-family: monospace;
-            color: var(--primary-color);
-            font-weight: 600;
-            min-width: 60px;
+        /* === Failures View Styles === */
+        .fail-card {
+            background: white; border: 1px solid #FECACA; border-radius: 12px; margin-bottom: 20px; overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
         }
-
-        .log-desc {
-            color: var(--text-main);
-            font-size: 0.95rem;
-        }
-
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            background-color: var(--success);
-            border-radius: 50%;
-            margin-top: 6px;
-        }
+        .fail-header { background: #FEF2F2; padding: 15px 20px; border-bottom: 1px solid #FECACA; display: flex; align-items: center; gap: 15px; }
+        .fail-tag { background: #EF4444; color: white; padding: 4px 12px; border-radius: 6px; font-weight: bold; font-size: 0.85rem; }
+        .fail-title { font-weight: 600; color: #991B1B; font-size: 1.1rem; }
+        .fail-body { padding: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .error-log-box { background: #1F2937; color: #F87171; padding: 15px; border-radius: 8px; font-family: monospace; font-size: 0.9rem; line-height: 1.5; height: 300px; overflow-y: auto; }
+        .screenshot-box { border: 1px solid #E5E7EB; border-radius: 8px; overflow: hidden; height: 300px; background: #000; display: flex; align-items: center; justify-content: center; }
+        .screenshot-box img { width: 100%; height: 100%; object-fit: contain; }
 
         /* Scrollbar */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-thumb { background: #D1D5DB; border-radius: 4px; }
+
+        /* Print Style (PDF 저장용) */
+        @media print {
+            aside, button, #btn-config { display: none !important; }
+            body { height: auto; overflow: visible; background-color: white; display: block; }
+            main { padding: 0; overflow: visible; }
+            .view-section { display: block !important; margin-bottom: 30px; }
+            
+            /* 인쇄 시 탭 내용 순차 표시 */
+            #view-overview, #view-session-a, #view-session-b { display: block !important; page-break-after: always; }
+            
+            .video-box { display: none; } /* 영상 숨김 */
+            .log-list { max-height: none !important; }
+        }
     </style>
 </head>
 <body>
@@ -210,139 +239,268 @@
     <aside>
         <div class="brand">
             <span class="material-icons-round">token</span>
-            ShipBaesong QA
+            쉽배송 QA
         </div>
 
-        <div class="menu-category">Dashboards</div>
-        <a href="#" class="menu-item active">
+        <div class="menu-category">대시보드</div>
+        
+        <div class="menu-item active" id="nav-overview">
             <span class="material-icons-round">dashboard</span>
-            Overview
-        </a>
-        <a href="#session-a" class="menu-item">
+            통합 개요
+        </div>
+        
+        <div class="menu-item" id="nav-session-a">
             <span class="material-icons-round">play_circle</span>
-            Session A
-        </a>
-        <a href="#session-b" class="menu-item">
-            <span class="material-icons-round">play_circle</span>
-            Session B
-        </a>
+            세션 A (퓨어계정)
+        </div>
 
-        <div class="menu-category">Settings</div>
+        <div class="menu-item" id="nav-session-b">
+            <span class="material-icons-round">play_circle</span>
+            세션 B (배송신청)
+        </div>
+        
+        <div class="menu-item fail-menu" id="nav-failures">
+            <span class="material-icons-round">bug_report</span>
+            실패 내역
+            <span style="background:#EF4444; color:white; font-size:0.7rem; padding:2px 6px; border-radius:10px; margin-left:auto;">0</span>
+        </div>
+
+        <div class="menu-category">설정</div>
         <div class="menu-item" id="btn-config">
             <span class="material-icons-round">settings</span>
-            Configuration
+            환경 설정
         </div>
     </aside>
 
     <main>
         <header>
             <div>
-                <h1>Test Execution Report</h1>
-                <div class="last-updated" id="run-time">Loading date...</div>
+                <h1 id="page-title">통합 개요</h1>
+                <div class="last-updated" id="run-time">최종 실행: 업데이트 대기중...</div>
             </div>
             <div>
-                <button style="background:var(--primary-color); color:white; border:none; padding:10px 20px; border-radius:6px; font-weight:500; cursor:pointer;">
-                    Download Report
+                <button id="btn-download" style="background:var(--primary-color); color:white; border:none; padding:10px 20px; border-radius:6px; font-weight:500; cursor:pointer;">
+                    리포트 다운로드
                 </button>
             </div>
         </header>
 
-        <div class="stats-grid">
-            <div class="stat-card">
-                <span class="stat-label">Total Tests</span>
-                <span class="stat-value">27</span>
+        <div id="view-overview" class="view-section active">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-label">총 테스트</span>
+                    <span class="stat-value">27</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">성공 (Passed)</span>
+                    <span class="stat-value pass">27</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">실패 (Failed)</span>
+                    <span class="stat-value fail">0</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">소요 시간</span>
+                    <span class="stat-value">2m 14s</span>
+                </div>
             </div>
-            <div class="stat-card">
-                <span class="stat-label">Passed</span>
-                <span class="stat-value pass">27</span>
-            </div>
-            <div class="stat-card">
-                <span class="stat-label">Failed</span>
-                <span class="stat-value" style="color:#EF4444">0</span>
-            </div>
-            <div class="stat-card">
-                <span class="stat-label">Duration</span>
-                <span class="stat-value">2m 14s</span>
+
+            <h3 style="margin-bottom:15px; color:#374151;">금일 수행된 테스트 목록</h3>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th width="15%">테스트 ID</th>
+                            <th width="40%">테스트 항목명</th>
+                            <th width="20%">세션 구분</th>
+                            <th width="15%">상태</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>ID_0001</td><td>메인 진입 및 팝업 처리</td><td>Session A</td><td><span class="status-badge pass">성공</span></td></tr>
+                        <tr><td>ID_0002</td><td>이용안내 페이지 이동</td><td>Session A</td><td><span class="status-badge pass">성공</span></td></tr>
+                        <tr><td>ID_0003</td><td>배송신청 페이지 이동</td><td>Session A</td><td><span class="status-badge pass">성공</span></td></tr>
+                        <tr><td>ID_0004</td><td>배송현황 페이지 이동 (비로그인)</td><td>Session A</td><td><span class="status-badge pass">성공</span></td></tr>
+                        <tr><td>ID_0005</td><td>고객지원 페이지 이동</td><td>Session A</td><td><span class="status-badge pass">성공</span></td></tr>
+                        <tr><td>ID_0006</td><td>로그인 (퓨어계정)</td><td>Session A</td><td><span class="status-badge pass">성공</span></td></tr>
+                        <tr><td>ID_0007</td><td>배송현황 페이지 확인</td><td>Session A</td><td><span class="status-badge pass">성공</span></td></tr>
+                        <tr><td>ID_0008</td><td>최근신청 내역 미제공 체크</td><td>Session A</td><td><span class="status-badge pass">성공</span></td></tr>
+                        <tr><td>ID_0009</td><td>최근신청 내역 > 해외배송 신청하기</td><td>Session A</td><td><span class="status-badge pass">성공</span></td></tr>
+                        <tr><td>ID_0010</td><td>주소록 관리 > 팝업 내역 미제공</td><td>Session A</td><td><span class="status-badge pass">성공</span></td></tr>
+                        <tr><td>ID_0011</td><td>주소록 > 새로운 주소 추가 화면</td><td>Session A</td><td><span class="status-badge pass">성공</span></td></tr>
+                        <tr><td>ID_0012</td><td>로그아웃 수행</td><td>Session A</td><td><span class="status-badge pass">성공</span></td></tr>
+                        <tr><td>ID_0013</td><td>해외배송 신청하기 랜딩 확인</td><td>Session A</td><td><span class="status-badge pass">성공</span></td></tr>
+                        <tr><td>ID_0014</td><td>배송조회 Tracking 신규 새 창</td><td>Session A</td><td><span class="status-badge pass">성공</span></td></tr>
+                        <tr><td>ID_0015</td><td>메인 배너 UI 노출 확인</td><td>Session A</td><td><span class="status-badge pass">성공</span></td></tr>
+                        <tr><td>ID_0016</td><td>챗봇 펼치기/닫기 확인</td><td>Session A</td><td><span class="status-badge pass">성공</span></td></tr>
+                        <tr><td>ID_0017</td><td>화면 최하단 스크롤 (Footer)</td><td>Session A</td><td><span class="status-badge pass">성공</span></td></tr>
+                        <tr><td>ID_0018</td><td>비즈니스 [서비스 이용하기] 랜딩</td><td>Session A</td><td><span class="status-badge pass">성공</span></td></tr>
+                        <tr><td>ID_0019</td><td>푸터영역 SNS 랜딩 확인</td><td>Session A</td><td><span class="status-badge pass">성공</span></td></tr>
+                        <tr><td>ID_0020</td><td>푸터영역 약관 팝업 노출</td><td>Session A</td><td><span class="status-badge pass">성공</span></td></tr>
+                        
+                        <tr><td>ID_0021</td><td>메인 진입 및 로그인 (테스트 계정)</td><td>Session B</td><td><span class="status-badge pass">성공</span></td></tr>
+                        <tr><td>ID_0022</td><td>배송신청 페이지 진입 및 해외배송</td><td>Session B</td><td><span class="status-badge pass">성공</span></td></tr>
+                        <tr><td>ID_0023</td><td>주소입력 후 단계 진행</td><td>Session B</td><td><span class="status-badge pass">성공</span></td></tr>
+                        <tr><td>ID_0024</td><td>배송신청 완료</td><td>Session B</td><td><span class="status-badge pass">성공</span></td></tr>
+                        <tr><td>ID_0025</td><td>배송현황 상세보기 진입</td><td>Session B</td><td><span class="status-badge pass">성공</span></td></tr>
+                        <tr><td>ID_0026</td><td>상세페이지 스크롤</td><td>Session B</td><td><span class="status-badge pass">성공</span></td></tr>
+                        <tr><td>ID_0027</td><td>배송신청 : 구매대행</td><td>Session B</td><td><span class="status-badge pass">성공</span></td></tr>
+                    </tbody>
+                </table>
             </div>
         </div>
 
-        <div id="session-a" class="session-container">
-            <div class="session-header">
-                <div class="session-title">Session A – 퓨어계정 / 데이터 없음 검증</div>
-                <span class="badge">Passed</span>
-            </div>
-            <div class="session-body">
-                <div class="video-box">
-                    <video controls poster="https://placehold.co/600x340/png?text=Session+A+Recording">
-                        <source src="videos/SessionA.webm" type="video/webm">
-                    </video>
+        <div id="view-session-a" class="view-section">
+            <div class="session-container">
+                <div class="session-header">
+                    <div class="session-title">세션 A - 퓨어계정 / 데이터 없음 검증</div>
+                    <span class="status-badge pass" style="font-size:0.9rem;">20개 항목 성공</span>
                 </div>
-                <div class="log-list">
-                    <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0001</div><div class="log-desc">메인 진입 및 팝업 처리</div></div>
-                    <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0002</div><div class="log-desc">이용안내 페이지 이동(비로그인)</div></div>
-                    <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0003</div><div class="log-desc">배송신청 페이지 이동(비로그인)</div></div>
-                    <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0004</div><div class="log-desc">배송현황 페이지 이동(비로그인)</div></div>
-                    <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0005</div><div class="log-desc">고객지원 페이지 이동(비로그인)</div></div>
-                    <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0006</div><div class="log-desc">로그인(퓨어계정)</div></div>
-                    <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0007</div><div class="log-desc">배송현황 페이지 확인</div></div>
-                    <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0008</div><div class="log-desc">최근신청 내역 미제공 체크</div></div>
-                    <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0009</div><div class="log-desc">최근신청 내역 > 해외배송 신청하기</div></div>
-                    <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0010</div><div class="log-desc">주소록 관리 > 팝업 내 주소 내역 미제공</div></div>
-                    <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0011</div><div class="log-desc">주소록 > 새로운 주소 추가 시 화면 변경</div></div>
-                    <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0012</div><div class="log-desc">로그아웃 수행</div></div>
-                    <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0013</div><div class="log-desc">메인페이지 > 해외배송 신청하기 랜딩 확인</div></div>
-                    <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0014</div><div class="log-desc">배송조회 Tracking 신규 새 창 랜딩 확인</div></div>
-                    <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0015</div><div class="log-desc">메인 배너 UI 노출 확인</div></div>
-                    <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0016</div><div class="log-desc">챗봇 펼치기 > 닫기 확인</div></div>
-                    <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0017</div><div class="log-desc">화면 최하단까지 스크롤(UI체크)</div></div>
-                    <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0018</div><div class="log-desc">비즈니스 고객 [서비스 이용하기] 랜딩</div></div>
-                    <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0019</div><div class="log-desc">푸터영역 SNS 랜딩 확인</div></div>
-                    <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0020</div><div class="log-desc">푸터영역 약관 팝업 노출 확인</div></div>
+                <div class="session-body">
+                    <div class="video-box">
+                        <video controls poster="https://placehold.co/600x340/png?text=Session+A+Recording">
+                            <source src="videos/SessionA.webm" type="video/webm">
+                        </video>
+                    </div>
+                    <div class="log-list">
+                        <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0001</div><div class="log-desc">메인 진입 및 팝업 처리</div></div>
+                        <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0002</div><div class="log-desc">이용안내 페이지 이동(비로그인)</div></div>
+                        <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0003</div><div class="log-desc">배송신청 페이지 이동(비로그인)</div></div>
+                        <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0004</div><div class="log-desc">배송현황 페이지 이동(비로그인)</div></div>
+                        <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0005</div><div class="log-desc">고객지원 페이지 이동(비로그인)</div></div>
+                        <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0006</div><div class="log-desc">로그인(퓨어계정)</div></div>
+                        <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0007</div><div class="log-desc">배송현황 페이지 확인</div></div>
+                        <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0008</div><div class="log-desc">최근신청 내역 미제공 체크</div></div>
+                        <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0009</div><div class="log-desc">최근신청 내역 > 해외배송 신청하기</div></div>
+                        <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0010</div><div class="log-desc">주소록 관리 > 팝업 내 주소 내역 미제공</div></div>
+                        <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0011</div><div class="log-desc">주소록 > 새로운 주소 추가 시 화면 변경</div></div>
+                        <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0012</div><div class="log-desc">로그아웃 수행</div></div>
+                        <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0013</div><div class="log-desc">메인페이지 > 해외배송 신청하기 랜딩 확인</div></div>
+                        <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0014</div><div class="log-desc">배송조회 Tracking 신규 새 창 랜딩 확인</div></div>
+                        <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0015</div><div class="log-desc">메인 배너 UI 노출 확인</div></div>
+                        <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0016</div><div class="log-desc">챗봇 펼치기 > 닫기 확인</div></div>
+                        <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0017</div><div class="log-desc">화면 최하단까지 스크롤(UI체크)</div></div>
+                        <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0018</div><div class="log-desc">비즈니스 고객 [서비스 이용하기] 랜딩</div></div>
+                        <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0019</div><div class="log-desc">푸터영역 SNS 랜딩 확인</div></div>
+                        <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0020</div><div class="log-desc">푸터영역 약관 팝업 노출 확인</div></div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div id="session-b" class="session-container">
-            <div class="session-header">
-                <div class="session-title">Session B – 배송신청 및 현황 프로세스</div>
-                <span class="badge">Passed</span>
-            </div>
-            <div class="session-body">
-                <div class="video-box">
-                    <video controls poster="https://placehold.co/600x340/png?text=Session+B+Recording">
-                        <source src="videos/SessionB.webm" type="video/webm">
-                    </video>
+        <div id="view-session-b" class="view-section">
+            <div class="session-container">
+                <div class="session-header">
+                    <div class="session-title">세션 B - 배송신청 및 현황 프로세스</div>
+                    <span class="status-badge pass" style="font-size:0.9rem;">7개 항목 성공</span>
                 </div>
-                <div class="log-list">
-                    <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0021</div><div class="log-desc">메인 진입 및 팝업 처리</div></div>
-                    <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0022</div><div class="log-desc">배송신청 페이지 진입 및 해외배송 선택</div></div>
-                    <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0023</div><div class="log-desc">주소입력 후 단계 진행</div></div>
-                    <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0024</div><div class="log-desc">배송신청 완료</div></div>
-                    <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0025</div><div class="log-desc">배송현황 상세보기 진입</div></div>
-                    <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0026</div><div class="log-desc">상세페이지 스크롤</div></div>
-                    <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0027</div><div class="log-desc">배송신청 : 구매대행</div></div>
+                <div class="session-body">
+                    <div class="video-box">
+                        <video controls poster="https://placehold.co/600x340/png?text=Session+B+Recording">
+                            <source src="videos/SessionB.webm" type="video/webm">
+                        </video>
+                    </div>
+                    <div class="log-list">
+                        <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0021</div><div class="log-desc">메인 진입 및 팝업 처리</div></div>
+                        <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0022</div><div class="log-desc">배송신청 페이지 진입 및 해외배송 선택</div></div>
+                        <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0023</div><div class="log-desc">주소입력 후 단계 진행</div></div>
+                        <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0024</div><div class="log-desc">배송신청 완료</div></div>
+                        <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0025</div><div class="log-desc">배송현황 상세보기 진입</div></div>
+                        <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0026</div><div class="log-desc">상세페이지 스크롤</div></div>
+                        <div class="log-item"><div class="status-dot"></div><div class="log-id">ID_0027</div><div class="log-desc">배송신청 : 구매대행</div></div>
+                    </div>
                 </div>
             </div>
+        </div>
+
+        <div id="view-failures" class="view-section">
+            
+            <div style="background:#FEF2F2; color:#991B1B; padding:10px 15px; border-radius:8px; margin-bottom:20px; font-size:0.9rem; border:1px solid #FECACA;">
+                💡 <strong>DEMO MODE:</strong> 현재 실패 건이 없으나, UI 확인을 위해 샘플 데이터를 표시합니다.
+            </div>
+
+            <div class="fail-card">
+                <div class="fail-header">
+                    <span class="fail-tag">FAILED</span>
+                    <span class="fail-title">ID_9999 | 배송신청 프로세스 - 결제 단계</span>
+                </div>
+                <div class="fail-body">
+                    <div class="error-log-box">
+Error: Timed out 5000ms waiting for expect(locator).toBeVisible()
+
+Locator: locator('button#btnPayment')
+Expected: visible
+Received: hidden
+
+Call log:
+  - waiting for locator('button#btnPayment') to be visible
+  -   locator resolved to <button id="btnPayment" style="display:none;">...</button>
+  -   unexpected value "hidden"
+  -   ...
+
+    at /tests/ship_stg_poc.spec.js:145:30
+    at TestRunner.run (/node_modules/playwright/runner.js:50:12)
+                    </div>
+                    <div class="screenshot-box">
+                        <img src="https://placehold.co/600x400/FFE4E6/991B1B?text=Error+Screenshot+Capture" alt="Failure Screenshot">
+                    </div>
+                </div>
+            </div>
+
         </div>
 
     </main>
 
     <script>
-        // 현재 시간 출력 기능
-        const now = new Date();
-        const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
-        document.getElementById('run-time').textContent = "Last Run: " + now.toLocaleDateString('ko-KR', options);
-
-        // Configuration 버튼 클릭 시 정보 팝업 (Mockup 기능)
-        document.getElementById('btn-config').addEventListener('click', function() {
-            alert(
-                "🛠️ Configuration Info\n\n" +
-                "- Environment: Staging (shipbaesong.com)\n" +
-                "- Browser: Chromium (Headless)\n" +
-                "- Test Runner: Playwright v1.40\n" +
-                "- Author: QA_이상주"
-            );
+        // 1. 리포트 다운로드 (PDF 저장)
+        document.getElementById('btn-download').addEventListener('click', function() {
+            window.print();
         });
+
+        // 2. 환경 설정 버튼 (Mockup)
+        document.getElementById('btn-config').addEventListener('click', function() {
+            alert("🛠️ 환경 설정 정보\n\n- 대상 환경: Staging (shipbaesong.com)\n- 브라우저: Chromium (Headless)\n- 실행 도구: Playwright v1.40\n- 작성자: QA 자동화 팀");
+        });
+
+        // 3. 탭 전환 로직 (SPA 방식)
+        const menus = {
+            overview: document.getElementById('nav-overview'),
+            sessionA: document.getElementById('nav-session-a'),
+            sessionB: document.getElementById('nav-session-b'),
+            failures: document.getElementById('nav-failures')
+        };
+        
+        const views = {
+            overview: document.getElementById('view-overview'),
+            sessionA: document.getElementById('view-session-a'),
+            sessionB: document.getElementById('view-session-b'),
+            failures: document.getElementById('view-failures')
+        };
+        
+        const pageTitle = document.getElementById('page-title');
+
+        function switchTab(tabName) {
+            // 모든 active 클래스 제거
+            Object.values(menus).forEach(el => el.classList.remove('active'));
+            Object.values(views).forEach(el => el.classList.remove('active'));
+
+            // 선택된 탭 활성화
+            menus[tabName].classList.add('active');
+            views[tabName].classList.add('active');
+
+            // 타이틀 변경
+            if(tabName === 'overview') pageTitle.textContent = '통합 개요';
+            else if(tabName === 'sessionA') pageTitle.textContent = '세션 A 리포트';
+            else if(tabName === 'sessionB') pageTitle.textContent = '세션 B 리포트';
+            else if(tabName === 'failures') pageTitle.textContent = '실패 분석 리포트';
+        }
+
+        menus.overview.addEventListener('click', () => switchTab('overview'));
+        menus.sessionA.addEventListener('click', () => switchTab('sessionA'));
+        menus.sessionB.addEventListener('click', () => switchTab('sessionB'));
+        menus.failures.addEventListener('click', () => switchTab('failures'));
+
+        // 참고: 시간 업데이트 로직은 insert-runtime.js에서 처리됨
     </script>
 </body>
 
