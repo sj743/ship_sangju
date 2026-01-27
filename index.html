@@ -179,8 +179,11 @@
             padding: 15px 20px;
             background: #F9FAFB;
             cursor: pointer;
-            user-select: none;
             border-bottom: 1px solid transparent;
+            
+            /* [수정] Safari 브라우저 호환성 경고 해결 */
+            -webkit-user-select: none;
+            user-select: none;
         }
         
         .accordion-item.active .accordion-header {
@@ -191,7 +194,7 @@
             display: flex;
             align-items: center;
             margin-right: 15px;
-            cursor: default; /* 체크박스 클릭 시 아코디언 토글 방지용 */
+            cursor: default;
         }
 
         .date-title {
@@ -204,6 +207,12 @@
             gap: 10px;
         }
 
+        /* [추가] 인라인 스타일 제거용: 헤더 내부 뱃지 */
+        .header-status {
+            font-size: 0.75rem; 
+            margin-left: 10px;
+        }
+
         .toggle-icon {
             color: var(--text-sub);
             transition: transform 0.3s;
@@ -214,12 +223,12 @@
         }
 
         .accordion-content {
-            display: none; /* 기본 숨김 */
+            display: none;
             padding: 0;
         }
 
         .accordion-item.active .accordion-content {
-            display: block; /* 활성화 시 보임 */
+            display: block;
             animation: slideDown 0.3s ease;
         }
 
@@ -233,6 +242,13 @@
         th { background: #F9FAFB; padding: 12px 20px; font-weight: 600; color: #4B5563; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
         td { padding: 12px 20px; border-bottom: 1px solid #F3F4F6; color: #374151; font-size: 0.9rem; }
         tr:last-child td { border-bottom: none; }
+        
+        /* [추가] 인라인 스타일 제거용: 빈 테이블 안내 문구 */
+        .empty-row {
+            text-align: center; 
+            color: #999; 
+            font-size: 0.8rem;
+        }
         
         .status-badge {
             display: inline-block;
@@ -364,11 +380,11 @@
                 <div class="accordion-item active" id="group-today">
                     <div class="accordion-header" onclick="toggleAccordion('group-today')">
                         <div class="checkbox-wrapper" onclick="event.stopPropagation()">
-                            <input type="checkbox" id="chk-today" checked>
+                            <input type="checkbox" id="chk-today" checked aria-label="선택">
                         </div>
                         <div class="date-title">
                             2026.01.27 (Latest)
-                            <span class="status-badge pass" style="font-size:0.75rem; margin-left:10px;">Pass</span>
+                            <span class="status-badge pass header-status">Pass</span>
                         </div>
                         <span class="material-icons-round toggle-icon">expand_more</span>
                     </div>
@@ -392,7 +408,7 @@
                                 <tr><td>ID_0022</td><td>배송신청 페이지 진입 및 해외배송</td><td>Session B</td><td><span class="status-badge pass">성공</span></td></tr>
                                 <tr><td>ID_0024</td><td>배송신청 완료</td><td>Session B</td><td><span class="status-badge pass">성공</span></td></tr>
                                 <tr><td>ID_0027</td><td>배송신청 : 구매대행</td><td>Session B</td><td><span class="status-badge pass">성공</span></td></tr>
-                                <tr><td colspan="4" style="text-align:center; color:#999; font-size:0.8rem;">... 전체 27개 항목 표시됨 ...</td></tr>
+                                <tr><td colspan="4" class="empty-row">... 전체 27개 항목 표시됨 ...</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -401,11 +417,11 @@
                 <div class="accordion-item" id="group-prev1">
                     <div class="accordion-header" onclick="toggleAccordion('group-prev1')">
                         <div class="checkbox-wrapper" onclick="event.stopPropagation()">
-                            <input type="checkbox" id="chk-prev1">
+                            <input type="checkbox" id="chk-prev1" aria-label="선택">
                         </div>
                         <div class="date-title">
                             2026.01.26
-                            <span class="status-badge fail" style="font-size:0.75rem; margin-left:10px;">Fail (1)</span>
+                            <span class="status-badge fail" class="header-status">Fail (1)</span>
                         </div>
                         <span class="material-icons-round toggle-icon">expand_more</span>
                     </div>
@@ -430,11 +446,11 @@
                 <div class="accordion-item" id="group-prev2">
                     <div class="accordion-header" onclick="toggleAccordion('group-prev2')">
                         <div class="checkbox-wrapper" onclick="event.stopPropagation()">
-                            <input type="checkbox" id="chk-prev2">
+                            <input type="checkbox" id="chk-prev2" aria-label="선택">
                         </div>
                         <div class="date-title">
                             2026.01.25
-                            <span class="status-badge pass" style="font-size:0.75rem; margin-left:10px;">Pass</span>
+                            <span class="status-badge pass" class="header-status">Pass</span>
                         </div>
                         <span class="material-icons-round toggle-icon">expand_more</span>
                     </div>
@@ -555,6 +571,7 @@ Call log:
                     </div>
                 </div>
             </div>
+
         </div>
 
     </main>
