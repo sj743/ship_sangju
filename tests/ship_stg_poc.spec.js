@@ -553,6 +553,50 @@ test('Session B – 테스트 계정 1 / 배송신청 및 배송현황 검증', 
   await executePage.close();
 
 
+
+  /* ID_0028 | 배송현황 기간별 조회 기능 동작 */
+  await test.step('ID_0028 | 배송현황 기간별 조회 기능 동작', async () => {
+    console.log('ID_0028 | 배송현황 기간별 조회 기능 동작');
+
+    
+    await page.locator('//*[@id="navbarSupportedContent"]/div/ul/li[3]/a').click();
+    await page.waitForLoadState('networkidle');
+    await expect(page).toHaveURL('https://staging.shipbaesong.com/delivery');
+
+    // 1. 기간 설정 모달 열기 및 Default(button[3]) 확인 후 닫기
+    await page.locator('//*[@id="setDate"]/div[2]/i').click(); 
+    await page.locator('//*[@id="datePeriodModal"]/div/div/div[1]').waitFor({ state: 'visible' });
+    
+    await page.locator('//*[@id="datePeriodModal"]/div/div/div[1]/button').click();
+    
+    await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+    await page.waitForTimeout(500);
+    await page.evaluate(() => window.scrollTo(0, 0));
+    await page.waitForTimeout(500);
+
+    // 2. '3개월' 조회 (button[2])
+    await page.locator('//*[@id="setDate"]/div[2]/i').click();
+    await page.locator('//*[@id="datePeriodModal"]/div/div/div[3]/div[1]/div[1]/button[2]').click();
+    await page.locator('//*[@id="datePeriodModalSubmit"]').click(); 
+    await page.waitForTimeout(2000); 
+
+    await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+    await page.waitForTimeout(500);
+    await page.evaluate(() => window.scrollTo(0, 0));
+    await page.waitForTimeout(500);
+
+
+    // 3. '30일' 조회 (button[1])
+    await page.locator('//*[@id="setDate"]/div[2]/i').click(); 
+    await page.locator('//*[@id="datePeriodModal"]/div/div/div[3]/div[1]/div[1]/button[1]').click();
+    await page.locator('//*[@id="datePeriodModalSubmit"]').click();
+
+    await page.waitForTimeout(2000);
+    await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+    await page.waitForTimeout(500);
+    await page.evaluate(() => window.scrollTo(0, 0));
+  });
+
   console.log("=================================");
   console.log(" Session B 종료");
   console.log("=================================");
