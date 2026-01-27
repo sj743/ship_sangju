@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "npx playwright test && node insert-runtime.js"
+    "test": "npx playwright test ship_stg_poc.spec.js --headed && node update-history.js"
   },
   "keywords": [],
   "author": "",

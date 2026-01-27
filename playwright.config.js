@@ -13,7 +13,7 @@ export default defineConfig({
     },
     viewport: { width: 1728, height: 1117 },
   },
-  // ▼▼▼ 수정된 부분 ▼▼▼
+  
   reporter: [
     ['html', { outputFolder: 'playwright-report', open: 'never' }], // 기존 HTML 리포트
     ['json', { outputFile: 'test-results.json' }]                   // ★ 추가된 JSON 리포트
