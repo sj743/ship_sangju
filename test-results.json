@@ -16,17 +16,7 @@
     "preserveOutput": "always",
     "reporter": [
       [
-        "html",
-        {
-          "outputFolder": "playwright-report",
-          "open": "never"
-        }
-      ],
-      [
-        "json",
-        {
-          "outputFile": "test-results.json"
-        }
+        "json"
       ]
     ],
     "reportSlowTests": {
@@ -83,7 +73,7 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 34109,
+                  "duration": 33728,
                   "errors": [],
                   "stdout": [
                     {
@@ -170,14 +160,9 @@
                   ],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-01-27T07:18:06.492Z",
+                  "startTime": "2026-01-28T00:05:57.484Z",
                   "annotations": [],
                   "attachments": [
-                    {
-                      "name": "video",
-                      "contentType": "video/webm",
-                      "path": "/Users/leesangju/ship-test/test-results/ship_stg_poc-Session-A-–-퓨어계정-데이터-없음-상태-검증/video-3.webm"
-                    },
                     {
                       "name": "video",
                       "contentType": "video/webm",
@@ -187,6 +172,11 @@
                       "name": "video",
                       "contentType": "video/webm",
                       "path": "/Users/leesangju/ship-test/test-results/ship_stg_poc-Session-A-–-퓨어계정-데이터-없음-상태-검증/video-2.webm"
+                    },
+                    {
+                      "name": "video",
+                      "contentType": "video/webm",
+                      "path": "/Users/leesangju/ship-test/test-results/ship_stg_poc-Session-A-–-퓨어계정-데이터-없음-상태-검증/video-3.webm"
                     },
                     {
                       "name": "video",
@@ -225,7 +215,7 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 47150,
+                  "duration": 48068,
                   "errors": [],
                   "stdout": [
                     {
@@ -282,18 +272,18 @@
                   "steps": [
                     {
                       "title": "ID_0022 | 배송신청 : 해외배송",
-                      "duration": 4154
+                      "duration": 4957
                     },
                     {
                       "title": "ID_0023 | 기본주소록 선택 후 단계 진행",
-                      "duration": 12178
+                      "duration": 12307
                     },
                     {
                       "title": "ID_0028 | 배송현황 기간별 조회 기능 동작",
-                      "duration": 10429
+                      "duration": 10668
                     }
                   ],
-                  "startTime": "2026-01-27T07:18:41.570Z",
+                  "startTime": "2026-01-28T00:06:34.192Z",
                   "annotations": [],
                   "attachments": [
                     {
@@ -333,7 +323,7 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 889,
+                  "duration": 381,
                   "errors": [],
                   "stdout": [
                     {
@@ -360,7 +350,7 @@
                   ],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-01-27T07:19:28.726Z",
+                  "startTime": "2026-01-28T00:07:22.266Z",
                   "annotations": [],
                   "attachments": [
                     {
@@ -384,8 +374,8 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-01-27T07:18:06.079Z",
-    "duration": 83710.113,
+    "startTime": "2026-01-28T00:05:57.002Z",
+    "duration": 85728.803,
     "expected": 3,
     "skipped": 0,
     "unexpected": 0,

@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
     
     <style>
-        /* === [PC 기본 스타일] === */
+        /* === [PC 기본 스타일 유지] === */
         :root { 
             --sidebar-width: 260px; 
             --primary-color: #00c2de; 
@@ -149,6 +149,8 @@
         .fail-title { font-weight: 600; color: #991B1B; font-size: 1.1rem; }
         .fail-body { padding: 20px; display: grid; grid-template-columns: 1fr; gap: 20px; }
         .error-log-box { background: #1F2937; color: #F87171; padding: 15px; border-radius: 8px; font-family: monospace; font-size: 0.9rem; line-height: 1.5; height: auto; white-space: pre-wrap; }
+        .screenshot-box { border: 1px solid #E5E7EB; border-radius: 8px; overflow: hidden; height: 300px; background: #000; display: flex; align-items: center; justify-content: center; }
+        .screenshot-box img { width: 100%; height: 100%; object-fit: contain; }
 
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; }
         .modal-overlay.open { display: flex; }
@@ -180,6 +182,24 @@
             .item-info { flex-wrap: wrap; gap: 5px; }
             .modal-box { width: 90%; }
         }
+
+        /* ★ [인쇄 설정] 다운로드(PDF 저장) 시 적용됨 */
+        @media print {
+            aside, button, #btn-config, #btn-menu-toggle, .checkbox-wrapper { display: none !important; }
+            body { height: auto; overflow: visible; background-color: white; display: block; }
+            main { padding: 0; overflow: visible; }
+            .view-section { display: block !important; margin-bottom: 30px; }
+            .accordion-content { display: block !important; }
+            .accordion-header { border-bottom: 1px solid #ccc !important; }
+            .session-item { border-bottom: 1px solid #ccc !important; page-break-inside: avoid; }
+            
+            /* 선택되지 않은 항목 숨김 */
+            .print-hidden { display: none !important; }
+            
+            /* ★ [핵심] 실패 내역의 이미지(스크린샷) 숨김 */
+            .screenshot-box { display: none !important; }
+            .fail-body { grid-template-columns: 1fr !important; } /* 에러 로그만 넓게 표시 */
+        }
     </style>
 </head>
 <body>
@@ -208,7 +228,7 @@
                     <div class="last-updated" id="run-time">기록을 불러오는 중...</div>
                 </div>
             </div>
-            <div><button id="btn-download" class="btn-primary" onclick="location.reload()">새로고침</button></div>
+            <div><button id="btn-download" class="btn-primary">리포트 다운로드</button></div>
         </header>
 
         <div id="view-overview" class="view-section active">
@@ -248,36 +268,17 @@
     </div>
 
     <script>
-        // [중요] 여기 있는 SHORT_TITLES는 화면에 보여줄 굵은 제목입니다.
+        // ★ ID 및 설명 정의
         const SHORT_TITLES = {
-            "ID_0001": "메인 진입 및 팝업 처리",
-            "ID_0002": "이용안내 페이지 이동(비로그인)",
-            "ID_0003": "배송신청 페이지 이동(비로그인)",
-            "ID_0004": "배송현황 페이지 이동(비로그인)",
-            "ID_0005": "고객지원 페이지 이동(비로그인)",
-            "ID_0006": "로그인(퓨어계정)",
-            "ID_0007": "배송현황 페이지 확인",
-            "ID_0008": "최근신청 내역 미제공 체크",
-            "ID_0009": "최근신청 내역 > 해외배송 신청하기",
-            "ID_0010": "주소록 관리 > 팝업 내 주소 내역 미제공",
-            "ID_0011": "주소록 > 새로운 주소 추가 시 화면 변경",
-            "ID_0012": "로그아웃 수행",
-            "ID_0013": "메인페이지 > 해외배송 신청하기 랜딩 확인",
-            "ID_0014": "배송조회_tracking 페이지 랜딩 확인",
-            "ID_0015": "메인 배너 UI 노출 확인",
-            "ID_0016": "챗봇 펼치기 > 닫기 확인",
-            "ID_0017": "화면 최하단까지 스크롤(UI체크)",
-            "ID_0018": "비즈니스 고객 [서비스 이용하기] 선택",
-            "ID_0019": "푸터영역 SNS 랜딩 확인",
-            "ID_0020": "푸터영역 약관 팝업 노출 확인",
-            "ID_0021": "메인 진입 및 팝업 처리",
-            "ID_0022": "배송신청 : 해외배송",
-            "ID_0023": "기본주소록 선택 후 단계 진행",
-            "ID_0024": "배송신청 완료",
-            "ID_0025": "배송현황 상세보기 진입",
-            "ID_0026": "상세페이지 스크롤",
-            "ID_0027": "배송신청 : 구매대행",
-            "ID_0028": "배송현황 진입 > 기간 필터 검증"
+            "ID_0001": "메인 진입 및 팝업 처리", "ID_0002": "이용안내 페이지 이동(비로그인)", "ID_0003": "배송신청 페이지 이동(비로그인)", 
+            "ID_0004": "배송현황 페이지 이동(비로그인)", "ID_0005": "고객지원 페이지 이동(비로그인)", "ID_0006": "로그인(퓨어계정)", 
+            "ID_0007": "배송현황 페이지 확인", "ID_0008": "최근신청 내역 미제공 체크", "ID_0009": "최근신청 내역 > 해외배송 신청하기", 
+            "ID_0010": "주소록 관리 > 팝업 내 주소 내역 미제공", "ID_0011": "주소록 > 새로운 주소 추가 시 화면 변경", "ID_0012": "로그아웃 수행", 
+            "ID_0013": "메인페이지 > 해외배송 신청하기 랜딩 확인", "ID_0014": "배송조회_tracking 페이지 랜딩 확인", "ID_0015": "메인 배너 UI 노출 확인", 
+            "ID_0016": "챗봇 펼치기 > 닫기 확인", "ID_0017": "화면 최하단까지 스크롤(UI체크)", "ID_0018": "비즈니스 고객 [서비스 이용하기] 선택", 
+            "ID_0019": "푸터영역 SNS 랜딩 확인", "ID_0020": "푸터영역 약관 팝업 노출 확인", "ID_0021": "메인 진입 및 팝업 처리", 
+            "ID_0022": "배송신청 : 해외배송", "ID_0023": "기본주소록 선택 후 단계 진행", "ID_0024": "배송신청 완료", 
+            "ID_0025": "배송현황 상세보기 진입", "ID_0026": "상세페이지 스크롤", "ID_0027": "배송신청 : 구매대행", "ID_0028": "배송현황 진입 > 기간 필터 검증"
         };
 
         const SESSION_A_IDS = Object.keys(SHORT_TITLES).filter(id => parseInt(id.split('_')[1]) <= 20);
@@ -290,8 +291,7 @@
                 const res = await fetch('history.json?t=' + new Date().getTime());
                 if (!res.ok) throw new Error("History file not found");
                 allHistoryData = await res.json();
-                allHistoryData.reverse();
-
+                
                 if (allHistoryData.length > 0) {
                     renderDashboard(allHistoryData);
                 } else {
@@ -301,6 +301,49 @@
                 console.warn("데이터 로드 실패:", e);
                 document.getElementById('overview-list').innerHTML = '<div class="empty-row">⚠️ history.json을 불러오지 못했습니다.</div>';
             }
+        });
+
+        // ★ [PDF 인쇄 로직]
+        document.getElementById('btn-download').addEventListener('click', () => {
+            const checkedBoxes = document.querySelectorAll('input[type="checkbox"]:checked');
+            
+            if (checkedBoxes.length === 0) {
+                alert("다운로드할 항목을 선택해주세요.");
+                return;
+            }
+
+            // 1. 모든 항목 숨김 (초기화)
+            document.querySelectorAll('.accordion-item').forEach(el => el.classList.add('print-hidden'));
+
+            // 2. 선택된 항목 및 관련 섹션 표시
+            checkedBoxes.forEach(box => {
+                // 체크박스 ID "chk-0" -> index "0" 추출
+                const index = parseInt(box.id.split('-')[1]);
+                const data = allHistoryData[index];
+
+                // Overview 항목 표시
+                const groupItem = document.getElementById(`group-${index}`);
+                if(groupItem) groupItem.classList.remove('print-hidden');
+
+                // Session A & B 항목 표시
+                const sessionAItem = document.getElementById(`sessionA-${index}`);
+                if(sessionAItem) sessionAItem.classList.remove('print-hidden');
+
+                const sessionBItem = document.getElementById(`sessionB-${index}`);
+                if(sessionBItem) sessionBItem.classList.remove('print-hidden');
+
+                // ★ [조건] 실패가 있는 경우에만 실패 내역 표시
+                if (data.stats.failed > 0) {
+                    const failItem = document.getElementById(`fail-${index}`);
+                    if(failItem) failItem.classList.remove('print-hidden');
+                }
+            });
+
+            // 3. 브라우저 인쇄 실행 (PDF 저장)
+            window.print();
+
+            // 4. 인쇄 후 모든 항목 다시 표시 (원상복구)
+            document.querySelectorAll('.accordion-item').forEach(el => el.classList.remove('print-hidden'));
         });
 
         function renderDashboard(data) {
@@ -374,6 +417,9 @@
                 const html = `
                 <div class="accordion-item ${activeClass}" id="group-${index}">
                     <div class="accordion-header" onclick="toggleAccordion('group-${index}')">
+                        <div class="checkbox-wrapper" onclick="event.stopPropagation()">
+                            <input type="checkbox" id="chk-${index}">
+                        </div>
                         <div class="date-title">${dateStr} ${isLatest ? '(Latest)' : ''} ${failBadge}</div>
                         <span class="material-icons-round toggle-icon">expand_more</span>
                     </div>
@@ -410,8 +456,7 @@
                         ? `<span class="status-badge pass">성공</span>` 
                         : `<span class="status-badge fail">실패</span>`;
                     
-                    // ★ 로그에서 Title과 Desc를 올바르게 가져옵니다.
-                    // update-history.js에서 이미 분리해서 저장해두었습니다.
+
                     const title = log.title || SHORT_TITLES[log.id];
                     const desc = log.desc || "상세 설명 없음";
 
@@ -431,7 +476,7 @@
                 });
                 listHTML += '</div>';
 
-                // ★ 비디오 포스터 텍스트 (SessionA Recording...)
+                
                 const videoFileName = sessionKey === 'sessionA' ? 'SessionA.webm' : 'SessionB.webm';
                 const posterText = sessionKey === 'sessionA' ? 'sessionA Recording' : 'sessionB Recording';
                 const posterUrl = `https://placehold.co/600x400/e0e0e0/555?text=${encodeURIComponent(posterText)}`;
@@ -481,9 +526,12 @@
                     failures.forEach(fail => {
                         contentHTML += `
                         <div class="fail-card" style="margin:20px;">
-                            <div class="fail-header"><span class="fail-tag">FAILED</span><span class="fail-title">${fail.id} | ${fail.title}</span></div>
+                            <div class="fail-header"><span class="fail-tag">FAILED</span><span class="fail-title">${fail.id} | ${SHORT_TITLES[fail.id]}</span></div>
                             <div class="fail-body">
                                 <div class="error-log-box">${fail.desc}</div>
+                                <div class="screenshot-box">
+                                    <img src="placeholder-screenshot.png" alt="스크린샷" onerror="this.style.display='none'">
+                                </div>
                             </div>
                         </div>`;
                     });
@@ -514,10 +562,16 @@
             views[tabName].classList.add('active');
             if(window.innerWidth <= 768) toggleSidebar();
 
-            if(tabName === 'overview') pageTitle.textContent = '테스트 수행 목록';
-            else if(tabName === 'sessionA') pageTitle.textContent = '세션 A 리포트';
-            else if(tabName === 'sessionB') pageTitle.textContent = '세션 B 리포트';
-            else if(tabName === 'failures') pageTitle.textContent = '실패 분석 리포트';
+            const btn = document.getElementById('btn-download');
+            if(tabName === 'overview') {
+                pageTitle.textContent = '테스트 수행 목록';
+                btn.style.display = 'block';
+            } else {
+                btn.style.display = 'none';
+                if(tabName === 'sessionA') pageTitle.textContent = '세션 A 리포트';
+                else if(tabName === 'sessionB') pageTitle.textContent = '세션 B 리포트';
+                else if(tabName === 'failures') pageTitle.textContent = '실패 분석 리포트';
+            }
         }
 
         menus.overview.addEventListener('click', () => switchTab('overview'));
