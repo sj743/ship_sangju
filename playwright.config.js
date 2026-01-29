@@ -15,8 +15,8 @@ export default defineConfig({
   },
   
   reporter: [
-    ['html', { outputFolder: 'playwright-report', open: 'never' }], // 기존 HTML 리포트
-    ['json', { outputFile: 'test-results.json' }]                   // ★ 추가된 JSON 리포트
+    ['html', { outputFolder: 'playwright-report', open: 'never' }], 
+    ['json', { outputFile: 'test-results.json' }]               
   ],
 });
 
