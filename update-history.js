@@ -4,46 +4,26 @@ const path = require('path');
 const resultsPath = path.join(__dirname, 'test-results.json');
 const historyPath = path.join(__dirname, 'history.json');
 const videoDir = path.join(__dirname, 'videos');
+const testResultsDir = path.join(__dirname, 'test-results'); // ★ 폴더 직접 탐색용
 
 if (!fs.existsSync(videoDir)) fs.mkdirSync(videoDir, { recursive: true });
 
-// ★ 1. 짧은 제목 (화면에 굵게 나올 텍스트)
+// ★ 1. 짧은 제목
 const SHORT_TITLES = {
-    "ID_0001": "메인 진입 및 팝업 처리",
-    "ID_0002": "이용안내 페이지 이동(비로그인)",
-    "ID_0003": "배송신청 페이지 이동(비로그인)",
-    "ID_0004": "배송현황 페이지 이동(비로그인)",
-    "ID_0005": "고객지원 페이지 이동(비로그인)",
-    "ID_0006": "로그인(퓨어계정)",
-    "ID_0007": "배송현황 페이지 확인",
-    "ID_0008": "최근신청 내역 미제공 체크",
-    "ID_0009": "최근신청 내역 > 해외배송 신청하기",
-    "ID_0010": "주소록 관리 > 팝업 내 주소 내역 미제공",
-    "ID_0011": "주소록 > 새로운 주소 추가 시 화면 변경",
-    "ID_0012": "로그아웃 수행",
-    "ID_0013": "메인페이지 > 해외배송 신청하기 랜딩 확인",
-    "ID_0014": "배송조회_tracking 페이지 랜딩 확인",
-    "ID_0015": "메인 배너 UI 노출 확인",
-    "ID_0016": "챗봇 펼치기 > 닫기 확인",
-    "ID_0017": "화면 최하단까지 스크롤(UI체크)",
-    "ID_0018": "비즈니스 고객 [서비스 이용하기] 선택",
-    "ID_0019": "푸터영역 SNS 랜딩 확인",
-    "ID_0020": "푸터영역 약관 팝업 노출 확인",
-    "ID_0021": "메인 진입 및 팝업 처리",
-    "ID_0022": "배송신청 : 해외배송",
-    "ID_0023": "기본주소록 선택 후 단계 진행",
-    "ID_0024": "1박스,픽업발송_배송신청 완료",
-    "ID_0025": "배송현황 상세보기 진입",
-    "ID_0026": "상세페이지 스크롤",
-    "ID_0027": "배송신청 : 구매대행",
-    "ID_0028": "배송현황 기간별 조회 기능 동작",
-    "ID_0029": "2박스,든든보험,직접발송_배송신청 완료",
-    "ID_0030": "배송현황 상세보기 및 송장번호 입력",
-    "ID_0031": "배송현황 : 받는 사람 주소 수정",
-    "ID_0032": "배송현황 : 배송조회, Tracking 페이지 기능동작"
+    "ID_0001": "메인 진입 및 팝업 처리", "ID_0002": "이용안내 페이지 이동(비로그인)", "ID_0003": "배송신청 페이지 이동(비로그인)", 
+    "ID_0004": "배송현황 페이지 이동(비로그인)", "ID_0005": "고객지원 페이지 이동(비로그인)", "ID_0006": "로그인(퓨어계정)", 
+    "ID_0007": "배송현황 페이지 확인", "ID_0008": "최근신청 내역 미제공 체크", "ID_0009": "최근신청 내역 > 해외배송 신청하기", 
+    "ID_0010": "주소록 관리 > 팝업 내 주소 내역 미제공", "ID_0011": "주소록 > 새로운 주소 추가 시 화면 변경", "ID_0012": "로그아웃 수행", 
+    "ID_0013": "메인페이지 > 해외배송 신청하기 랜딩 확인", "ID_0014": "배송조회_tracking 페이지 랜딩 확인", "ID_0015": "메인 배너 UI 노출 확인", 
+    "ID_0016": "챗봇 펼치기 > 닫기 확인", "ID_0017": "화면 최하단까지 스크롤(UI체크)", "ID_0018": "비즈니스 고객 [서비스 이용하기] 선택", 
+    "ID_0019": "푸터영역 SNS 랜딩 확인", "ID_0020": "푸터영역 약관 팝업 노출 확인", "ID_0021": "메인 진입 및 팝업 처리", 
+    "ID_0022": "배송신청 : 해외배송", "ID_0023": "기본주소록 선택 후 단계 진행", "ID_0024": "1박스,픽업발송_배송신청 완료", 
+    "ID_0025": "배송현황 상세보기 진입", "ID_0026": "상세페이지 스크롤", "ID_0027": "배송신청 : 구매대행", "ID_0028": "배송현황 기간별 조회 기능 동작",
+    "ID_0029": "2박스,든든보험,직접발송_배송신청 완료", "ID_0030": "배송현황 상세보기 및 송장번호 입력",
+    "ID_0031": "배송현황 : 받는 사람 주소 수정", "ID_0032": "배송현황 : 배송조회, Tracking 페이지 기능동작"
 };
 
-// ★ 2. 상세 진행 내용 (화면에 회색으로 나올 긴 텍스트)
+// ★ 2. 상세 설명
 const DESCRIPTIONS = {
     "ID_0001": "메인 페이지 진입 후 프로모션 팝업 닫기 버튼 클릭, 팝업 제거 확인",
     "ID_0002": "헤더의 [이용안내] 메뉴 클릭, /guide 페이지 URL 이동 및 타이틀 노출 확인",
@@ -75,9 +55,44 @@ const DESCRIPTIONS = {
     "ID_0028": "배송현황 진입 > 기간 필터(1년, 3개월, 30일) 변경 및 조회 결과 스크롤 확인",
     "ID_0029": "(2박스,든든보험,직접발송 선택)약관동의 후 [배송신청 완료]버튼 클릭, 완료 페이지 노출 확인",
     "ID_0030": "배송현황 리스트에서 운송장 번호 입력 유도, 상세 페이지 진입 시 박스별 택배사,운송장번호 선택 및 입력 확인",
-    "ID_0031": "모달 진입 > 영문 이름/주소 수정 > 저장 후 변경 확인",
+    "ID_0031": "모달 진입 > 영문 이름/주소 수정 > End키 스크롤 > 저장 확인",
     "ID_0032": "새 탭 열림 > 송장번호 검증 > 배송상태 상세보기 > 다국어(KO/EN/JA) 변경 확인"
 };
+
+// ★★★ [신규 함수] 폴더 직접 뒤져서 영상 찾기 ★★★
+function findVideoFile(keyword) {
+    try {
+        if (!fs.existsSync(testResultsDir)) return null;
+
+        // 1. test-results 안의 폴더 목록 조회
+        const folders = fs.readdirSync(testResultsDir);
+
+        // 2. 키워드(Session-A 등)가 포함된 폴더 찾기
+        const targetFolder = folders.find(folder => folder.includes(keyword));
+        if (!targetFolder) return null;
+
+        const targetFolderPath = path.join(testResultsDir, targetFolder);
+        
+        // 3. 폴더 안에서 .webm 파일 찾기 (video.webm 우선)
+        if (fs.existsSync(targetFolderPath)) {
+            const files = fs.readdirSync(targetFolderPath);
+            
+            // (1) video.webm 파일이 있으면 그거 리턴
+            if (files.includes('video.webm')) {
+                return path.join(targetFolderPath, 'video.webm');
+            }
+            
+            // (2) 없다면 다른 .webm 파일 아무거나 리턴 (해시값 이름 등)
+            const webmFile = files.find(file => file.endsWith('.webm'));
+            if (webmFile) {
+                return path.join(targetFolderPath, webmFile);
+            }
+        }
+    } catch (e) {
+        console.error(`영상 탐색 중 오류: ${e}`);
+    }
+    return null;
+}
 
 try {
     if (!fs.existsSync(resultsPath)) { console.log("⚠️ 파일 없음"); process.exit(0); }
@@ -94,30 +109,35 @@ try {
     const sessionBLogs = [];
     const processedIDs = new Set();
     
+    // ★★★ [핵심 변경] 폴더 직접 탐색하여 영상 복사 ★★★
     let videoA = null;
     let videoB = null;
 
-    testResults.suites.forEach(suite => {
-        const suiteTitle = suite.title || "";
+    // Session A 영상 찾기 (폴더명에 'Session-A' 포함)
+    const rawVideoA = findVideoFile('Session-A');
+    if (rawVideoA) {
+        fs.copyFileSync(rawVideoA, path.join(videoDir, "SessionA.webm"));
+        videoA = "SessionA.webm";
+        console.log(`🎥 Session A 영상 찾음: ${rawVideoA}`);
+    }
 
+    // Session B 영상 찾기 (폴더명에 'Session-B' 포함)
+    const rawVideoB = findVideoFile('Session-B');
+    if (rawVideoB) {
+        fs.copyFileSync(rawVideoB, path.join(videoDir, "SessionB.webm"));
+        videoB = "SessionB.webm";
+        console.log(`🎥 Session B 영상 찾음: ${rawVideoB}`);
+    }
+
+
+    testResults.suites.forEach(suite => {
+        
         suite.specs.forEach(spec => {
             spec.tests.forEach(test => {
                 const result = test.results[test.results.length - 1];
                 if (!result) return;
 
-                // 1. 비디오 복사
-                if (result.attachments) {
-                    const vid = result.attachments.find(a => a.name === 'video' && a.contentType === 'video/webm');
-                    if (vid && fs.existsSync(vid.path)) {
-                        if (suiteTitle.includes("Session A")) {
-                            fs.copyFileSync(vid.path, path.join(videoDir, "SessionA.webm"));
-                            videoA = "SessionA.webm";
-                        } else if (suiteTitle.includes("Session B")) {
-                            fs.copyFileSync(vid.path, path.join(videoDir, "SessionB.webm"));
-                            videoB = "SessionB.webm";
-                        }
-                    }
-                }
+                // (기존 비디오 복사 로직 제거됨 - 위에서 직접 처리함)
 
                 // 2. 로그 추출
                 const processLog = (text, duration) => {
@@ -132,8 +152,8 @@ try {
 
                             const logItem = {
                                 id: id,
-                                title: SHORT_TITLES[id] || text, // ★ 짧은 제목 적용
-                                desc: DESCRIPTIONS[id] || "설명 없음", // ★ 긴 설명 적용
+                                title: SHORT_TITLES[id] || text, 
+                                desc: DESCRIPTIONS[id] || "설명 없음", 
                                 status: status,
                                 duration: duration
                             };
