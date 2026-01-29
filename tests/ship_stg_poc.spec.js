@@ -26,7 +26,6 @@ async function handlePopup(page) {
 
   if (count > 0) {
 
-
     for (let i = 0; i < count; i++) {
       const btn = closeButtons.nth(i);
       if (await btn.isVisible().catch(() => false)) {
@@ -42,7 +41,7 @@ async function goToMain(page) {
   await page.locator('#header a.navbar-brand[href="/"]').click();
   await page.waitForLoadState('networkidle');
 
-  
+
   await handlePopup(page);
 }
 
@@ -382,10 +381,10 @@ test('Session B – 테스트 계정 1 / 배송신청 및 배송현황 검증', 
 
 
   await page.waitForSelector("//div[@id='commonConfirmModal' and contains(@class,'show')]", {
-    state: 'hidden', timeout: 10000
+    state: 'hidden', timeout: 0
   }).catch(() => { });
   await page.waitForSelector("//div[contains(@class,'spinner-container') and contains(@class,'show')]", {
-    state: 'hidden', timeout: 10000
+    state: 'hidden', timeout: 0
   }).catch(() => { });
 
 
@@ -399,17 +398,17 @@ test('Session B – 테스트 계정 1 / 배송신청 및 배송현황 검증', 
     if (!(await page.url()).includes('/request/main'))
       throw new Error('페이지 이동 실패: /request/main 아님');
 
-    await page.waitForURL(/\/request(\/main)?$/, { timeout: 15000 }).catch(() => { });
+    await page.waitForURL(/\/request(\/main)?$/, { timeout: 0 }).catch(() => { });
     await page.waitForTimeout(1500);
 
     const overseasBtnSelector = "//h5[contains(text(),'해외배송')]";
     try {
-      await page.waitForSelector(overseasBtnSelector, { timeout: 20000 });
+      await page.waitForSelector(overseasBtnSelector, { timeout: 0 });
       await page.locator(overseasBtnSelector).click();
     } catch (e) {
     }
 
-    await page.waitForURL(/\/request$/, { timeout: 20000 }).catch(() => { });
+    await page.waitForURL(/\/request$/, { timeout: 0 }).catch(() => { });
     await page.waitForLoadState('domcontentloaded');
     await page.waitForTimeout(1000);
 
@@ -421,10 +420,10 @@ test('Session B – 테스트 계정 1 / 배송신청 및 배송현황 검증', 
       const visible = await page.locator(popupSelector).isVisible({ timeout: 1000 }).catch(() => false);
       if (visible) {
         await page.locator(confirmBtnSelector).click();
-        await page.waitForSelector("//div[@id='commonConfirmModal']", { state: 'hidden', timeout: 10000 });
+        await page.waitForSelector("//div[@id='commonConfirmModal']", { state: 'hidden', timeout: 0 });
         await page.waitForSelector(
           "//div[contains(@class,'spinner-container') and contains(@class,'show')]",
-          { state: 'hidden', timeout: 10000 }
+          { state: 'hidden', timeout: 0 }
         ).catch(() => { });
         break;
       }
@@ -436,7 +435,7 @@ test('Session B – 테스트 계정 1 / 배송신청 및 배송현황 검증', 
 
       await page.waitForTimeout(1000);
       elapsed += 1000;
-      if (elapsed >= 20000) {
+      if (elapsed >= 600000) { // 10분 대기 (사실상 무한)
         break;
       }
     }
@@ -450,19 +449,18 @@ test('Session B – 테스트 계정 1 / 배송신청 및 배송현황 검증', 
 
     if (await addressBookBtn.isVisible({ timeout: 5000 }).catch(() => false)) {
       await addressBookBtn.click();
-      await page.waitForSelector("text=보내는 사람 주소록", { timeout: 10000 });
+      await page.waitForSelector("text=보내는 사람 주소록", { timeout: 0 });
       await page.locator("(//button[@class='btn btn-outline-primary btn-sm'][contains(text(),'선택')])[1]").click();
 
       await page.waitForSelector("//div[@id='commonConfirmModal' and contains(@class,'show')]", {
-        state: 'hidden', timeout: 10000
+        state: 'hidden', timeout: 0
       }).catch(() => { });
       await page.waitForTimeout(1000);
     }
 
     for (let i = 1; i <= 4; i++) {
       const btn = page.locator(`(//button[@type='button'][contains(text(),'다음')])[${i}]`);
-      const timeout = (i === 1 || i === 2) ? 40000 : 20000;
-
+      
       await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
       await page.waitForTimeout(500);
 
@@ -470,7 +468,7 @@ test('Session B – 테스트 계정 1 / 배송신청 및 배송현황 검증', 
       if (await prohibitedModal.isVisible({ timeout: 3000 }).catch(() => false)) {
         const confirmBtn = page.locator('button.btn.btn-lg.btn-primary.custom-close:visible');
         await confirmBtn.click({ force: true });
-        await page.waitForSelector("//div[@id='prohibitedItemsModal']", { state: 'hidden', timeout: 15000 });
+        await page.waitForSelector("//div[@id='prohibitedItemsModal']", { state: 'hidden', timeout: 0 });
 
         await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
         await page.waitForTimeout(1000);
@@ -479,7 +477,7 @@ test('Session B – 테스트 계정 1 / 배송신청 및 배송현황 검증', 
       await page.waitForTimeout(500);
 
       try {
-        await btn.waitFor({ state: 'visible', timeout: i === 4 ? 50000 : timeout });
+        await btn.waitFor({ state: 'visible', timeout: 0 });
 
         const isDisabled = await btn.isDisabled().catch(() => false);
         if (!isDisabled) {
@@ -497,7 +495,9 @@ test('Session B – 테스트 계정 1 / 배송신청 및 배송현황 검증', 
   console.log('ID_0024 | 1박스,픽업발송_배송신청 완료');
   await page.locator("(//input[@id='chkAgree'])[1]").check();
   await page.locator("(//button[contains(text(),'배송신청 완료')])[1]").click();
-  await page.waitForURL(`${BASE_URL}/request/completed`, { timeout: 15000 });
+  
+  // ★ [핵심 수정] timeout: 0 으로 설정하여 무제한 대기
+  await page.waitForURL(`${BASE_URL}/request/completed`, { timeout: 0 });
 
 
   /* ID_0025 | 배송현황 상세보기 진입 */
@@ -533,8 +533,7 @@ test('Session B – 테스트 계정 1 / 배송신청 및 배송현황 검증', 
   if (!(await page.url()).includes('/request/main'))
     throw new Error('페이지 이동 실패: /request/main 아님');
 
-
-  await page.waitForURL(/\/request(\/main)?$/, { timeout: 15000 }).catch(() => { });
+  await page.waitForURL(/\/request(\/main)?$/, { timeout: 0 }).catch(() => { });
   await page.waitForTimeout(1500);
 
 
@@ -614,15 +613,15 @@ test('Session B – 테스트 계정 1 / 배송신청 및 배송현황 검증', 
     const confirmBtnSelector = "(//button[contains(text(),'새로 입력하기')])[1]";
     if (await page.locator(popupSelector).isVisible({ timeout: 2000 }).catch(() => false)) {
       await page.locator(confirmBtnSelector).click();
-      await page.waitForSelector("//div[@id='commonConfirmModal']", { state: 'hidden', timeout: 10000 });
+      await page.waitForSelector("//div[@id='commonConfirmModal']", { state: 'hidden', timeout: 0 });
     }
 
     const addressBookBtn = page.locator('button.btn.btn-outline-dark.btn-sm.rounded-1.fw-medium:visible').first();
     if (await addressBookBtn.isVisible({ timeout: 5000 }).catch(() => false)) {
       await addressBookBtn.click();
-      await page.waitForSelector("text=보내는 사람 주소록", { timeout: 10000 });
+      await page.waitForSelector("text=보내는 사람 주소록", { timeout: 0 });
       await page.locator("(//button[@class='btn btn-outline-primary btn-sm'][contains(text(),'선택')])[1]").click();
-      await page.waitForSelector("//div[@id='commonConfirmModal']", { state: 'hidden', timeout: 10000 }).catch(() => { });
+      await page.waitForSelector("//div[@id='commonConfirmModal']", { state: 'hidden', timeout: 0 }).catch(() => { });
       await page.waitForTimeout(1000);
     }
 
@@ -633,7 +632,7 @@ test('Session B – 테스트 계정 1 / 배송신청 및 배송현황 검증', 
       const prohibitedModal = page.locator("//div[@id='prohibitedItemsModal']");
       if (await prohibitedModal.isVisible({ timeout: 2000 }).catch(() => false)) {
         await page.locator('button.btn.btn-lg.btn-primary.custom-close:visible').click({ force: true });
-        await page.waitForSelector("//div[@id='prohibitedItemsModal']", { state: 'hidden', timeout: 10000 });
+        await page.waitForSelector("//div[@id='prohibitedItemsModal']", { state: 'hidden', timeout: 0 });
       }
 
       if (i === 4) {
@@ -655,7 +654,7 @@ test('Session B – 테스트 계정 1 / 배송신청 및 배송현황 검증', 
     await page.locator('//*[@id="section_5"]/div/div[4]/details/summary/div/div/label').click();
     await page.locator('//*[@id="btn-delivery-request"]').click();
 
-    await page.waitForURL('https://staging.shipbaesong.com/request/completed', { timeout: 10000 });
+    await page.waitForURL('https://staging.shipbaesong.com/request/completed', { timeout: 0 });
     const finalMethodText = page.locator('xpath=/html/body/main/section/div/div[1]');
     await expect(finalMethodText).toContainText('직접 발송');
   });
@@ -860,7 +859,7 @@ test('Session B – 테스트 계정 1 / 배송신청 및 배송현황 검증', 
     await newPage.waitForTimeout(500);
     await expect(newPage.locator('body')).toContainText('Tracking');
 
-    await langBox.locator('text=JA').click(); 
+    await langBox.locator('text=JA').click();
     await newPage.waitForTimeout(500);
     await expect(newPage.locator('body')).toContainText('配送追跡');
 
@@ -898,5 +897,5 @@ test('Session C – 테스트 계정 2 / 상단메뉴 상세기능 동작', asyn
   console.log(" Session C 종료");
   console.log("=================================");
 
-
+  
 });

@@ -83,7 +83,7 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 32607,
+                  "duration": 31538,
                   "errors": [],
                   "stdout": [
                     {
@@ -170,18 +170,13 @@
                   ],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-01-29T01:12:43.031Z",
+                  "startTime": "2026-01-29T01:23:35.246Z",
                   "annotations": [],
                   "attachments": [
                     {
                       "name": "video",
                       "contentType": "video/webm",
-                      "path": "/Users/leesangju/ship-test/test-results/ship_stg_poc-Session-A-–-퓨어계정-데이터-없음-상태-검증/video-4.webm"
-                    },
-                    {
-                      "name": "video",
-                      "contentType": "video/webm",
-                      "path": "/Users/leesangju/ship-test/test-results/ship_stg_poc-Session-A-–-퓨어계정-데이터-없음-상태-검증/video-1.webm"
+                      "path": "/Users/leesangju/ship-test/test-results/ship_stg_poc-Session-A-–-퓨어계정-데이터-없음-상태-검증/video-3.webm"
                     },
                     {
                       "name": "video",
@@ -191,7 +186,7 @@
                     {
                       "name": "video",
                       "contentType": "video/webm",
-                      "path": "/Users/leesangju/ship-test/test-results/ship_stg_poc-Session-A-–-퓨어계정-데이터-없음-상태-검증/video-3.webm"
+                      "path": "/Users/leesangju/ship-test/test-results/ship_stg_poc-Session-A-–-퓨어계정-데이터-없음-상태-검증/video-1.webm"
                     },
                     {
                       "name": "video",
@@ -206,7 +201,7 @@
           ],
           "id": "ad95f0b466fb835c3519-8ac46a9832bb87d505c5",
           "file": "ship_stg_poc.spec.js",
-          "line": 52,
+          "line": 51,
           "column": 5
         },
         {
@@ -225,7 +220,7 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 90751,
+                  "duration": 87586,
                   "errors": [],
                   "stdout": [
                     {
@@ -294,34 +289,34 @@
                   "steps": [
                     {
                       "title": "ID_0022 | 배송신청 : 해외배송",
-                      "duration": 4252
+                      "duration": 4069
                     },
                     {
                       "title": "ID_0023 | 기본주소록 선택 후 단계 진행",
-                      "duration": 12334
+                      "duration": 12216
                     },
                     {
                       "title": "ID_0028 | 배송현황 기간별 조회 기능 동작",
-                      "duration": 10893
+                      "duration": 10778
                     },
                     {
                       "title": "ID_0029 | 2박스,든든보험,직접발송_배송신청 완료",
-                      "duration": 16454
+                      "duration": 15988
                     },
                     {
                       "title": "ID_0030 | 배송현황 상세보기 및 송장번호 입력",
-                      "duration": 8733
+                      "duration": 9256
                     },
                     {
                       "title": "ID_0031 | 배송현황 : 받는 사람 주소 수정",
-                      "duration": 11096
+                      "duration": 10976
                     },
                     {
                       "title": "ID_0032 | 배송현황 : 배송조회, Tracking 페이지 기능동작",
-                      "duration": 6429
+                      "duration": 6641
                     }
                   ],
-                  "startTime": "2026-01-29T01:13:16.445Z",
+                  "startTime": "2026-01-29T01:24:07.296Z",
                   "annotations": [],
                   "attachments": [
                     {
@@ -347,7 +342,7 @@
           ],
           "id": "ad95f0b466fb835c3519-d8fb5ab9e811cb5fd8da",
           "file": "ship_stg_poc.spec.js",
-          "line": 350,
+          "line": 349,
           "column": 5
         },
         {
@@ -366,7 +361,7 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 316,
+                  "duration": 135,
                   "errors": [],
                   "stdout": [
                     {
@@ -396,7 +391,7 @@
                   ],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-01-29T01:14:47.204Z",
+                  "startTime": "2026-01-29T01:25:34.891Z",
                   "annotations": [],
                   "attachments": [
                     {
@@ -412,7 +407,7 @@
           ],
           "id": "ad95f0b466fb835c3519-664d27ed0acd82898f65",
           "file": "ship_stg_poc.spec.js",
-          "line": 880,
+          "line": 879,
           "column": 5
         }
       ]
@@ -420,8 +415,8 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-01-29T01:12:42.672Z",
-    "duration": 124939.484,
+    "startTime": "2026-01-29T01:23:34.879Z",
+    "duration": 120183.337,
     "expected": 3,
     "skipped": 0,
     "unexpected": 0,
